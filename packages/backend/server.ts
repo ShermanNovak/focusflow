@@ -1,11 +1,18 @@
 import express from 'express';
+const mongoose = require('mongoose')
+
 const app = express();
-const port = 3001;
 
-app.get("/data", (req, res) => {
-  console.log("data")
+app.get("/", function (req, res) {
+  res.send("Hello World");
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log(`SUCCESSFULLY CONNECTED TO MONGODB! listening at http://localhost:${process.env.PORT}`);
+  });
+})
+.catch((error: Error) => {
+    console.log(error)
+})

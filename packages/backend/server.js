@@ -4,11 +4,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const mongoose = require('mongoose');
 const app = (0, express_1.default)();
-const port = 3001;
-app.get("/data", (req, res) => {
-    res.json({ foo: "bar" });
+app.get("/", function (req, res) {
+    res.send("Hello World");
 });
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`SUCCESSFULLY CONNECTED TO MONGODB! listening at http://localhost:${process.env.PORT}`);
+    });
+})
+    .catch((error) => {
+    console.log(error);
 });
