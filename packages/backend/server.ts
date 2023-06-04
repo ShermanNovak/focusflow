@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import goalRoutes from './routes/goalRoutes';
+import userRoutes from './routes/userRoutes';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -12,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/goals', goalRoutes);
+app.use('/api/users', userRoutes);
 
 app.get("/", function (req, res) {
   res.send("Hello World");
