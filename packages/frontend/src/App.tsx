@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Modal from "./UI Components/Modal";
+import RightPanel from "./UI Components/RightPanel"
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/modal" element={<Modal />} />
+        <Route path="/sharlenetest" element={<RightPanel />} />
       </Routes>
     </div>
   );
