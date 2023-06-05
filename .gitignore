@@ -3,3 +3,4 @@ dist/
 
 .env
 .ds_store
+.DS_Store
