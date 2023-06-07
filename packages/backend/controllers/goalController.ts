@@ -21,7 +21,7 @@ class GoalController {
             return res.status(404).json({ error: 'No such goal'})
         }
 
-        const goal = await Goal.findById(id, { user: req.user_id });
+        const goal = await Goal.find({ _id: id, user: req.user_id });
         if (!goal) {
             return res.status(404).json({ error: 'No such goal'})
         }

@@ -19,7 +19,7 @@ class TaskController {
       return res.status(404).json({ error: "No such task" });
     }
 
-    const task = await Task.findById(id, { user: req.user_id });
+    const task = await Task.find({ _id: id, user: req.user_id });
     if (!task) {
       return res.status(404).json({ error: "No such task" });
     }

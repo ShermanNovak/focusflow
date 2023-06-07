@@ -9,7 +9,7 @@ if (!SECRET) {
 }
 
 class UserController {
-    public createToken = (_id: Number) => {
+    public static createToken(_id: Number){
         return jwt.sign({ _id }, SECRET, { expiresIn: '3d' })
     }
 
@@ -18,7 +18,7 @@ class UserController {
 
         try {
             const user = await User.signup(username, email, password);
-            const token = this.createToken(user._id);
+            const token = UserController.createToken(user._id);
             res.status(200).json({ email, token })
         } catch (error: any) {
             res.status(400).json({ error: error.message })
@@ -30,7 +30,7 @@ class UserController {
 
         try {
             const user = await User.login(email, password);
-            const token = this.createToken(user._id);
+            const token = UserController.createToken(user._id);
             res.status(200).json({ email, token })
         } catch (error: any) {
             res.status(400).json({ error: error.message })
