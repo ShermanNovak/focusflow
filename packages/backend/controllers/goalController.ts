@@ -5,19 +5,16 @@ import { AuthenticatedRequest } from '../middleware/requireAuth';
 const Goal = require('../models/Goal');
 
 class GoalController {
-    // get all goals
     public async getGoals(req: AuthenticatedRequest, res: Response) {
         const goals = await Goal.find({ user: req.user_id }).sort({ createdAt: -1 });
         res.status(200).json(goals);
     }
 
-    // get all goals with associated Tasks
     public async getGoalsWithTasks(req: AuthenticatedRequest, res: Response) {
         const goals = await Goal.find({ user: req.user_id }).populate('tasks');
         res.status(200).json(goals);
-    } 
+    }
 
-    // get a single goal
     public async getGoal(req: AuthenticatedRequest, res: Response) {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -32,7 +29,6 @@ class GoalController {
         res.status(200).json(goal);
     }
 
-    // create new goal
     public async createGoal(req: AuthenticatedRequest, res: Response) {
         try { 
             const goal = await Goal.create({...req.body, user: req.user_id})
@@ -42,7 +38,6 @@ class GoalController {
         }
     }
 
-    // delete goal
     public async deleteGoal(req: AuthenticatedRequest, res: Response) {
         const { id } = req.params;
 
@@ -58,7 +53,6 @@ class GoalController {
         res.status(200).json(goal); 
     }
 
-    // update goal
     public async updateGoal(req: AuthenticatedRequest, res: Response) {
         const { id } = req.params;
 

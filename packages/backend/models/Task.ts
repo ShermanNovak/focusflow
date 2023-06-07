@@ -28,10 +28,10 @@ const taskSchema = new Schema(
     },
     goal: {
       type: Schema.Types.ObjectId,
-      ref: "task",
+      ref: "Goal",
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("task", taskSchema);
+module.exports = mongoose.model("Task", taskSchema);

@@ -18,11 +18,17 @@ const goalSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    user: { 
-        type: Schema.Types.ObjectId, 
-        ref: "User",
-        required: true
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
+    tasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Task",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -1,6 +1,6 @@
 import express from "express";
 import { requireAuth } from '../middleware/requireAuth'
-const goalController = require("../controllers/goalController");
+const { goalController } = require("../controllers/goalController");
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ router.use(requireAuth);
 
 router.get("/", goalController.getGoals);
 
-//router.get("/all", goalController.getGoalsWithTasks);
+router.get("/all", goalController.getGoalsWithTasks);
 
 router.get("/:id", goalController.getGoal);
 
