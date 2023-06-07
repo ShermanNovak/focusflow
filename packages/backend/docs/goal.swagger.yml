@@ -1,0 +1,47 @@
+paths:
+  /api/goals:
+    get:
+      summary: Retrieve all goals
+      tags:
+        - Goals
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+
+  /api/goals/:
+    post:
+      summary: Create a goal
+      tags:
+        - Goals
+
+      parameters:
+        - name: title
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - name: deadline
+          in: query
+          schema:
+            type: date
+        - name: isCompleted
+          in: query
+          schema:
+            type: boolean
+        - name: user
+          in: query
+          description: pass in user_id
+
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+

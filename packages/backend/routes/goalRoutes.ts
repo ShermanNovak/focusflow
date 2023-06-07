@@ -1,22 +1,21 @@
 import express from "express";
-const {
-  getGoals,
-  getGoal,
-  createGoal,
-  deleteGoal,
-  updateGoal
-} = require("../controllers/goalController");
+import { requireAuth } from '../middleware/requireAuth'
+const { goalController } = require("../controllers/goalController");
 
 const router = express.Router();
 
-router.get("/", getGoals);
+router.use(requireAuth);
 
-router.get("/:id", getGoal);
+router.get("/", goalController.getGoals);
 
-router.post("/", createGoal);
+router.get("/all", goalController.getGoalsWithTasks);
 
-router.delete('/:id', deleteGoal)
+router.get("/:id", goalController.getGoal);
 
-router.patch('/:id', updateGoal)
+router.post("/", goalController.createGoal);
+
+router.delete('/:id', goalController.deleteGoal)
+
+router.patch('/:id', goalController.updateGoal)
 
 export default router;
