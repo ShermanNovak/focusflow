@@ -1,8 +1,13 @@
-export default function RightPanel() {
+import { ReactNode } from "react";
 
+type Props = {
+  children: ReactNode;
+};
+
+export default function RightPanel({ children }: Props) {
   return (
-    <div className="w-[36rem] bg-bluish-gray absolute border-solid border-indigo-600 right-0 h-full w-1/2">
-        helloooooo focus flow
+    <div className="w-[36rem] bg-bluish-grey absolute right-0 h-full p-8">
+      {children}
     </div>
   );
 }

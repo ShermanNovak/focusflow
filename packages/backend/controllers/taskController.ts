@@ -31,9 +31,16 @@ class TaskController {
     try {
       const task = await Task.create({ ...req.body, user: req.user_id });
       if (req.body.goal_id) {
-        const goal = await Goal.findById(req.body.goal_id, {
+        const goal = await Goal.findByIdAndUpdate(req.body.goal_id, {
           user: req.user_id,
-        });
+        }, {
+          $push: {
+            tasks: {
+              _id: task._id,
+            }
+          }
+        }, { new: true, useFindAndModify: false });
+
         if (!goal) {
           return res.status(404).json({ error: "No such goal" });
         }

@@ -8,7 +8,7 @@ router.use(requireAuth);
 
 router.get("/", goalController.getGoals);
 
-router.get("/all", goalController.getGoalsWithTasks);
+router.get("/all/:id", goalController.getGoalsWithTasks);
 
 router.get("/:id", goalController.getGoal);
 

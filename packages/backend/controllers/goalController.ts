@@ -11,7 +11,9 @@ class GoalController {
     }
 
     public async getGoalsWithTasks(req: AuthenticatedRequest, res: Response) {
-        const goals = await Goal.find({ user: req.user_id }).populate('tasks');
+        const { id } = req.params;
+
+        const goals = await Goal.findById(id).populate('tasks');
         res.status(200).json(goals);
     }
 
