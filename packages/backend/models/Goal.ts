@@ -1,22 +1,36 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const goalSchema = new Schema({
+const goalSchema = new Schema(
+  {
     title: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String
+      type: String,
     },
     deadline: {
-        type: Date
+      type: Date,
     },
     isCompleted: {
-        type: Boolean,
-        default: false
-    }
-}, { timestamps: true })
+      type: Boolean,
+      default: false,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    tasks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Task",
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Goal', goalSchema)
+module.exports = mongoose.model("Goal", goalSchema);

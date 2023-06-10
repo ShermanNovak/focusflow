@@ -1,79 +1,77 @@
 import mongoose from 'mongoose';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthenticatedRequest } from '../middleware/requireAuth';
 
 const Goal = require('../models/Goal');
 
-// get all goals
-const getGoals = async (req: Request, res: Response) => {
-    const goals = await Goal.find({}).sort({ createdAt: -1 });
-    res.status(200).json(goals);
-}
-
-// get a single goal
-const getGoal = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such goal'})
+class GoalController {
+    public async getGoals(req: AuthenticatedRequest, res: Response) {
+        const goals = await Goal.find({ user: req.user_id }).sort({ createdAt: -1 });
+        res.status(200).json(goals);
     }
 
-    const goal = await Goal.findById(id);
-    if (!goal) {
-        return res.status(404).json({ error: 'No such goal'})
+    public async getGoalsWithTasks(req: AuthenticatedRequest, res: Response) {
+        const { id } = req.params;
+
+        const goals = await Goal.findById(id).populate('tasks');
+        res.status(200).json(goals);
     }
 
-    res.status(200).json(goal);
-}
+    public async getGoal(req: AuthenticatedRequest, res: Response) {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
 
-// create new goal
-const createGoal = async (req: Request, res: Response) => {
-    try { 
-        const goal = await Goal.create({...req.body})
+        const goal = await Goal.find({ _id: id, user: req.user_id });
+        if (!goal) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
+
         res.status(200).json(goal);
-    } catch (error: any) {
-        res.status(400).json({ error: error.message })
+    }
+
+    public async createGoal(req: AuthenticatedRequest, res: Response) {
+        try { 
+            const goal = await Goal.create({...req.body, user: req.user_id})
+            res.status(200).json(goal);
+        } catch (error: any) {
+            res.status(400).json({ error: error.message })
+        }
+    }
+
+    public async deleteGoal(req: AuthenticatedRequest, res: Response) {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
+
+        const goal = await Goal.findOneAndDelete({ _id: id, user: req.user_id });
+        if (!goal) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
+
+        res.status(200).json(goal); 
+    }
+
+    public async updateGoal(req: AuthenticatedRequest, res: Response) {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
+
+        const goal = await Goal.findOneAndUpdate({ _id: id, user: req.user_id }, {
+            ...req.body
+        });
+        
+        if (!goal) {
+            return res.status(404).json({ error: 'No such goal'})
+        }
+        
+        res.status(200).json(goal); 
     }
 }
 
-// delete goal
-const deleteGoal = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such goal'})
-    }
-
-    const goal = await Goal.findOneAndDelete({ _id: id });
-    if (!goal) {
-        return res.status(404).json({ error: 'No such goal'})
-    }
-
-    res.status(200).json(goal); 
-}
-
-// update goal
-const updateGoal = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such goal'})
-    }
-
-    const goal = await Goal.findOneAndUpdate({ _id: id }, {
-        ...req.body
-    });
-    
-    if (!goal) {
-        return res.status(404).json({ error: 'No such goal'})
-    }
-    
-    res.status(200).json(goal); 
-}
-
-module.exports = {
-    getGoals,
-    getGoal,
-    createGoal,
-    deleteGoal,
-    updateGoal
-}
+export const goalController = new GoalController();
