@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import NewTaskPanel from "./features/tasks/NewTaskPanel";
+import NewTaskPanel from "./features/tasks/TaskPanel";
 
 function App() {
   return (

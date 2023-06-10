@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 
-const useInput = (validateValue: Function) => {
+export default function useValidatedInput(validateValue: Function) {
 	const [enteredValue, setEnteredValue] = useState('');
 	const [isTouched, setIsTouched] = useState(false);
 
@@ -21,7 +21,6 @@ const useInput = (validateValue: Function) => {
 	};
 
 	return {
-		// allow functions to be called from outside the custom hook
 		value: enteredValue, 
 		isValid: valueIsValid,
 		hasError, 
@@ -30,5 +29,3 @@ const useInput = (validateValue: Function) => {
 		reset
 	};
 };
-
-export default useInput;
