@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         'bluish-gray': '#e6eaee',
+        'navbar-green': '#BEE2B5',
       }
     },
   },
