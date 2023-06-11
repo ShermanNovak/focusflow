@@ -6,12 +6,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bluish-gray': '#e6eaee',
+        'bluish-grey': '#e6eaee',
+        'dark-grey': '#616161'
       }
     },
   },
   plugins: [
     require('@tailwindcss/forms')
   ],
+  corePlugins: {
+    preflight: false
+  },
 }
 
