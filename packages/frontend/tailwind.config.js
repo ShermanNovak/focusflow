@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         'bluish-gray': '#e6eaee',
+        'dark-grey': `#616161`,
         'navbar-green': '#BEE2B5',
       }
     },
@@ -14,5 +15,8 @@ module.exports = {
   plugins: [
     require('@tailwindcss/forms')
   ],
+  corePlugins: {
+    preflight: false
+  },
 }
 
