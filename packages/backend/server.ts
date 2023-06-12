@@ -24,6 +24,7 @@ const swaggerSpec = swaggerJSDoc(options);
 import goalRoutes from './routes/goalRoutes';
 import taskRoutes from './routes/taskRoutes';
 import userRoutes from './routes/userRoutes';
+import journalEntryRoutes from './routes/journalEntryRoutes';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -36,6 +37,7 @@ app.use(express.json());
 app.use('/api/goals', goalRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/journal', journalEntryRoutes);
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
