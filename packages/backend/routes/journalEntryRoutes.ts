@@ -7,9 +7,9 @@ const { journalEntryController } = require("../controllers/journalEntryControlle
 const router = express.Router();
 
 router.use(requireAuth);
-router.use(requireValidId);
+router.param("id", requireValidId);
 
-router.get("/:id", journalEntryController.getJournalEntries); // user_id
+router.get("/all/:id", journalEntryController.getJournalEntries); // user_id
 
 router.get("/:id", journalEntryController.getJournalEntry);
 

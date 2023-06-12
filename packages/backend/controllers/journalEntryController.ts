@@ -27,14 +27,14 @@ class JournalEntryController {
     }
 
     public async deleteJournalEntry (req: AuthenticatedRequest, res: Response) {
-        const entry = await JournalEntry.findOneAndDelete(req.params.id);
+        const entry = await JournalEntry.findByIdAndDelete(req.params.id);
         if (!entry) return res.status(404).json({ error: 'No such journal entry' });
 
         res.json(entry);
     }
 
     public async updateJournalEntry (req: AuthenticatedRequest, res: Response) {
-        const entry = await JournalEntry.findOneAndUpdate(req.params.id, req.body);
+        const entry = await JournalEntry.findByIdAndUpdate(req.params.id, req.body, { returnDocument: 'after' });
         if (!entry) return res.status(404).json({ error: 'No such journal entry' });
 
         res.json(entry);
