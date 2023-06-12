@@ -1,6 +1,3 @@
-import { ReactElement } from 'react';
-
-
 export default function LeftNavbar() {
     return(
         <div className="w-[16rem] bg-navbar-green absolute left-0 h-full w-1/2 text-center">
