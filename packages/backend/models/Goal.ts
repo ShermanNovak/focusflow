@@ -23,12 +23,6 @@ const goalSchema = new Schema(
       ref: "User",
       required: true,
     },
-    tasks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Task",
-      },
-    ],
   },
   { timestamps: true }
 );

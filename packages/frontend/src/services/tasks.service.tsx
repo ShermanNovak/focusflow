@@ -23,5 +23,5 @@ export async function createTask(req: {
   user?: string;
   goal?: string;
 }) {
-  return axios.post(`${path}`, { params: req }).then((res) => res.data);
+  return axios.post(`${path}`, {...req}).then((res) => res.data);
 }
