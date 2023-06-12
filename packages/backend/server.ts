@@ -4,6 +4,7 @@ import { buildSchema } from 'graphql';
 import { graphqlHTTP } from 'express-graphql';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
+import cors from 'cors';
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -32,6 +33,7 @@ if (!MONGODB_URI) {
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.use('/api/goals', goalRoutes);
 app.use('/api/tasks', taskRoutes);
