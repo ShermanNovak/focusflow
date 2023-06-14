@@ -2,29 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { buildSchema } from 'graphql';
 import { graphqlHTTP } from 'express-graphql';
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUI from 'swagger-ui-express';
+import { swaggerRouter } from './routes/swaggerRoutes';
 import cors from 'cors';
-
-const swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'FocusFlow API',
-    version: '1.0.0',
-  },
-};
-
-const options = {
-  swaggerDefinition,
-  // Paths to files containing OpenAPI definitions
-  apis: ['./docs/*.swagger.yml'],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
 
 import goalRoutes from './routes/goalRoutes';
 import taskRoutes from './routes/taskRoutes';
 import userRoutes from './routes/userRoutes';
+import eventRoutes from './routes/eventRoutes';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -38,8 +22,8 @@ app.use(cors());
 app.use('/api/goals', goalRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
-
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use('/api/events', eventRoutes)
+app.use('/swagger', swaggerRouter);
 
 var schema = buildSchema(`
   type Query {

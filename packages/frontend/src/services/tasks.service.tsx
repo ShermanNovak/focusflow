@@ -21,8 +21,6 @@ export async function createTask(req: {
   isCompleted?: boolean;
   dateCompleted?: Date;
   image?: string;
-  googleMeetURL: string;
-  zoomURL: string;
   user?: string;
   goal?: string;
 }) {

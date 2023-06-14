@@ -1,8 +1,8 @@
 import { Modal, Form, Input, Select, DatePicker, Checkbox } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import useTextInput from "../../hooks/use-text-input";
-
 import { useTaskMutation } from "../../api/tasks.query";
+import toast from 'react-hot-toast';
 
 export default function TaskModal() {
   const [form] = Form.useForm();
@@ -29,6 +29,7 @@ export default function TaskModal() {
     form.validateFields().then((values) => {
         createTaskMutation.mutate(values);
     });
+    toast.success('Successfully created!');
     form.resetFields();
   };
 
