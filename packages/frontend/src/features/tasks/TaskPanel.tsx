@@ -9,8 +9,6 @@ import { useGoalsQuery } from '../../api/goals.query';
 // add modal useState in homepage
 // add mode useState in props
 
-const mode = "create";
-
 export default function TaskPanel() {
   const { value: nameValue, valueChangeHandler: nameChangeHandler } =
     useTextInput();
