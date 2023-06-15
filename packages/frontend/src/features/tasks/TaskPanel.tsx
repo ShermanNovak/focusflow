@@ -1,8 +1,8 @@
 import { DatePicker, Form, Input, Checkbox, Select } from "antd";
 import { CameraFilled } from "@ant-design/icons";
-import SmallCaps from "../../UI Components/SmallCaps";
-import RightPanel from "../../UI Components/RightPanel";
-import DashedButton from "../../UI Components/DashedButton";
+import SmallCaps from "../../components/SmallCaps";
+import RightPanel from "../../components/RightPanel";
+import DashedButton from "../../components/DashedButton";
 import useTextInput from "../../hooks/use-text-input";
 import { useGoalsQuery } from '../../api/goals.query';
 
