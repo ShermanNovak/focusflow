@@ -51,3 +51,11 @@ export async function updateTask(task_id: string, req: {
     })
     .then((res) => res.data);
 }
+
+export async function deleteTask(task_id: string) {
+  return axios.delete(`${path}/${task_id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).then((res) => res.data)
+}

@@ -1,20 +1,44 @@
-import { DatePicker, Form, Input, Checkbox, Select } from "antd";
+import { DatePicker, Form, Input, Checkbox, Select, Button } from "antd";
 import { CameraFilled } from "@ant-design/icons";
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 import DashedButton from "../../components/DashedButton";
 import { useGoalsQuery } from "../../api/goals.query";
-import { useTaskQuery } from "../../api/tasks.query";
-import dayjs from 'dayjs';
+import {
+  useTaskQuery,
+  useTaskUpdate,
+  useTaskDelete,
+} from "../../api/tasks.query";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
-const task_id = "6489a5f876aaaa339b7cfbf4";
+const task_id = "647df86e7bbd7311caed7d7d";
 
 export default function TaskPanel() {
   const [form] = Form.useForm();
-  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(task_id);
+  const {
+    data: taskData,
+    isLoading: taskIsLoading,
+    isError: taskHasError,
+    error: taskError,
+  } = useTaskQuery(task_id);
 
-  const { data: goals } = useGoalsQuery();
+  if (taskHasError) {
+    let error = taskError as Error;
+    toast.error(error.message);
+  }
+
+  const {
+    data: goals,
+    isError: goalsHasError,
+    error: goalsError,
+  } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
+
+  if (goalsHasError) {
+    let error = goalsError as Error;
+    toast.error(error.message);
+  }
 
   if (Array.isArray(goals)) {
     selectOptions = goals.map((goal) => ({
@@ -22,6 +46,19 @@ export default function TaskPanel() {
       label: goal.title,
     }));
   }
+
+  const updateTaskMutation = useTaskUpdate(task_id);
+
+  const blurHandler = () => {
+    const updatedData = form.getFieldsValue();
+    updateTaskMutation.mutate(updatedData);
+  };
+
+  const deleteTaskMutation = useTaskDelete(task_id);
+
+  const deleteTaskHandler = () => {
+    deleteTaskMutation.mutate(task_id);
+  };
 
   return (
     <RightPanel>
@@ -31,21 +68,28 @@ export default function TaskPanel() {
           labelAlign="left"
           labelCol={{ span: 5 }}
           form={form}
-          initialValues={{...taskData[0], deadline: dayjs(taskData[0].deadline)}}
+          initialValues={{
+            ...taskData[0],
+            deadline: dayjs(taskData[0].deadline),
+          }}
         >
           <Form.Item name="title">
-            <Input
-              className="text-xl p-0 text-black font-bold inline"
+            <Input.TextArea
+              autoSize
+              className="text-xl text-black font-bold hover:bg-hover-blue"
               placeholder="Add a task..."
               bordered={false}
+              onBlur={blurHandler}
             />
           </Form.Item>
           <SmallCaps text="description" />
           <Form.Item name="description">
-            <Input
-              className="p-0 inline-block"
+            <Input.TextArea
+              autoSize
+              className="hover:bg-hover-blue"
               placeholder="Add a description..."
               bordered={false}
+              onBlur={blurHandler}
             />
           </Form.Item>
           <SmallCaps text="details" />
@@ -61,10 +105,15 @@ export default function TaskPanel() {
                     .includes(input.toLowerCase())
                 }
                 options={selectOptions}
+                onBlur={blurHandler}
               />
             </Form.Item>
             <Form.Item name="deadline" label="Deadline">
-              <DatePicker bordered={false} className="px-0" />
+              <DatePicker
+                bordered={false}
+                className="px-0"
+                onBlur={blurHandler}
+              />
             </Form.Item>
             <Form.Item name="isCompleted" label="Completed">
               <Checkbox />
@@ -77,6 +126,9 @@ export default function TaskPanel() {
           >
             <CameraFilled className="text-2xl" />
           </DashedButton>
+          <Button type="primary" danger onClick={deleteTaskHandler}>
+            Delete
+          </Button>
         </Form>
       )}
     </RightPanel>

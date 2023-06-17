@@ -1,6 +1,5 @@
 import { Modal, Form, Input, Select, DatePicker, Checkbox, Button } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
-import useTextInput from "../../hooks/use-text-input";
 import { useTaskCreation } from "../../api/tasks.query";
 import toast from "react-hot-toast";
 
@@ -17,13 +16,6 @@ export default function TaskModal() {
       label: goal.title,
     }));
   }
-
-  const { value: nameValue, valueChangeHandler: nameChangeHandler } =
-    useTextInput();
-  const {
-    value: descriptionValue,
-    valueChangeHandler: descriptionChangeHandler,
-  } = useTextInput();
 
   const formSubmissionHandler = () => {
     try {
@@ -47,10 +39,10 @@ export default function TaskModal() {
         onFinish={formSubmissionHandler}
       >
         <Form.Item label="Title" name="title" rules={[{ required: true }]}>
-          <Input onChange={nameChangeHandler} value={nameValue} />
+          <Input />
         </Form.Item>
         <Form.Item label="Description" name="description">
-          <Input onChange={descriptionChangeHandler} value={descriptionValue} />
+          <Input />
         </Form.Item>
         <Form.Item label="Goal" name="goal">
           <Select
