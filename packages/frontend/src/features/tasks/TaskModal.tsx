@@ -1,4 +1,13 @@
-import { Modal, Form, Input, Select, DatePicker, Checkbox, Button } from "antd";
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  DatePicker,
+  Checkbox,
+  Button,
+  Space,
+} from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import { useTaskCreation } from "../../api/tasks.query";
 import toast from "react-hot-toast";
@@ -62,10 +71,12 @@ export default function TaskModal() {
           <Checkbox />
         </Form.Item>
         <Form.Item>
-          <Button>Cancel</Button>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
+          <Space>
+            <Button>Cancel</Button>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </Modal>

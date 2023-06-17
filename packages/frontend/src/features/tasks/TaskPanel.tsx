@@ -1,5 +1,5 @@
-import { DatePicker, Form, Input, Checkbox, Select, Button } from "antd";
-import { CameraFilled } from "@ant-design/icons";
+import { DatePicker, Form, Input, Checkbox, Select, Button, Modal } from "antd";
+import { CameraFilled, ExclamationCircleFilled } from "@ant-design/icons";
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 import DashedButton from "../../components/DashedButton";
@@ -55,9 +55,23 @@ export default function TaskPanel() {
   };
 
   const deleteTaskMutation = useTaskDelete(task_id);
+  const { confirm } = Modal;
 
   const deleteTaskHandler = () => {
-    deleteTaskMutation.mutate(task_id);
+    confirm({
+      title: `Delete ${taskData[0].title}`,
+      icon: <ExclamationCircleFilled style={{ color: '#ff4d4f' }}/>,
+      content:
+        "Are you sure you want to delete this task? This action cannot be undone. Deleting the task will remove it permanently from the system",
+      okText: "Confirm",
+      onOk() {
+        deleteTaskMutation.mutate(task_id);
+        toast.success('Successfully deleted task')
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
   };
 
   return (
