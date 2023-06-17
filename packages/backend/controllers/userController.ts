@@ -26,9 +26,7 @@ class UserController {
     }
 
     public async loginUser(req: Request, res: Response) {
-        console.log('loginUser');
         const { email, password } = req.body;
-        console.log(req.body);
 
         try {
             const user = await User.login(email, password);
