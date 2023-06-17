@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 const task_id = "647df86e7bbd7311caed7d7d";
 
-export default function TaskPanel() {
+export default function UpdateTaskPanel() {
   const [form] = Form.useForm();
   const {
     data: taskData,
