@@ -1,12 +1,12 @@
-import { Modal, Form, Input, Select, DatePicker, Checkbox } from "antd";
+import { Modal, Form, Input, Select, DatePicker, Checkbox, Button } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import useTextInput from "../../hooks/use-text-input";
-import { useTaskMutation } from "../../api/tasks.query";
-import toast from 'react-hot-toast';
+import { useTaskCreation } from "../../api/tasks.query";
+import toast from "react-hot-toast";
 
 export default function TaskModal() {
   const [form] = Form.useForm();
-  const createTaskMutation = useTaskMutation();
+  const createTaskMutation = useTaskCreation();
 
   const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
@@ -26,26 +26,25 @@ export default function TaskModal() {
   } = useTextInput();
 
   const formSubmissionHandler = () => {
-    form.validateFields().then((values) => {
+    try {
+      form.validateFields().then((values) => {
         createTaskMutation.mutate(values);
-    });
-    toast.success('Successfully created!');
-    form.resetFields();
+        toast.success("Successfully created!");
+        form.resetFields();
+      });
+    } catch (e: any) {
+      console.log(e.message);
+    }
   };
 
   return (
-    <Modal
-      title="Create Task"
-      open={true}
-      okText="Submit"
-      onOk={formSubmissionHandler}
-      confirmLoading={createTaskMutation.isLoading}
-    >
+    <Modal title="Create Task" open={true} footer={null}>
       <Form
         className="pt-4"
         labelAlign="left"
         labelCol={{ span: 5 }}
         form={form}
+        onFinish={formSubmissionHandler}
       >
         <Form.Item label="Title" name="title" rules={[{ required: true }]}>
           <Input onChange={nameChangeHandler} value={nameValue} />
@@ -67,8 +66,14 @@ export default function TaskModal() {
         <Form.Item label="Deadline" name="deadline">
           <DatePicker />
         </Form.Item>
-        <Form.Item label="Completed" name="completed">
+        <Form.Item label="Completed" name="isCompleted">
           <Checkbox />
+        </Form.Item>
+        <Form.Item>
+          <Button>Cancel</Button>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
         </Form.Item>
       </Form>
     </Modal>
