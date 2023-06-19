@@ -52,7 +52,7 @@ export default function CreateTaskPanel() {
         <Form.Item name="title" rules={[{ required: true }]}>
           <Input.TextArea
             autoSize
-            className="text-xl text-black font-bold hover:bg-hover-blue"
+            className="text-xl -ms-2 ps-2 text-black font-bold hover:bg-hover-blue"
             placeholder="Add a task..."
             bordered={false}
           />
@@ -61,7 +61,7 @@ export default function CreateTaskPanel() {
         <Form.Item name="description">
           <Input.TextArea
             autoSize
-            className="hover:bg-hover-blue"
+            className="-ms-2 ps-2 hover:bg-hover-blue"
             placeholder="Add a description..."
             bordered={false}
           />
