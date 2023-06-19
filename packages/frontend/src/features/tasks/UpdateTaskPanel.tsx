@@ -12,33 +12,19 @@ import {
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 
-const task_id = "647df86e7bbd7311caed7d7d";
+const task_id = "648dc41dc93b3a1e15f3f663";
 
 export default function UpdateTaskPanel() {
   const [form] = Form.useForm();
   const {
     data: taskData,
     isLoading: taskIsLoading,
-    isError: taskHasError,
-    error: taskError,
   } = useTaskQuery(task_id);
-
-  if (taskHasError) {
-    let error = taskError as Error;
-    toast.error(error.message);
-  }
 
   const {
     data: goals,
-    isError: goalsHasError,
-    error: goalsError,
   } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
-
-  if (goalsHasError) {
-    let error = goalsError as Error;
-    toast.error(error.message);
-  }
 
   if (Array.isArray(goals)) {
     selectOptions = goals.map((goal) => ({
@@ -90,7 +76,7 @@ export default function UpdateTaskPanel() {
           <Form.Item name="title">
             <Input.TextArea
               autoSize
-              className="text-xl text-black font-bold hover:bg-hover-blue"
+              className="text-xl -ms-2 ps-2 text-black font-bold hover:bg-hover-blue"
               placeholder="Add a task..."
               bordered={false}
               onBlur={blurHandler}
@@ -100,7 +86,7 @@ export default function UpdateTaskPanel() {
           <Form.Item name="description">
             <Input.TextArea
               autoSize
-              className="hover:bg-hover-blue"
+              className="-ms-2 ps-2 hover:bg-hover-blue"
               placeholder="Add a description..."
               bordered={false}
               onBlur={blurHandler}
