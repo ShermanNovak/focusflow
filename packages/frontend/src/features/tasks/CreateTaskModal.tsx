@@ -1,9 +1,11 @@
+import toast from "react-hot-toast";
+
 import { DatePicker, Form, Input, Checkbox, Select, Button } from "antd";
-import SmallCaps from "../../components/SmallCaps";
-import RightPanel from "../../components/RightPanel";
 import { useGoalsQuery } from "../../api/goals.query";
 import { useTaskCreation } from "../../api/tasks.query";
-import toast from "react-hot-toast";
+
+import SmallCaps from "../../components/SmallCaps";
+import RightPanel from "../../components/RightPanel";
 
 export default function CreateTaskPanel() {
   const [form] = Form.useForm();
@@ -33,7 +35,7 @@ export default function CreateTaskPanel() {
     try {
       form.validateFields().then((values) => {
         createTaskMutation.mutate(values);
-        toast.success("Successfully created!");
+        toast.success("Successfully created task!");
         form.resetFields();
       });
     } catch (e: any) {
