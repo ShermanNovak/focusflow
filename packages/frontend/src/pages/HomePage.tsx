@@ -1,15 +1,14 @@
 import { useState } from 'react';
-import TaskModal from '../features/tasks/TaskModal';
-import TaskPanel from '../features/tasks/TaskPanel';
-
+import CreateTaskPanel from "../features/tasks/CreateTaskModal";
+import UpdateTaskPanel from "../features/tasks/UpdateTaskPanel";
 export default function HomePage() {
-    const [showTaskModal, setShowTaskModal] = useState(false);
-    const [showTaskPanel, setShowTaskPanel] = useState(false);
+    const [showCreateTaskPanel, setShowCreateTaskPanel] = useState(false);
+    const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
 
     return (
       <>
-        {showTaskModal && <TaskModal />}
-        {showTaskPanel && <TaskPanel />}
+        {showCreateTaskPanel && <CreateTaskPanel />}
+        {showUpdateTaskPanel && <UpdateTaskPanel />}
       </>
     );
   }
