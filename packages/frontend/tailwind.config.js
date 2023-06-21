@@ -8,7 +8,9 @@ module.exports = {
       colors: {
         'bluish-grey': '#e6eaee',
         'dark-grey': '#616161',
-        'hover-blue': '#d9e0e7'
+        'hover-blue': '#d9e0e7',
+        'pale-yellow': '#f9f2e4',
+        'pale-purple': '#e9e7f5'
       }
     },
   },

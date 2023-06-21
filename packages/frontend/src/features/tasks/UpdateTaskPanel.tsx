@@ -1,16 +1,18 @@
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
+
 import { DatePicker, Form, Input, Checkbox, Select, Button, Modal } from "antd";
 import { CameraFilled, ExclamationCircleFilled } from "@ant-design/icons";
-import SmallCaps from "../../components/SmallCaps";
-import RightPanel from "../../components/RightPanel";
-import DashedButton from "../../components/DashedButton";
 import { useGoalsQuery } from "../../api/goals.query";
 import {
   useTaskQuery,
   useTaskUpdate,
   useTaskDelete,
 } from "../../api/tasks.query";
-import dayjs from "dayjs";
-import toast from "react-hot-toast";
+
+import SmallCaps from "../../components/SmallCaps";
+import RightPanel from "../../components/RightPanel";
+import DashedButton from "../../components/DashedButton";
 
 const task_id = "648dc41dc93b3a1e15f3f663";
 
