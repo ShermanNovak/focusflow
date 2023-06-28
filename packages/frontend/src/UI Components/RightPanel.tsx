@@ -6,7 +6,7 @@ type Props = {
 
 export default function RightPanel({ children }: Props) {
   return (
-    <div className="w-[36rem] bg-bluish-grey absolute right-0 h-full p-8">
+    <div className="w-[36rem] bg-bluish-gray absolute right-0 h-full p-8">
       {children}
     </div>
   );

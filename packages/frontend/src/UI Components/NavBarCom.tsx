@@ -21,7 +21,7 @@ export default function NavBarCom(props: Props) {
                 style={({ isActive, isPending }) => {
                     return {
                         backgroundColor: isActive ? "" : "white",
-                        borderRadius: "5px",
+                        borderRadius: isActive ? "" : "5px",
                         textDecoration: 'none',
                         color: 'black'
                     }}}

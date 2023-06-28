@@ -1,11 +1,12 @@
 import SmallCaps from "./SmallCaps.tsx";
 import NavBarCom from "./NavBarCom.tsx";
+import Logo from '../assets/focusflow_logo.png'
 
 export default function LeftNavbar() {
     return(
         <div className="w-[16rem] bg-navbar-green absolute h-full w-1/2" >
             <div className="ml-10">
-                <img src="../focusflow_" alt="logo" />
+            <img src={Logo} alt="logo" />
             </div>
             
             <div className="mt-6 ml-10 flex justify-left">
