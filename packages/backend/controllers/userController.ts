@@ -31,6 +31,7 @@ class UserController {
         try {
             const user = await User.login(email, password);
             const token = UserController.createToken(user._id);
+            res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
             res.status(200).json({ email, token })
         } catch (error: any) {
             res.status(400).json({ error: error.message })

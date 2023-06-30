@@ -16,11 +16,8 @@ const taskSchema = new Schema(
     },
     dateCompleted: Date,
     image: {
-      data: Buffer,
-      contentType: String,
+      type: String
     },
-    googleMeetURL: String,
-    zoomURL: String,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
