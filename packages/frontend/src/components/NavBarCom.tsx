@@ -20,7 +20,7 @@ export default function NavBarCom(props: Props) {
                 className="flex justify-left items-center"
                 style={({ isActive, isPending }) => {
                     return {
-                        backgroundColor: isActive ? "" : "white",
+                        backgroundColor: isActive ? "" : "white", 
                         borderRadius: isActive ? "" : "5px",
                         textDecoration: 'none',
                         color: 'black'
