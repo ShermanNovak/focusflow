@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'bluish-gray': '#e6eaee',
+        'bluish-grey': '#e6eaee',
         'dark-grey': `#616161`,
         'navbar-green': '#BEE2B5',
         'hover-blue': '#d9e0e7',
