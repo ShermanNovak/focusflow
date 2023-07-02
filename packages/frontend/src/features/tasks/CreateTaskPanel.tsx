@@ -91,10 +91,9 @@ export default function CreateTaskPanel() {
           </Form.Item>
         </div>
 
-            <Button type="primary" htmlType="submit" className="my-2">
-              Submit
-            </Button>
-
+        <Button type="primary" htmlType="submit" className="my-2">
+          Submit
+        </Button>
       </Form>
     </RightPanel>
   );
