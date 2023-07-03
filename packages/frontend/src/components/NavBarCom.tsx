@@ -1,4 +1,5 @@
-import TitleText from './TitleText';
+import React from "react";
+import TitleText from "./TitleText";
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
@@ -9,26 +10,19 @@ type Props = {
 };
 
 export default function NavBarCom(props: Props) {
-    console.log(props.locate)
-    const NavbarStates = {
-        textDecoration: 'none',
-        color: 'black',
-    };
-    return (
-        <div>
-            <NavLink to={props.locate} 
-                className="flex justify-left items-center"
-                style={({ isActive, isPending }) => {
-                    return {
-                        backgroundColor: isActive ? "" : "white", 
-                        borderRadius: isActive ? "" : "5px",
-                        textDecoration: 'none',
-                        color: 'black'
-                    }}}
-                >    
-                {props.children}
-                <TitleText text={props.text}/>
-            </NavLink>
-        </div>
-    )
+  return (
+    <NavLink
+      to={props.locate}
+      className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
+      style={({ isActive }) => {
+        return {
+          backgroundColor: isActive ? "" : "white",
+          borderRadius: isActive ? "" : "5px",
+        };
+      }}
+    >
+      {props.children}
+      <TitleText text={props.text} />
+    </NavLink>
+  );
 }
