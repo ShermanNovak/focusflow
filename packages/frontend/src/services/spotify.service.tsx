@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { SpotifyToken } from '../types/spotify.d';
 import Cookies from 'universal-cookie';
-import { redirect } from 'react-router-dom';
 
 const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 const scopes = "user-modify-playback-state";
@@ -26,14 +25,27 @@ export async function spotifyToken(callback_code: String | null) {
       Authorization: `Basic ${Buffer.from(basic_code).toString('base64')}`
     }
   }).then((res: { data: SpotifyToken }) => {
-    cookies.set("spotify-token", res.data.access_token, { path: "/"});
+    cookies.set("spotify-token", res.data.access_token, { path: "/", maxAge: res.data.expires_in });
     cookies.set("spotify-refresh-token", res.data.refresh_token, { path: "/" });
-    return redirect("/");
+    window.location.href = "/";
   });
 }
 
+export async function refreshSpotifyToken() {
+  return axios.post(path, {
+    grant_type: "refresh_token",
+    refresh_token: cookies.get("spotify-refresh-token")
+  },{
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${Buffer.from(basic_code).toString('base64')}`
+    }
+  }).then(res => {
+    cookies.set("spotify-token", res.data.access_token, { path: "/", maxAge: res.data.expires_in });
+  })
+}
+
 const apiPath = "https://api.spotify.com/v1/search";
-const access_token = "";
 
 export async function spotifySearch(query: String) {
   return axios.get(apiPath, {
@@ -42,7 +54,7 @@ export async function spotifySearch(query: String) {
       type: "track"
     },
     headers: {
-      Authorization: `Bearer ${access_token}`
+      Authorization: `Bearer ${cookies.get("spotify-token")}`
     }
   }).then((res) => res.data)
   .catch(err => console.log(err));
