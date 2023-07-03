@@ -2,10 +2,15 @@ import SmallCaps from "./SmallCaps";
 import NavBarCom from "./NavBarCom";
 import Logo from "../assets/Logo.svg";
 
+import { useContext } from "react";
+import { PanelContext } from "../context/PanelContext";
+import TitleText from "./TitleText";
 
 export default function LeftNavbar() {
+  const panelContext = useContext(PanelContext);
+
   return (
-    <div>
+    <>
       <div className="lg:hidden ml-3 mt-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +28,9 @@ export default function LeftNavbar() {
           />
         </svg>
       </div>
-      <div className="hidden lg:block w-[12rem] bg-navbar-green h-screen px-10 py-8">
+      <div className="hidden lg:block w-[16rem] bg-navbar-green h-screen px-10 py-8">
         <div className="flex items-center gap-x-3">
-          <img src={Logo} alt="logo" className="w-8 h-8"/>
+          <img src={Logo} alt="logo" className="w-8 h-8" />
           <span className="font-bold">FocusFlow</span>
         </div>
 
@@ -50,7 +55,14 @@ export default function LeftNavbar() {
 
         <div className="mt-2">
           <SmallCaps text="Quickstart" />
-          <NavBarCom text="Create Task" locate="/createtask">
+          <div
+            onClick={panelContext.showCreateTaskPanel ? panelContext.closeCreateTaskPanel : panelContext.openCreateTaskPanel}
+            className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
+            style={{
+              backgroundColor: panelContext.showCreateTaskPanel ? "white" : "",
+              borderRadius: panelContext.showCreateTaskPanel ? "5px" : "",
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -65,7 +77,8 @@ export default function LeftNavbar() {
                 d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-          </NavBarCom>
+            <TitleText text="Create Task" />
+          </div>
           <NavBarCom text="Create Event" locate="/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -211,6 +224,6 @@ export default function LeftNavbar() {
           </NavBarCom>
         </div>
       </div>
-    </div>
+    </>
   );
 }
