@@ -95,7 +95,14 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Start Session" locate="">
+          <div
+            onClick={panelContext.showSessionPanel ? panelContext.closeSessionPanel : panelContext.openSessionPanel}
+            className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
+            style={{
+              backgroundColor: panelContext.showSessionPanel ? "white" : "",
+              borderRadius: panelContext.showSessionPanel ? "5px" : "",
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -108,7 +115,8 @@ export default function LeftNavbar() {
                 clipRule="evenodd"
               />
             </svg>
-          </NavBarCom>
+            <TitleText text="Start Session" />
+          </div>
           <NavBarCom text="Start Journal Entry" locate="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
