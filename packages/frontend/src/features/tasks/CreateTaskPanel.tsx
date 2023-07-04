@@ -4,7 +4,7 @@ import { DatePicker, Form, Input, Checkbox, Select, Button, Space } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import { useTaskCreation } from "../../api/tasks.query";
 import { PanelContext } from "../../context/PanelContext";
-import { useContext } from 'react';
+import { useContext } from "react";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
@@ -12,9 +12,7 @@ import RightPanel from "../../components/RightPanel";
 export default function CreateTaskPanel() {
   const [form] = Form.useForm();
 
-  const {
-    data: goals,
-  } = useGoalsQuery();
+  const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
 
   if (Array.isArray(goals)) {
@@ -81,7 +79,7 @@ export default function CreateTaskPanel() {
             />
           </Form.Item>
           <Form.Item name="deadline" label="Deadline">
-            <DatePicker bordered={false} className="px-0" />
+            <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
           <Form.Item name="isCompleted" label="Completed">
             <Checkbox />
@@ -92,7 +90,9 @@ export default function CreateTaskPanel() {
           <Button type="primary" htmlType="submit" className="my-2">
             Submit
           </Button>
-          <Button type="default" onClick={panelContext.closeCreateTaskPanel}>Close</Button>
+          <Button type="default" onClick={panelContext.closeCreateTaskPanel}>
+            Close
+          </Button>
         </Space>
       </Form>
     </RightPanel>

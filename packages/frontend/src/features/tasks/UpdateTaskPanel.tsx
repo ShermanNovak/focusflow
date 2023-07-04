@@ -120,6 +120,7 @@ export default function UpdateTaskPanel() {
             </Form.Item>
             <Form.Item name="deadline" label="Deadline">
               <DatePicker
+                showTime
                 bordered={false}
                 className="px-0"
                 onBlur={blurHandler}
