@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import LeftNavbar from "./components/LeftNavbar";
 import NewJournalPanel from "./components/JournalPanel";
-import CreateTaskPanel from "./features/tasks/CreateTaskModal";
+import CreateTaskPanel from "./features/tasks/CreateTaskPanel";
 import UpdateTaskPanel from "./features/tasks/UpdateTaskPanel";
 import { Toaster } from "react-hot-toast";
 import LoginPage from "./pages/LoginPage";
@@ -12,7 +11,6 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path ="/" element={<LeftNavbar />} />
         <Route path="/junyitest" element={<NewJournalPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
