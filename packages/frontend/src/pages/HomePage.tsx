@@ -8,13 +8,19 @@ export default function HomePage() {
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showTaskPanel, setShowTaskPanel] = useState(true);
     const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+    const [selectedSong, setSelectedSong] = useState<any>();
 
     return (
       <>
         {showTaskModal && <TaskModal />}
         {showTaskPanel && <TaskPanel />}
-        <SpotifyCard showModal={setShowSpotifyModal} />
-        <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
+        <SpotifyCard showModal={showSpotifyModal} handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
+        <SpotifyModal 
+          open={showSpotifyModal} 
+          showModal={setShowSpotifyModal} 
+          selectedSong={selectedSong} 
+          setSelectedSong={setSelectedSong}
+        />
       </>
     );
   }
