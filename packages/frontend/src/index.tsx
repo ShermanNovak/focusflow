@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { PanelContextProvider } from "./context/PanelContext";
 
 const queryClient = new QueryClient();
 
@@ -15,12 +16,14 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-        <ReactQueryDevtools />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <PanelContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <App />
+          <ReactQueryDevtools />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </PanelContextProvider>
   </React.StrictMode>
 );
 
