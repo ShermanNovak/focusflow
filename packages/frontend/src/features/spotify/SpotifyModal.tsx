@@ -98,6 +98,7 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
           columns={columns}
           size={"small"}
           loading={loading}
+          pagination={{ pageSize: window.innerHeight > 1080 ? 10 : 5 }}
           rowSelection={{
             type: "radio",
             selectedRowKeys: [selectedKey],
