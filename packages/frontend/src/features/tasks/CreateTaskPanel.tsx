@@ -1,8 +1,10 @@
 import toast from "react-hot-toast";
 
-import { DatePicker, Form, Input, Checkbox, Select, Button } from "antd";
+import { DatePicker, Form, Input, Checkbox, Select, Button, Space } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import { useTaskCreation } from "../../api/tasks.query";
+import { PanelContext } from "../../context/PanelContext";
+import { useContext } from "react";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
@@ -10,17 +12,8 @@ import RightPanel from "../../components/RightPanel";
 export default function CreateTaskPanel() {
   const [form] = Form.useForm();
 
-  const {
-    data: goals,
-    isError: goalsHasError,
-    error: goalsError,
-  } = useGoalsQuery();
+  const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
-
-  if (goalsHasError) {
-    let error = goalsError as Error;
-    toast.error(error.message);
-  }
 
   if (Array.isArray(goals)) {
     selectOptions = goals.map((goal) => ({
@@ -42,6 +35,8 @@ export default function CreateTaskPanel() {
       console.log(e.message);
     }
   };
+
+  const panelContext = useContext(PanelContext);
 
   return (
     <RightPanel>
@@ -84,16 +79,21 @@ export default function CreateTaskPanel() {
             />
           </Form.Item>
           <Form.Item name="deadline" label="Deadline">
-            <DatePicker bordered={false} className="px-0" />
+            <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
           <Form.Item name="isCompleted" label="Completed">
             <Checkbox />
           </Form.Item>
         </div>
 
-        <Button type="primary" htmlType="submit" className="my-2">
-          Submit
-        </Button>
+        <Space>
+          <Button type="primary" htmlType="submit" className="my-2">
+            Submit
+          </Button>
+          <Button type="default" onClick={panelContext.closeCreateTaskPanel}>
+            Close
+          </Button>
+        </Space>
       </Form>
     </RightPanel>
   );

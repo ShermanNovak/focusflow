@@ -4,7 +4,7 @@ import { Task } from "../types/task.d";
 const PATH = "api/tasks";
 
 export async function getTask(task_id: string) {
-  return axiosInstance.get(`/${PATH}/${task_id}`).then((res) => res.data);
+  return axiosInstance.get(`${PATH}/${task_id}`).then((res) => res.data);
 }
 
 export async function createTask(req: Task) {
@@ -17,4 +17,8 @@ export async function updateTask(task_id: string, req: Task) {
 
 export async function deleteTask(task_id: string) {
   return axiosInstance.delete(`${PATH}/${task_id}`).then((res) => res.data);
+}
+
+export async function getTasks() {
+  return axiosInstance.get(`${PATH}`).then((res) => res.data);
 }

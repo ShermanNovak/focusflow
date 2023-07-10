@@ -1,7 +1,16 @@
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 
-import { DatePicker, Form, Input, Checkbox, Select, Button, Modal } from "antd";
+import {
+  DatePicker,
+  Form,
+  Input,
+  Checkbox,
+  Select,
+  Button,
+  Modal,
+  Space,
+} from "antd";
 import { CameraFilled, ExclamationCircleFilled } from "@ant-design/icons";
 import { useGoalsQuery } from "../../api/goals.query";
 import {
@@ -9,23 +18,20 @@ import {
   useTaskUpdate,
   useTaskDelete,
 } from "../../api/tasks.query";
+import { useContext } from "react";
+import { PanelContext } from "../../context/PanelContext";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 import DashedButton from "../../components/DashedButton";
 
-const task_id = "648dc41dc93b3a1e15f3f663";
+const task_id = "647df86e7bbd7311caed7d7d";
 
 export default function UpdateTaskPanel() {
   const [form] = Form.useForm();
-  const {
-    data: taskData,
-    isLoading: taskIsLoading,
-  } = useTaskQuery(task_id);
+  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(task_id);
 
-  const {
-    data: goals,
-  } = useGoalsQuery();
+  const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
 
   if (Array.isArray(goals)) {
@@ -48,19 +54,21 @@ export default function UpdateTaskPanel() {
   const deleteTaskHandler = () => {
     confirm({
       title: `Delete ${taskData[0].title}`,
-      icon: <ExclamationCircleFilled style={{ color: '#ff4d4f' }}/>,
+      icon: <ExclamationCircleFilled style={{ color: "#ff4d4f" }} />,
       content:
         "Are you sure you want to delete this task? This action cannot be undone. Deleting the task will remove it permanently from the system",
       okText: "Confirm",
       onOk() {
         deleteTaskMutation.mutate(task_id);
-        toast.success('Successfully deleted task')
+        toast.success("Successfully deleted task");
       },
       onCancel() {
         console.log("Cancel");
       },
     });
   };
+
+  const panelContext = useContext(PanelContext);
 
   return (
     <RightPanel>
@@ -112,6 +120,7 @@ export default function UpdateTaskPanel() {
             </Form.Item>
             <Form.Item name="deadline" label="Deadline">
               <DatePicker
+                showTime
                 bordered={false}
                 className="px-0"
                 onBlur={blurHandler}
@@ -128,9 +137,15 @@ export default function UpdateTaskPanel() {
           >
             <CameraFilled className="text-2xl" />
           </DashedButton>
-          <Button type="primary" danger onClick={deleteTaskHandler}>
-            Delete
-          </Button>
+
+          <Space>
+            <Button type="primary" danger onClick={deleteTaskHandler}>
+              Delete
+            </Button>
+            <Button type="default" onClick={panelContext.closeCreateTaskPanel}>
+              Close
+            </Button>
+          </Space>
         </Form>
       )}
     </RightPanel>
