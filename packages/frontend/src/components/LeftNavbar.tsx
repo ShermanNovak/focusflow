@@ -117,7 +117,7 @@ export default function LeftNavbar() {
             </svg>
             <TitleText text="Start Session" />
           </div>
-          <NavBarCom text="Start Journal Entry" locate="">
+          <NavBarCom text="Create Journal Entry" locate="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

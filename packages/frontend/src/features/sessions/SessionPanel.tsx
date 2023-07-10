@@ -15,13 +15,6 @@ export default function SessionPanel() {
     }));
   }
 
-  // duration state - input
-  // current time - starts from duration and counts down
-  // calculate time to deadline
-  // stop - stop counting down, freeze time + reset (set current time to duration), send to db
-  // pause - stop counting down, freeze time
-  // continue - count down
-
   const [durationMinutes, setDurationMinutes] = useState(25);
   const [durationSeconds, setDurationSeconds] = useState(0);
   const [deadline, setDeadline] = useState(
@@ -54,8 +47,13 @@ export default function SessionPanel() {
 
   function calculateTimeToDeadline() {
     let timeDifference = deadline.valueOf() - Date.now();
-    setMinutes(Math.floor((timeDifference / 1000 / 60) % 60));
-    setSeconds(Math.floor((timeDifference / 1000) % 60));
+    setMinutes(Math.max(Math.floor((timeDifference / 1000 / 60) % 60), 0));
+    setSeconds(Math.max(Math.floor((timeDifference / 1000) % 60), 0));
+
+    if (timeDifference < 0) {
+      clearInterval(intervalRef.current);
+      setTimerIsActive(false);
+    }
   }
 
   useEffect(() => {
