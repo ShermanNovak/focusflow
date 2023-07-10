@@ -10,20 +10,6 @@ import LoginButton from "../components/LoginButton";
 const domain = process.env.REACT_APP_AUTH0_DOMAIN || '';
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || '';
 
-// ReactDOM.render(
-//   <Auth0Provider
-//     domain="dev-tzqbbnp2zwignnsi.us.auth0.com"
-//     clientId="pNVvOCRs7ONdT6mMJ4ZbPXaqO3V1oEhB"
-//     authorizationParams={{
-//       redirect_uri: window.location.origin
-//     }}
-//   >
-//   </Auth0Provider>,
-//   document.getElementById('root')
-// );
-
-
-
 export default function SignUpPage() {
   const onFinish = (values: any) => {
     console.log('Success:', values);
