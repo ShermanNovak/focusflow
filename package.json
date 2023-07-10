@@ -10,10 +10,15 @@
     "start": "lerna run --parallel start"
   },
   "devDependencies": {
-    "lerna": "^6.6.2",
     "typescript": "^5.0.4"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@auth0/auth0-react": "^2.1.1",
+    "lerna": "^6.4.1",
+    "nodemon": "3.0.1",
+    "react-scripts": "1.1.5"
+  }
 }
