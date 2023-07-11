@@ -1,8 +1,6 @@
 export interface JournalEntry {
-    date: Date,
-    day: string, 
     title: string, 
-    body: string,
+    content: string,
     image: string, 
-    user: string,
+    user: object,
 }

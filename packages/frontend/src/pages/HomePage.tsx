@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useState } from "react"
 
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
@@ -85,13 +86,13 @@ export default function HomePage() {
   );
 }
 
-    return (
-      <>
-        {showTaskModal && <TaskModal />}
-        {showTaskPanel && <TaskPanel />}
-        <SpotifyCard showModal={setShowSpotifyModal} />
-        <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
-      </>
-    );
-  }
+  //   return (
+  //     <>
+  //       {showTaskModal && <TaskModal />}
+  //       {showTaskPanel && <TaskPanel />}
+  //       <SpotifyCard showModal={setShowSpotifyModal} />
+  //       <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
+  //     </>
+  //   );
+  // }
   

@@ -3,8 +3,23 @@ import { JournalEntry } from "../types/jentry.d";
 
 const PATH = "api/journal"; // literal url
 
-export async function getJEntry() {
-    return axiosInstance
-        .get(`${PATH}`) // get url
-        .then((response: { data: JournalEntry }) => response.data); // get the data
-    }
+
+export async function getJournalEntry(journalentry_id: string) {
+    return axiosInstance.get(`${PATH}/${journalentry_id}`).then((res) => res.data);
+}
+    
+export async function createJournalEntry(req: JournalEntry) {
+    return axiosInstance.post(`${PATH}`, req).then((res) => res.data);
+}
+
+export async function updateJournalEntry(journalentry_id: string, req: JournalEntry) {
+    return axiosInstance.put(`${PATH}/${journalentry_id}`, req).then((res) => res.data);
+}
+
+export async function deleteJournalEntry(journalentry_id: string) {
+    return axiosInstance.delete(`${PATH}/${journalentry_id}`).then((res) => res.data);
+}
+
+export async function getJournalEntries() {
+    return axiosInstance.get(`${PATH}`).then((res) => res.data); // user id already in bearer token, decoded
+}

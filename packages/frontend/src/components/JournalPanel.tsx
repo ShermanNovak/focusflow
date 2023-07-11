@@ -1,15 +1,40 @@
+import toast from "react-hot-toast";
+import { useJournalEntryCreation } from "../api/jentry.query";
+
 import RightPanel from "./RightPanel";
 import DashedButton from "./DashedButton";
 import { CameraFilled } from "@ant-design/icons";
-import { DatePicker, Form, Input, Checkbox, Select, Button } from "antd";
+import {Form, Input, Space, Button} from "antd";
+import { PanelContext } from "../context/PanelContext";
+import { useContext } from "react";
+
 
 export default function JournalPanel() {
-    const [form] = Form.useForm();
+    // const user_id = '647c9b22146a622abdd08fbb'
+    const [form] = Form.useForm(); // use the form in the journal i.e. title and body
+    // const { data: JournalEntry } = useJEntryQuery(); // fetching data from prev journal entry (dont need for creation?), CURRENTLY RETURNS VOID
+    const createJEntryMutation = useJournalEntryCreation(); // use the mutation to create a new journal entry
+
+    const formSubmissionHandler = () => {
+        try {
+            form.validateFields().then((values) => {
+            console.log(values)
+            createJEntryMutation.mutate(values);
+            toast.success("Successful entry!");
+            form.resetFields();
+        });
+        } catch (e: any) {
+        console.log(e.message);
+        }
+    };
+
     const currentDate = new Date();
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
     const year = currentDate.getFullYear();
     const dayOfWeek = currentDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+    
+    // const panelContext = useContext(PanelContext);
 
     return (
         <RightPanel>
@@ -31,9 +56,9 @@ export default function JournalPanel() {
                 </div> 
                 <Form
                     labelAlign="left"
-                    labelCol={{ span: 5}}
-                    form={form}>
-                    <Form.Item name="journalTitle" rules={[{ required: true }]}>
+                    form={form}
+                    onFinish={formSubmissionHandler}>
+                    <Form.Item name="title" rules={[{ required: true }]} style={{ marginBottom: "10px", marginTop:"-5px" }}>
                         <Input.TextArea
                             autoSize
                             className="text-xl -ms-2 ps-2 text-black font-bold"
@@ -41,14 +66,23 @@ export default function JournalPanel() {
                             bordered={false}
                         />
                     </Form.Item>
-                    <Form.Item name="journalBody">
+                    <Form.Item name="content" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
                         <Input.TextArea
-                            autoSize={{ minRows: 3}}
+                            style={{ width: 550, resize: "none", marginTop: "-5px"}}
+                            autoSize={{ minRows: 2, maxRows: 7 }}
                             className="text-xl -ms-2 ps-2 text-black font-normal"
                             placeholder="Journal Entry"
                             bordered={false}
                         />
                     </Form.Item>
+                    <Space>
+                        <Button type="primary" style={{ background: "grey", borderColor: "" }} htmlType="submit" className="my-2">
+                            Submit
+                        </Button>
+                        {/* <Button type="default" onClick={PanelContext.closeJournalPanel}>
+                            Close
+                        </Button> */}
+                    </Space>
                 </Form>
             </div>
         </RightPanel>
