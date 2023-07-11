@@ -1,4 +1,4 @@
-import NewJournalPanel from "./components/JournalPanel";
+import CreateJEntryPanel from "./components/CreateJEntryPanel";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
@@ -22,7 +22,7 @@ function App() {
       <LeftNavbar />
       <Routes>
         <Route path="/spotify/callback" element={<Spotify />} />
-        <Route path="/junyitest" element={<NewJournalPanel />} />
+        <Route path="/createjentry" element={<CreateJEntryPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
         <Route path="/login" element={<LoginPage />} />
@@ -34,6 +34,7 @@ function App() {
       {panelContext.showCreateTaskPanel && <CreateTaskPanel />}
       {panelContext.showUpdateTaskPanel && <UpdateTaskPanel />}
       {panelContext.showSessionPanel && <SessionPanel />}
+      {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
     </div>
   );
 }

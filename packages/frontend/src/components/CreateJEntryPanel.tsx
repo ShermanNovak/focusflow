@@ -10,7 +10,6 @@ import { useContext } from "react";
 
 
 export default function JournalPanel() {
-    // const user_id = '647c9b22146a622abdd08fbb'
     const [form] = Form.useForm(); // use the form in the journal i.e. title and body
     // const { data: JournalEntry } = useJEntryQuery(); // fetching data from prev journal entry (dont need for creation?), CURRENTLY RETURNS VOID
     const createJEntryMutation = useJournalEntryCreation(); // use the mutation to create a new journal entry
@@ -34,7 +33,7 @@ export default function JournalPanel() {
     const year = currentDate.getFullYear();
     const dayOfWeek = currentDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
     
-    // const panelContext = useContext(PanelContext);
+    const panelContext = useContext(PanelContext);
 
     return (
         <RightPanel>
@@ -79,9 +78,9 @@ export default function JournalPanel() {
                         <Button type="primary" style={{ background: "grey", borderColor: "" }} htmlType="submit" className="my-2">
                             Submit
                         </Button>
-                        {/* <Button type="default" onClick={PanelContext.closeJournalPanel}>
+                        <Button type="default" onClick={panelContext.closeCreateJEntryPanel}>
                             Close
-                        </Button> */}
+                        </Button>
                     </Space>
                 </Form>
             </div>
