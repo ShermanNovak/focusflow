@@ -11,6 +11,8 @@ import { PanelContext } from "./context/PanelContext";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
+import CreateEventPanel from "./features/events/CreateEventPanel";
+import UpdateEventPanel from "./features/events/UpdateEventPanel";
 
 function App() {
   const panelContext = useContext(PanelContext);
@@ -31,6 +33,8 @@ function App() {
       {panelContext.showCreateTaskPanel && <CreateTaskPanel />}
       {panelContext.showUpdateTaskPanel && <UpdateTaskPanel />}
       {panelContext.showSessionPanel && <SessionPanel />}
+      {panelContext.showCreateEventPanel && <CreateEventPanel />}
+      {panelContext.showUpdateEventPanel && <UpdateEventPanel />}
     </div>
   );
 }

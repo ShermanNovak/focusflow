@@ -56,7 +56,11 @@ export default function LeftNavbar() {
         <div className="mt-2">
           <SmallCaps text="Quickstart" />
           <div
-            onClick={panelContext.showCreateTaskPanel ? panelContext.closeCreateTaskPanel : panelContext.openCreateTaskPanel}
+            onClick={
+              panelContext.showCreateTaskPanel
+                ? panelContext.closeCreateTaskPanel
+                : panelContext.openCreateTaskPanel
+            }
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showCreateTaskPanel ? "white" : "",
@@ -79,7 +83,18 @@ export default function LeftNavbar() {
             </svg>
             <TitleText text="Create Task" />
           </div>
-          <NavBarCom text="Create Event" locate="/">
+          <div
+            onClick={
+              panelContext.showCreateEventPanel
+                ? panelContext.closeCreateEventPanel
+                : panelContext.openCreateEventPanel
+            }
+            className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
+            style={{
+              backgroundColor: panelContext.showCreateEventPanel ? "white" : "",
+              borderRadius: panelContext.showCreateEventPanel ? "5px" : "",
+            }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,9 +109,14 @@ export default function LeftNavbar() {
                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"
               />
             </svg>
-          </NavBarCom>
+            <TitleText text="Create Event" />
+          </div>
           <div
-            onClick={panelContext.showSessionPanel ? panelContext.closeSessionPanel : panelContext.openSessionPanel}
+            onClick={
+              panelContext.showSessionPanel
+                ? panelContext.closeSessionPanel
+                : panelContext.openSessionPanel
+            }
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showSessionPanel ? "white" : "",
