@@ -3,7 +3,7 @@ import { Response } from "express";
 import { AuthenticatedRequest } from "../middleware/requireAuth";
 
 const Task = require("../models/Task");
-const Goal = require("../models/Goal");
+/* const Goal = require("../models/Goal"); */
 
 class TaskController {
   public async getTasks(req: AuthenticatedRequest, res: Response) {
@@ -28,9 +28,11 @@ class TaskController {
   }
 
   public async createTask(req: AuthenticatedRequest, res: Response) {
+    console.log(req.body);
     try {
       const task = await Task.create({ ...req.body, user: req.user_id });
-      if (req.body.goal_id) {
+
+      /* if (req.body.goal_id) {
         const goal = await Goal.findByIdAndUpdate(req.body.goal_id, {
           user: req.user_id,
         }, {
@@ -46,7 +48,7 @@ class TaskController {
         }
         goal.tasks.push(task._id);
         await goal.save();
-      }
+      } */
 
       res.status(200).json(task);
     } catch (error: any) {

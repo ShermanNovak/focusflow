@@ -27,7 +27,8 @@ export default function CreateTaskPanel() {
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
-        createTaskMutation.mutate(values);
+        console.log({ ...values, type: "task" });
+        createTaskMutation.mutate({ ...values, type: "task" });
         toast.success("Successfully created task!");
         form.resetFields();
       });
