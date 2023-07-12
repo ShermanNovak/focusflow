@@ -167,7 +167,7 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Daily Achievements" locate="">
+          <NavBarCom text="Daily Achievements" locate="/dailyachievements">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

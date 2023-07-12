@@ -17,8 +17,8 @@ export default function NavBarCom(props: Props) {
       className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
       style={({ isActive }) => {
         return {
-          backgroundColor: isActive ? "" : "white",
-          borderRadius: isActive ? "" : "5px",
+          backgroundColor: isActive ? "white" : "",
+          borderRadius: isActive ? "5px" : "",
         };
       }}
       onClick={props.onClick}
