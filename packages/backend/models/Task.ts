@@ -15,7 +15,7 @@ const taskSchema = new Schema(
       default: false,
     },
     dateCompleted: Date,
-    image: {
+    imageURL: {
       type: String
     },
     user: {
