@@ -1,11 +1,11 @@
 import toast from "react-hot-toast";
-import { useJournalEntryCreation } from "../api/jentry.query";
+import { useJournalEntryCreation } from "../../api/jentry.query";
 
-import RightPanel from "./RightPanel";
-import DashedButton from "./DashedButton";
+import RightPanel from "../../components/RightPanel";
+import DashedButton from "../../components/DashedButton";
 import { CameraFilled } from "@ant-design/icons";
 import {Form, Input, Space, Button} from "antd";
-import { PanelContext } from "../context/PanelContext";
+import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
 
 
@@ -75,7 +75,7 @@ export default function JournalPanel() {
                         />
                     </Form.Item>
                     <Space>
-                        <Button type="primary" style={{ background: "grey", borderColor: "" }} htmlType="submit" className="my-2">
+                        <Button type="primary" style={{ background: "primary", borderColor: "" }} htmlType="submit" className="my-2">
                             Submit
                         </Button>
                         <Button type="default" onClick={panelContext.closeCreateJEntryPanel}>

@@ -121,8 +121,8 @@ export default function LeftNavbar() {
           onClick={panelContext.showCreateJEntryPanel ? panelContext.closeCreateJEntryPanel : panelContext.openCreateJEntryPanel}
           className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
           style={{
-            backgroundColor: panelContext.showSessionPanel ? "white" : "",
-            borderRadius: panelContext.showSessionPanel ? "5px" : "",
+            backgroundColor: panelContext.showCreateJEntryPanel ? "white" : "",
+            borderRadius: panelContext.showCreateJEntryPanel ? "5px" : "",
           }}>
             <NavBarCom text="Start Journal Entry" locate="">
               <svg
