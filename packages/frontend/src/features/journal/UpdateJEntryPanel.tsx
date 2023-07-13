@@ -32,7 +32,7 @@ export default function UpdateJournalPanel() {
             title: `Delete Journal Title: ${jentrydata.title}`,
             icon: <ExclamationCircleFilled style={{ color: "#ff4d4f" }} />,
             content:
-            "Are you sure you want to delete this task? This action cannot be undone. Deleting the task will remove it permanently from the system",
+            "Are you sure you want to delete this Journal Entry? This action cannot be undone. Deleting a Journal Entry will remove it permanently from the system",
             okText: "Confirm",
             onOk() {
                 deleteJEntryMutation.mutate(journalentry_id);
