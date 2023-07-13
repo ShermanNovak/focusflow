@@ -14,7 +14,7 @@ import { useContext } from "react";
 export default function UpdateJournalPanel() {
     const [form] = Form.useForm(); // use the form in the journal i.e. title and body
     const journalentry_id = "64ad7f66397f2aa705c4dc61"; // journal entry hardcoded id
-    const { data: jentrydata } = useJEntryQuery(journalentry_id); // fetching data from prev journal entry 
+    const { data: jentrydata, isLoading: jentryIsLoading } = useJEntryQuery(journalentry_id); // fetching data from prev journal entry 
     // console.log(typeof jentrydata);
     const updateJEntryMutation = useJournalEntryUpdate(journalentry_id); // use the mutation to update journal entry
 
@@ -26,8 +26,6 @@ export default function UpdateJournalPanel() {
 
     const deleteJEntryMutation = useJournalEntryDelete(journalentry_id);
     const { confirm } = Modal;
-
-    console.log('data',jentrydata);
 
     const deleteJEntryHandler = () => {
         confirm({
@@ -53,6 +51,7 @@ export default function UpdateJournalPanel() {
     const dayOfWeek = currentDate.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
     
     const panelContext = useContext(PanelContext);
+    console.log('jentrydata:', jentrydata);
 
     return (
         <RightPanel>
@@ -72,44 +71,47 @@ export default function UpdateJournalPanel() {
                     <h3 className="font-semibold">|</h3>
                     <h3 className="ml-3 font-semibold">{dayOfWeek}</h3>
                 </div> 
-                <Form
-                    labelAlign="left"
-                    form={form}
-                    initialValues={{
-                        ...jentrydata,
-                    }}
-                    >
-                    <Form.Item name="title" rules={[{ required: true }]} style={{ marginBottom: "10px", marginTop:"-5px" }}>
-                        <Input.TextArea
-                            autoSize
-                            className="text-xl -ms-2 ps-2 text-black font-bold"
-                            placeholder="Insert Title Here"
-                            bordered={false}
-                            onBlur={blurHandler}
-                        />
-                    </Form.Item>
-                    <Form.Item name="content" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-                        <Input.TextArea
-                            style={{ width: 550, resize: "none", marginTop: "-5px"}}
-                            autoSize={{ minRows: 2, maxRows: 7 }}
-                            className="text-xl -ms-2 ps-2 text-black font-normal"
-                            placeholder="Journal Entry"
-                            bordered={false}
-                            onBlur={blurHandler}
-                        />
-                    </Form.Item>
-                    <Space>
-                        <Button type="primary" style={{ background: "primary", borderColor: "" }} htmlType="submit" className="my-2">
-                            Submit
-                        </Button>
-                        <Button type="primary" danger onClick={deleteJEntryHandler}>
-                            Delete
-                        </Button>
-                        <Button type="default" onClick={panelContext.closeCreateJEntryPanel}>
-                            Close
-                        </Button>
-                    </Space>
-                </Form>
+                {jentryIsLoading && <h2>Fetching Journal Entry...</h2>} {/* if data is loading, will show "loading" on the screen */}
+                {!jentryIsLoading && (
+                    <Form
+                        labelAlign="left"
+                        form={form}
+                        initialValues={{
+                            jentrydata,
+                        }}
+                        >
+                        <Form.Item name="title" rules={[{ required: true }]} style={{ marginBottom: "10px", marginTop:"-5px" }}>
+                            <Input.TextArea
+                                autoSize
+                                className="text-xl -ms-2 ps-2 text-black font-bold"
+                                placeholder="Insert Title Here"
+                                bordered={false}
+                                onBlur={blurHandler}
+                            />
+                        </Form.Item>
+                        <Form.Item name="content" style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+                            <Input.TextArea
+                                style={{ width: 550, resize: "none", marginTop: "-5px"}}
+                                autoSize={{ minRows: 2, maxRows: 7 }}
+                                className="text-xl -ms-2 ps-2 text-black font-normal"
+                                placeholder="Journal Entry"
+                                bordered={false}
+                                onBlur={blurHandler}
+                            />
+                        </Form.Item>
+                        <Space>
+                            <Button type="primary" style={{ background: "primary", borderColor: "" }} htmlType="submit" className="my-2">
+                                Submit
+                            </Button>
+                            <Button type="primary" danger onClick={deleteJEntryHandler}>
+                                Delete
+                            </Button>
+                            <Button type="default" onClick={panelContext.closeUpdateJEntryPanel}>
+                                Close
+                            </Button>
+                        </Space>
+                    </Form>
+                )}
             </div>
         </RightPanel>
     )

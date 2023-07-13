@@ -5,6 +5,7 @@ export const PanelContext = createContext({
   showUpdateTaskPanel: false,
   showSessionPanel: false,
   showCreateJEntryPanel: false,
+  showUpdateJEntryPanel: false,
   openCreateTaskPanel: () => {},
   closeCreateTaskPanel: () => {},
   openUpdateTaskPanel: () => {},
@@ -13,6 +14,8 @@ export const PanelContext = createContext({
   closeSessionPanel: () => {},
   openCreateJEntryPanel: () => {},
   closeCreateJEntryPanel: () => {},
+  openUpdateJEntryPanel: () => {},
+  closeUpdateJEntryPanel: () => {},
 });
 
 export function PanelContextProvider(props: any) {
@@ -20,12 +23,14 @@ export function PanelContextProvider(props: any) {
   const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
   const [showSessionPanel, setShowSessionPanel] = useState(false);
   const [showCreateJEntryPanel, setShowCreateJEntryPanel] = useState(false);
+  const [showUpdateJEntryPanel, setShowUpdateJEntryPanel] = useState(false);
 
   function resetPanels() {
     setShowCreateTaskPanel(false);
     setShowUpdateTaskPanel(false);
     setShowSessionPanel(false);
     setShowCreateJEntryPanel(false);
+    setShowUpdateJEntryPanel(false);
   }
 
   function openCreateTaskPanel() {
@@ -68,6 +73,17 @@ export function PanelContextProvider(props: any) {
     setShowCreateJEntryPanel(false);
   }
 
+  function openUpdateJEntryPanel() {
+    resetPanels();
+    setShowUpdateJEntryPanel(true);
+  }
+  
+  function closeUpdateJEntryPanel() {
+    resetPanels();
+    setShowUpdateJEntryPanel(false);
+  }
+
+
   return (
     <PanelContext.Provider
       value={{
@@ -75,6 +91,7 @@ export function PanelContextProvider(props: any) {
         showUpdateTaskPanel,
         showSessionPanel,
         showCreateJEntryPanel,
+        showUpdateJEntryPanel,
         openCreateTaskPanel,
         closeCreateTaskPanel,
         openUpdateTaskPanel,
@@ -83,6 +100,8 @@ export function PanelContextProvider(props: any) {
         closeSessionPanel,
         openCreateJEntryPanel,
         closeCreateJEntryPanel,
+        openUpdateJEntryPanel,
+        closeUpdateJEntryPanel,
       }}
     >
       {props.children}
