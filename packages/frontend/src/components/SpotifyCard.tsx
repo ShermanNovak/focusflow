@@ -7,7 +7,7 @@ export default function SpotifyCard({ showModal, handleShowModal, selectedSong }
   handleShowModal: React.Dispatch<React.SetStateAction<boolean>>, 
   selectedSong: any 
 }) {
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState<boolean>(false);
   const cookies = new Cookies();
 
   const handleClick = async () => {
@@ -27,7 +27,7 @@ export default function SpotifyCard({ showModal, handleShowModal, selectedSong }
         ? (selectedSong 
           ? <div className="flex">
               <img className="h-8 w-8 my-auto ml-[17px]" src={selectedSong.album.images[selectedSong.album.images.length-1].url} alt=""/>
-              <div className="text-[14px] text-white mr-[17px] ml-[17px] my-[15px] text-ellipsis whitespace-nowrap overflow-hidden max-w-[200px] cursor-pointer" onClick={() => handleShowModal(true)}>
+              <div className="text-[14px] text-white mr-[17px] ml-[17px] my-[15px] text-ellipsis whitespace-nowrap overflow-hidden w-[200px] cursor-pointer" onClick={() => handleShowModal(true)}>
                 <p className="mt-0 mb-[5px] font-bold text-ellipsis overflow-hidden" >{selectedSong.name}</p>
                 <p className="m-0 text-ellipsis text-ellipsis overflow-hidden">{selectedSong.artists.map((artist: any) => artist.name).join(", ")}</p>
               </div>
