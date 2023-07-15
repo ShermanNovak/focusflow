@@ -116,6 +116,7 @@ export default function UpdateTaskPanel() {
                 }
                 options={selectOptions}
                 onBlur={blurHandler}
+                allowClear={true}
               />
             </Form.Item>
             <Form.Item name="deadline" label="Deadline">

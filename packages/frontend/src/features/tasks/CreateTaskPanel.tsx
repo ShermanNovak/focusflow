@@ -27,7 +27,6 @@ export default function CreateTaskPanel() {
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
-        console.log({ ...values, type: "task" });
         createTaskMutation.mutate({ ...values, type: "task" });
         toast.success("Successfully created task!");
         form.resetFields();
@@ -77,6 +76,7 @@ export default function CreateTaskPanel() {
                   .includes(input.toLowerCase())
               }
               options={selectOptions}
+              allowClear={true}
             />
           </Form.Item>
           <Form.Item name="deadline" label="Deadline">

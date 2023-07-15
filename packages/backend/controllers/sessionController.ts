@@ -10,7 +10,7 @@ class SessionController {
     }
 
     public async getSession(req: AuthenticatedRequest, res: Response) {
-        const session = await Session.find({ _id: req.params.id, user: req.user_id });
+        const session = await Session.findById(req.params.id);
         if (!session) {
             return res.status(404).json({ error: 'No such session'})
         }
@@ -28,7 +28,7 @@ class SessionController {
     }
 
     public async deleteSession(req: AuthenticatedRequest, res: Response) {
-        const session = await Session.findOneAndDelete({ _id: req.params.id, user: req.user_id });
+        const session = await Session.findByIdAndDelete(req.params.id);
         if (!session) {
             return res.status(404).json({ error: 'No such session'})
         }
@@ -37,7 +37,7 @@ class SessionController {
     }
 
     public async updateSession(req: AuthenticatedRequest, res: Response) {
-        const session = await Session.findOneAndUpdate({ _id: req.params.id, user: req.user_id }, {
+        const session = await Session.findByIdAndUpdate(req.params.id, {
             ...req.body
         });
         

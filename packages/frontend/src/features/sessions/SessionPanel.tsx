@@ -1,17 +1,20 @@
-import RightPanel from "../../components/RightPanel";
-import SmallCaps from "../../components/SmallCaps";
+import toast from "react-hot-toast";
 
 import { PanelContext } from "../../context/PanelContext";
 import { Button, Space, Select, Form, Input, Segmented } from "antd";
 import { useState, useEffect, useRef, useContext } from "react";
 import { useTasksQuery } from "../../api/tasks.query";
+import { useSessionCreation } from "../../api/sessions.query";
+
+import RightPanel from "../../components/RightPanel";
+import SmallCaps from "../../components/SmallCaps";
 
 /*
 
 focus mode:
 1. edit duration -> sets focus minutes + focus seconds
 2. start session -> sets deadline, starts countdown
-3. end session -> switch mode from focus to break, set minutes and seconds accordingly
+3. end session -> switch mode from focus to break, set minutes and seconds accordingly + creates session in DB
 
 break mode:
 1. edit duration -> sets break minutes + break seconds
@@ -31,6 +34,8 @@ export default function SessionPanel() {
     }));
   }
 
+  const createSessionMutation = useSessionCreation();
+
   const panelContext = useContext(PanelContext);
 
   const [focusMinutes, setDurationMinutes] = useState(25);
@@ -47,22 +52,17 @@ export default function SessionPanel() {
   const [timerIsActive, setTimerIsActive] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [focusOrBreakMode, setFocusOrBreakMode] = useState("Focus");
+  const [selectedTask, setSelectedTask] = useState(undefined);
 
   const intervalRef = useRef<NodeJS.Timer | undefined>();
 
   function startTimerHandler() {
+    let totalFocusDuration = focusMinutes * 60000 + focusSeconds * 1000;
+
     if (focusOrBreakMode === "Focus")
-      setDeadline(
-        new Date(
-          new Date().getTime() + focusMinutes * 60000 + focusSeconds * 1000
-        )
-      );
+      setDeadline(new Date(new Date().getTime() + totalFocusDuration));
     if (focusOrBreakMode === "Break")
-      setDeadline(
-        new Date(
-          new Date().getTime() + breakMinutes * 60000 + breakSeconds * 1000
-        )
-      );
+      setDeadline(new Date(new Date().getTime() + totalFocusDuration));
 
     setTimerIsActive(true);
   }
@@ -81,10 +81,26 @@ export default function SessionPanel() {
     }
   }
 
+  function createSession() {
+    let totalFocusDuration = focusMinutes * 60000 + focusSeconds * 1000;
+    try {
+      createSessionMutation.mutate({
+        duration: totalFocusDuration - (deadline.valueOf() - Date.now()),
+        startTime: new Date(deadline.valueOf() - totalFocusDuration),
+        endTime: new Date(),
+        task: selectedTask,
+      });
+      toast.success("Session recorded!");
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  }
+
   function stopTimerHandler() {
     setTimerIsActive(false);
     clearInterval(intervalRef.current);
     resetMinutesAndSeconds();
+    createSession();
   }
 
   function calculateTimeToDeadline() {
@@ -95,6 +111,7 @@ export default function SessionPanel() {
     if (timeDifference < 0) {
       clearInterval(intervalRef.current);
       setTimerIsActive(false);
+      createSession();
     }
   }
 
@@ -191,38 +208,38 @@ export default function SessionPanel() {
                 }
                 options={selectOptions}
                 disabled={timerIsActive}
+                onChange={(e) => setSelectedTask(e)}
+                allowClear={true}
               />
             </Form.Item>
           )}
+          <Space>
+            <Segmented
+              options={["Focus", "Break"]}
+              value={focusOrBreakMode}
+              onChange={(e) => {
+                setFocusOrBreakMode(e.toString());
+                resetMinutesAndSeconds();
+              }}
+              disabled={timerIsActive}
+            />
+            {!timerIsActive && (
+              <>
+                <Button className="bg-navbar-green" onClick={startTimerHandler}>
+                  Start session
+                </Button>
+                <Button type="default" onClick={panelContext.closeSessionPanel}>
+                  Close
+                </Button>
+              </>
+            )}
+            {timerIsActive && (
+              <Button className="bg-navbar-green" onClick={stopTimerHandler}>
+                End session
+              </Button>
+            )}
+          </Space>
         </>
-      )}
-      {!editMode && (
-        <Space>
-          <Segmented
-            options={["Focus", "Break"]}
-            value={focusOrBreakMode}
-            onChange={(e) => {
-              setFocusOrBreakMode(e.toString());
-              resetMinutesAndSeconds();
-            }}
-            disabled={timerIsActive}
-          />
-          {!timerIsActive && (
-            <>
-              <Button className="bg-navbar-green" onClick={startTimerHandler}>
-                Start session
-              </Button>
-              <Button type="default" onClick={panelContext.closeSessionPanel}>
-                Close
-              </Button>
-            </>
-          )}
-          {timerIsActive && (
-            <Button className="bg-navbar-green" onClick={stopTimerHandler}>
-              End session
-            </Button>
-          )}
-        </Space>
       )}
     </RightPanel>
   );

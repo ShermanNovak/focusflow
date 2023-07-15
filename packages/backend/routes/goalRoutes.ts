@@ -11,8 +11,6 @@ router.param("id", requireValidId);
 
 router.get("/", goalController.getGoals);
 
-router.get("/all/:id", goalController.getGoalsWithTasks);
-
 router.get("/:id", goalController.getGoal);
 
 router.post("/", goalController.createGoal);

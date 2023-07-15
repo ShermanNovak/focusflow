@@ -28,7 +28,7 @@ class GoalController {
     }
 
     public async deleteGoal(req: AuthenticatedRequest, res: Response) {
-        const goal = await Goal.findOneAndDelete({ _id: req.params.id, user: req.user_id });
+        const goal = await Goal.findByIdAndDelete(req.params.id);
         if (!goal) {
             return res.status(404).json({ error: 'No such goal'})
         }
@@ -37,9 +37,7 @@ class GoalController {
     }
 
     public async updateGoal(req: AuthenticatedRequest, res: Response) {
-        const goal = await Goal.findOneAndUpdate({ _id: req.params.id, user: req.user_id }, {
-            ...req.body
-        });
+        const goal = await Goal.findByIdAndUpdate(req.params.id, req.body);
         
         if (!goal) {
             return res.status(404).json({ error: 'No such goal'})
