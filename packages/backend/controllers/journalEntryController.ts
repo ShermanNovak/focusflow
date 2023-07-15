@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Response } from "express";
 import { AuthenticatedRequest } from "../middleware/requireAuth";
 
