@@ -13,7 +13,7 @@ export async function createJournalEntry(req: JournalEntry) {
 }
 
 export async function updateJournalEntry(journalentry_id: string, req: JournalEntry) {
-    return axiosInstance.put(`${PATH}/${journalentry_id}`, req).then((res) => res.data);
+    return axiosInstance.patch(`${PATH}/${journalentry_id}`, req).then((res) => res.data);
 }
 
 export async function deleteJournalEntry(journalentry_id: string) {

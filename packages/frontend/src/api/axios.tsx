@@ -2,9 +2,9 @@ import axios from "axios";
 
 // change token variable to user context token
 const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2ODczNTg1NzQsImV4cCI6MTY4NzYxNzc3NH0.4G9cZTuvXg55S2TNNsXB4oGT3rcxT7bZQQRqdxaT2X4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2ODk0MjU2MTMsImV4cCI6MTY4OTY4NDgxM30.tfx7lLICIuUQrxnez7R9fN0U-3V2EtA66L1ZhmKEFac";
 
-export const axiosInstance = axios.create({
+  export const axiosInstance = axios.create({
   baseURL: "http://localhost:3001/",
   headers: {
     "Content-Type": "application/json",

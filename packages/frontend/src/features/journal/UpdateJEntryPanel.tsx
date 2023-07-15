@@ -76,9 +76,7 @@ export default function UpdateJournalPanel() {
                     <Form
                         labelAlign="left"
                         form={form}
-                        initialValues={{
-                            jentrydata,
-                        }}
+                        initialValues={jentrydata}
                         >
                         <Form.Item name="title" rules={[{ required: true }]} style={{ marginBottom: "10px", marginTop:"-5px" }}>
                             <Input.TextArea
@@ -100,9 +98,6 @@ export default function UpdateJournalPanel() {
                             />
                         </Form.Item>
                         <Space>
-                            <Button type="primary" style={{ background: "primary", borderColor: "" }} htmlType="submit" className="my-2">
-                                Submit
-                            </Button>
                             <Button type="primary" danger onClick={deleteJEntryHandler}>
                                 Delete
                             </Button>
