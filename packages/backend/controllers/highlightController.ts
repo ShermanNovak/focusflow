@@ -19,8 +19,6 @@ class HighlightController {
 
     public async getHighlight (req: AuthenticatedRequest, res: Response) {
         try {
-            // const { date } = req.params;
-
             const startDate = new Date(); // today's date
             startDate.setHours(0, 0, 0, 0); // set time to 00:00:00:000
             const endDate = new Date();
@@ -33,7 +31,6 @@ class HighlightController {
             if (highlights.length === 0) {
                 return res.status(404).json({ error: 'No highlights found for today' });
             }
-        
             res.json(highlights);
           } catch (error: any) { // to catch errors
             res.status(400).json({ error: error.message })
@@ -47,15 +44,13 @@ class HighlightController {
             endDate.setHours(23, 59, 59, 999); // set time to 23:59:59:999
         
         const highlight = await Highlight.findOneAndUpdate(
-            { createdAt: { $gte: startDate, $lt: endDate } }, // Filter by date range
-            { $set: { content: req.body.content } }, // Replace "yourUpdateObject" with the fields you want to update
-            { new: true }, // Options to return the updated document)
+            { createdAt: { $gte: startDate, $lt: endDate } }, // filter to make sure in time
+            { $set: { content: req.body.content } }, // update content
+            { new: true }, // return the new updated content
         )
         if (!highlight) return res.status(404).json({ error: 'No highlight for today' });
-
         res.json(highlight);
     }
-
 }
 
 export const highlightController = new HighlightController();
