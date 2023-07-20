@@ -37,6 +37,7 @@ function App() {
       {panelContext.showUpdateTaskPanel && <UpdateTaskPanel />}
       {panelContext.showSessionPanel && <SessionPanel />}
       {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
+      {panelContext.showUpdateJEntryPanel && <UpdateJEntryPanel />}
     </div>
   );
 }
