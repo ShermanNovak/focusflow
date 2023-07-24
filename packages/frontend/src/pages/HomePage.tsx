@@ -14,7 +14,7 @@ export default function HomePage() {
       <>
         {showTaskModal && <TaskModal />}
         {showTaskPanel && <TaskPanel />}
-        <SpotifyCard showModal={showSpotifyModal} handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
+        <SpotifyCard handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
         <SpotifyModal 
           open={showSpotifyModal} 
           showModal={setShowSpotifyModal} 
