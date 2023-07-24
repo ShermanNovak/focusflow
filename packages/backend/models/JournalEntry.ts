@@ -11,7 +11,7 @@ const journalEntrySchema = new Schema({
         type: String,
         default: ""
     },
-    photoURL: String,
+    imageURL: String,
     user: {
         type: Schema.Types.ObjectId,
         ref: "User",

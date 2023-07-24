@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 
-import { DatePicker, Form, Input, Checkbox, Select, Button, Space } from "antd";
-import { useGoalsQuery } from "../../api/goals.query";
+import { DatePicker, Form, Input, Button, Space } from "antd";
 import { useTaskCreation } from "../../api/tasks.query";
 import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
@@ -9,25 +8,16 @@ import { useContext } from "react";
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 
-export default function CreateTaskPanel() {
+export default function CreateEventPanel() {
   const [form] = Form.useForm();
-
-  const { data: goals } = useGoalsQuery();
-  let selectOptions: { value: string; label: string }[] = [];
-
-  if (Array.isArray(goals)) {
-    selectOptions = goals.map((goal) => ({
-      value: goal._id,
-      label: goal.title,
-    }));
-  }
 
   const createTaskMutation = useTaskCreation();
 
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
-        createTaskMutation.mutate({ ...values, type: "task" });
+        console.log(values);
+        createTaskMutation.mutate({ ...values, type: "event" });
         toast.success("Successfully created task!");
         form.resetFields();
       });
@@ -50,7 +40,7 @@ export default function CreateTaskPanel() {
           <Input.TextArea
             autoSize
             className="text-xl -ms-2 ps-2 text-black font-bold hover:bg-hover-blue"
-            placeholder="Add a task..."
+            placeholder="Add an event..."
             bordered={false}
           />
         </Form.Item>
@@ -65,37 +55,22 @@ export default function CreateTaskPanel() {
         </Form.Item>
         <SmallCaps text="details" />
         <div className="bg-white rounded-lg p-4 mb-4">
-          <Form.Item name="goal" label="Goal">
-            <Select
-              showSearch
-              placeholder="Select a goal"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                (option?.label ?? "")
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={selectOptions}
-              allowClear={true}
-            />
-          </Form.Item>
-          <Form.Item name="deadline" label="Deadline">
+          <Form.Item name="startTime" label="Start" rules={[{ required: true }]}>
             <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
-          <Form.Item name="isCompleted" label="Completed">
-            <Checkbox />
+          <Form.Item name="endTime" label="End" rules={[{ required: true }]}>
+            <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
         </div>
-
-        <Space>
-          <Button type="primary" htmlType="submit" className="my-2">
-            Submit
-          </Button>
-          <Button type="default" onClick={panelContext.closeCreateTaskPanel}>
-            Close
-          </Button>
-        </Space>
       </Form>
+      <Space>
+        <Button type="primary" htmlType="submit" className="my-2">
+          Submit
+        </Button>
+        <Button type="default" onClick={panelContext.closeCreateEventPanel}>
+          Close
+        </Button>
+      </Space>
     </RightPanel>
   );
 }

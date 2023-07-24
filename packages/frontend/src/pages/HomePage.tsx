@@ -14,7 +14,7 @@ export default function HomePage() {
     if (event.key === "Enter") {
       try {
         taskForm.validateFields().then((values) => {
-          createTaskMutation.mutate(values);
+          createTaskMutation.mutate({ ...values, type: "task" });
           toast.success("Successfully created task!");
         });
       } catch (e: any) {

@@ -1,10 +1,13 @@
 export interface Task {
     title: string,
     description: string,
-    deadline: Date,
     isCompleted: boolean,
+    imageURL: string,
+    type: string,
     dateCompleted: Date,
-    image: string,
+    deadline: Date,
+    startTime: Date,
+    endTime: Date,
     user: string,
     goal: string
 }
