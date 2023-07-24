@@ -1,4 +1,7 @@
+import toast from "react-hot-toast";
+
 import { DatePicker, Form, Input, Button, Space } from "antd";
+import { useTaskCreation } from "../../api/tasks.query";
 import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
 
@@ -8,10 +11,15 @@ import RightPanel from "../../components/RightPanel";
 export default function CreateEventPanel() {
   const [form] = Form.useForm();
 
+  const createTaskMutation = useTaskCreation();
+
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
         console.log(values);
+        createTaskMutation.mutate({ ...values, type: "event" });
+        toast.success("Successfully created task!");
+        form.resetFields();
       });
     } catch (e: any) {
       console.log(e.message);
@@ -47,10 +55,10 @@ export default function CreateEventPanel() {
         </Form.Item>
         <SmallCaps text="details" />
         <div className="bg-white rounded-lg p-4 mb-4">
-          <Form.Item name="startTime" label="Start">
+          <Form.Item name="startTime" label="Start" rules={[{ required: true }]}>
             <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
-          <Form.Item name="endTime" label="End">
+          <Form.Item name="endTime" label="End" rules={[{ required: true }]}>
             <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
         </div>

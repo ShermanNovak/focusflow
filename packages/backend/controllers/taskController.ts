@@ -12,6 +12,13 @@ class TaskController {
     res.status(200).json(tasks);
   }
 
+  public async getEventsOnly(req: AuthenticatedRequest, res: Response) {
+    const tasks = await Task.find({ user: req.user_id, type: "event" }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(tasks);
+  }
+
   public async getTask(req: AuthenticatedRequest, res: Response) {
     const task = await Task.findById(req.params.id);
     if (!task) return res.status(404).json({ error: "No such task" });
