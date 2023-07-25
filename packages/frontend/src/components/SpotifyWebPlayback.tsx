@@ -46,6 +46,7 @@ export default function SpotifyWebPlayback({ selectedSong, handleShowModal }: {
               if (!state) {
                   return;
               }
+              console.log(state);
 
               setPaused(state.paused);
           }));
@@ -54,7 +55,7 @@ export default function SpotifyWebPlayback({ selectedSong, handleShowModal }: {
       };
   }, []);
 
-  useEffect(() => { if (deviceId) playSong(selectedSong.uri, deviceId) }, [deviceId]);
+  useEffect(() => { if (deviceId) playSong(selectedSong.uri, deviceId) }, [deviceId, selectedSong]);
 
   return (
     <>
