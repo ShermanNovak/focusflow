@@ -4,12 +4,15 @@ import { useState } from "react"
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
 import { useTaskCreation } from "../api/tasks.query";
+import { useHighlightCreation } from "../api/highlight.query";
 
 import SmallCaps from "../components/SmallCaps";
 
 export default function HomePage() {
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
+  const createHighlightMutation = useHighlightCreation();
+  const [highlightForm] = Form.useForm();
 
   const createTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -23,6 +26,20 @@ export default function HomePage() {
       }
     }
   };
+
+  const createHighlightHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      try {
+        highlightForm.validateFields().then((values) => {
+          createHighlightMutation.mutate(values);
+          toast.success("Successfully created highlight!");
+        });
+      } catch (e: any) {
+        toast.error(e.message);
+      }
+    }
+  }
+  
     const [showTaskModal, setShowTaskModal] = useState(false);
     const [showTaskPanel, setShowTaskPanel] = useState(true);
     const [showSpotifyModal, setShowSpotifyModal] = useState(false);
@@ -35,7 +52,7 @@ export default function HomePage() {
       </span>
       <div className="pt-3 grid grid-cols-2 gap-4">
         <div>
-          <Form>
+          <Form form={highlightForm}>
             <div className="flex gap-x-1 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,8 +68,8 @@ export default function HomePage() {
               </svg>
               <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
             </div>
-            <Form.Item>
-              <Input className="bg-pale-yellow" />
+            <Form.Item name="highlight">
+              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
