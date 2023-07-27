@@ -43,9 +43,9 @@ class HighlightController {
         endDate.setHours(23, 59, 59, 999); // set time to 23:59:59:999
 
         const highlight = await Highlight.findOneAndUpdate(
-            { createdAt: { $gte: startDate, $lt: endDate } }, // Filter by date range
-            { $set: { content: req.body.content } }, // Replace "yourUpdateObject" with the fields you want to update
-            { new: true }, // Options to return the updated document)
+            { createdAt: { $gte: startDate, $lt: endDate } }, // filter by date range
+            { $set: { content: req.body.content } }, // update content
+            { new: true }, // return updated highlight
         )
         if (!highlight) return res.status(404).json({ error: 'No highlight for today' });
 
