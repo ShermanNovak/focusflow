@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
 import { useTaskCreation } from "../api/tasks.query";
+import { useFilePicker } from "use-file-picker";
 
 import SmallCaps from "../components/SmallCaps";
 
@@ -22,6 +23,17 @@ export default function HomePage() {
       }
     }
   };
+
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+  });
+
+  const imageUploadHandler = () => {
+    openFileSelector();
+  }
 
   // to get name from user context
   return (
@@ -52,6 +64,14 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
+          <div>
+            {filesContent.length < 1 && <button onClick={() => imageUploadHandler()}>
+              Add Your Photo of the Day
+            </button>}
+            {filesContent.map((file) => (
+                <img alt={file.name} src={file.content} className="rounded w-72 drop-shadow"></img>
+            ))}
+          </div>
         </div>
         <div>
           <Form form={taskForm}>
