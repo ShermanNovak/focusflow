@@ -1,4 +1,3 @@
-import NewJournalPanel from "./components/JournalPanel";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
@@ -6,6 +5,8 @@ import LeftNavbar from "./components/LeftNavbar";
 import CreateTaskPanel from "./features/tasks/CreateTaskPanel";
 import UpdateTaskPanel from "./features/tasks/UpdateTaskPanel";
 import SessionPanel from "./features/sessions/SessionPanel";
+import CreateJEntryPanel from "./features/journal/CreateJEntryPanel";
+import UpdateJEntryPanel from "./features/journal/UpdateJEntryPanel";
 
 import { PanelContext } from "./context/PanelContext";
 import { Toaster } from "react-hot-toast";
@@ -13,6 +14,8 @@ import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import CreateEventPanel from "./features/events/CreateEventPanel";
 import UpdateEventPanel from "./features/events/UpdateEventPanel";
+import Spotify from "./pages/Spotify"
+import SpotifyModal from "./features/spotify/SpotifyModal";
 
 function App() {
   const panelContext = useContext(PanelContext);
@@ -21,7 +24,9 @@ function App() {
     <div className="flex">
       <LeftNavbar />
       <Routes>
-        <Route path="/junyitest" element={<NewJournalPanel />} />
+        <Route path="/spotify/callback" element={<Spotify />} />
+        <Route path="/createjentry" element={<CreateJEntryPanel />}/>
+        <Route path="/updatejentry" element={<UpdateJEntryPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
         <Route path="/login" element={<LoginPage />} />
@@ -35,6 +40,7 @@ function App() {
       {panelContext.showSessionPanel && <SessionPanel />}
       {panelContext.showCreateEventPanel && <CreateEventPanel />}
       {panelContext.showUpdateEventPanel && <UpdateEventPanel />}
+      {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
     </div>
   );
 }

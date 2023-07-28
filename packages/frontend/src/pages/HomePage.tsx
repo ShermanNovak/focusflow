@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useState } from "react"
 
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
@@ -23,6 +24,9 @@ export default function HomePage() {
       }
     }
   };
+    const [showTaskModal, setShowTaskModal] = useState(false);
+    const [showTaskPanel, setShowTaskPanel] = useState(true);
+    const [showSpotifyModal, setShowSpotifyModal] = useState(false);
 
   const [openFileSelector, { filesContent }] = useFilePicker({
     readAs: "DataURL",
@@ -129,3 +133,14 @@ export default function HomePage() {
     </div>
   );
 }
+
+  //   return (
+  //     <>
+  //       {showTaskModal && <TaskModal />}
+  //       {showTaskPanel && <TaskPanel />}
+  //       <SpotifyCard showModal={setShowSpotifyModal} />
+  //       <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
+  //     </>
+  //   );
+  // }
+  
