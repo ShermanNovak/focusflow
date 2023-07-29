@@ -10,6 +10,7 @@ import taskRoutes from './routes/taskRoutes';
 import userRoutes from './routes/userRoutes';
 import eventRoutes from './routes/eventRoutes';
 import journalEntryRoutes from './routes/journalEntryRoutes';
+import sotdRoutes from './routes/sotdRoutes';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -26,6 +27,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/events', eventRoutes)
 app.use('/swagger', swaggerRouter);
 app.use('/api/journal', journalEntryRoutes);
+app.use('/api/sotd', sotdRoutes);
 
 var schema = buildSchema(`
   type Query {
