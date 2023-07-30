@@ -1,12 +1,15 @@
 import toast from "react-hot-toast";
-import { useState } from "react"
+import axios from "axios";
 
-import { KeyboardEvent } from "react";
+import { useState, KeyboardEvent } from "react";
 import { Input, Form } from "antd";
 import { useTaskCreation } from "../api/tasks.query";
 import { useFilePicker } from "use-file-picker";
 
 import SmallCaps from "../components/SmallCaps";
+
+const TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2OTA2Njc2MDQsImV4cCI6MTY5MDkyNjgwNH0.iVdD470om_kcXmckyJyll3Jshl0YDqBvAo1l_JvbYGU";
 
 export default function HomePage() {
   const createTaskMutation = useTaskCreation();
@@ -24,26 +27,35 @@ export default function HomePage() {
       }
     }
   };
-    const [showTaskModal, setShowTaskModal] = useState(false);
-    const [showTaskPanel, setShowTaskPanel] = useState(true);
-    const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+
+  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
 
   const [openFileSelector, { filesContent }] = useFilePicker({
     readAs: "DataURL",
     accept: "image/*",
     multiple: false,
     limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      try {
+        const formData = new FormData();
+        formData.append("actualFile", plainFiles[0]);
+        axios
+          .post("http://localhost:3001/api/image/uploadfile", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${TOKEN}`,
+            },
+          })
+          .then(function (response: any) {
+            //handle success
+            console.log(response);
+          });
+        toast.success("Successfully uploaded image");
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    },
   });
-
-  const imageUploadHandler = () => {
-    openFileSelector();
-
-    try {
-      
-    } catch (e: any) {
-
-    }
-  };
 
   // to get name from user context
   return (
@@ -76,7 +88,12 @@ export default function HomePage() {
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           <div>
             {filesContent.length < 1 && (
-              <button onClick={() => imageUploadHandler()} className="w-72 border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50">
+              <button
+                onClick={() => {
+                  openFileSelector();
+                }}
+                className="w-72 border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -96,13 +113,13 @@ export default function HomePage() {
                 </span>
               </button>
             )}
-            {filesContent.map((file) => (
+            {filesContent.length > 0 && (
               <img
-                alt={file.name}
-                src={file.content}
+                alt={filesContent[0].name}
+                src={filesContent[0].content}
                 className="rounded w-72 drop-shadow"
               ></img>
-            ))}
+            )}
           </div>
         </div>
         <div>
@@ -134,13 +151,12 @@ export default function HomePage() {
   );
 }
 
-  //   return (
-  //     <>
-  //       {showTaskModal && <TaskModal />}
-  //       {showTaskPanel && <TaskPanel />}
-  //       <SpotifyCard showModal={setShowSpotifyModal} />
-  //       <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
-  //     </>
-  //   );
-  // }
-  
+//   return (
+//     <>
+//       {showTaskModal && <TaskModal />}
+//       {showTaskPanel && <TaskPanel />}
+//       <SpotifyCard showModal={setShowSpotifyModal} />
+//       <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
+//     </>
+//   );
+// }

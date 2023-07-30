@@ -1,9 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
+import fileUpload from "express-fileupload";
+
 import { buildSchema } from "graphql";
 import { graphqlHTTP } from "express-graphql";
 import { swaggerRouter } from "./routes/swaggerRoutes";
-import cors from "cors";
 
 import goalRoutes from "./routes/goalRoutes";
 import taskRoutes from "./routes/taskRoutes";
@@ -22,6 +24,7 @@ if (!MONGODB_URI) {
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
 
 app.use("/swagger", swaggerRouter);
 app.use("/api/goals", goalRoutes);
