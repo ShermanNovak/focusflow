@@ -18,4 +18,4 @@ const sotdSchema = new Schema({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model("SongOfTheDay", sotdSchema);
+module.exports = mongoose.model("SOTD", sotdSchema);
