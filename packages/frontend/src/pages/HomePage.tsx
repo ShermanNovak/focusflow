@@ -33,13 +33,6 @@ export default function HomePage() {
       <span className="text-xl text-black font-bold">
         Good morning, Antonio
       </span>
-      <SpotifyCard handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
-      <SpotifyModal 
-        open={showSpotifyModal} 
-        showModal={setShowSpotifyModal} 
-        selectedSong={selectedSong} 
-        setSelectedSong={setSelectedSong}
-      />
       <div className="pt-3 grid grid-cols-2 gap-4">
         <div>
           <Form>
@@ -89,6 +82,13 @@ export default function HomePage() {
           </Form>
         </div>
       </div>
+      <SpotifyCard handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
+      <SpotifyModal 
+        open={showSpotifyModal} 
+        showModal={setShowSpotifyModal} 
+        selectedSong={selectedSong} 
+        setSelectedSong={setSelectedSong}
+      />
     </div>
   );
 }
