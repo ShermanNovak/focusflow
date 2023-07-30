@@ -13,7 +13,7 @@ const swaggerOptions = {
       version: '0.1.0',
     }
   },
-  apis: ['../docs/goal.swagger.yml'], 
+  apis: ['../docs/*.swagger.yml'], 
 };
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 

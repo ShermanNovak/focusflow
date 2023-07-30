@@ -4,7 +4,7 @@ interface InputProps {
   
   export default function TitleText(props: InputProps) {
     return (
-      <span className="text-xl pb-4 block">
+      <span className="text-sm">
         {props.text}
       </span>
     );

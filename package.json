@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "lerna": "^6.6.2",
+    "react-router-dom": "^6.12.1",
     "typescript": "^5.0.4"
   },
   "workspaces": [

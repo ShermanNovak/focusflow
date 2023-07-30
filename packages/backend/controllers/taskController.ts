@@ -1,28 +1,27 @@
-import mongoose from "mongoose";
 import { Response } from "express";
 import { AuthenticatedRequest } from "../middleware/requireAuth";
 
 const Task = require("../models/Task");
-const Goal = require("../models/Goal");
+/* const Goal = require("../models/Goal"); */
 
 class TaskController {
-  public async getTasks(req: AuthenticatedRequest, res: Response) {
-    const tasks = await Task.find({ user: req.user_id }).sort({
+  public async getTasksOnly(req: AuthenticatedRequest, res: Response) {
+    const tasks = await Task.find({ user: req.user_id, type: "task" }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(tasks);
+  }
+
+  public async getEventsOnly(req: AuthenticatedRequest, res: Response) {
+    const tasks = await Task.find({ user: req.user_id, type: "event" }).sort({
       createdAt: -1,
     });
     res.status(200).json(tasks);
   }
 
   public async getTask(req: AuthenticatedRequest, res: Response) {
-    const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such task" });
-    }
-
-    const task = await Task.find({ _id: id, user: req.user_id });
-    if (!task) {
-      return res.status(404).json({ error: "No such task" });
-    }
+    const task = await Task.findById(req.params.id);
+    if (!task) return res.status(404).json({ error: "No such task" });
 
     res.status(200).json(task);
   }
@@ -30,7 +29,8 @@ class TaskController {
   public async createTask(req: AuthenticatedRequest, res: Response) {
     try {
       const task = await Task.create({ ...req.body, user: req.user_id });
-      if (req.body.goal_id) {
+
+      /* if (req.body.goal_id) {
         const goal = await Goal.findByIdAndUpdate(req.body.goal_id, {
           user: req.user_id,
         }, {
@@ -46,7 +46,7 @@ class TaskController {
         }
         goal.tasks.push(task._id);
         await goal.save();
-      }
+      } */
 
       res.status(200).json(task);
     } catch (error: any) {
@@ -55,37 +55,16 @@ class TaskController {
   }
 
   public async deleteTask(req: AuthenticatedRequest, res: Response) {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such task" });
-    }
-
-    const task = await Task.findOneAndDelete({ _id: id, user: req.user_id });
-    if (!task) {
-      return res.status(404).json({ error: "No such task" });
-    }
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (!task) return res.status(404).json({ error: "No such task" });
 
     res.status(200).json(task);
   }
 
   public async updateTask(req: AuthenticatedRequest, res: Response) {
-    const { id } = req.params;
+    const task = await Task.findByIdAndUpdate(req.params.id, req.body);
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ error: "No such task" });
-    }
-
-    const task = await Task.findOneAndUpdate(
-      { _id: id, user: req.user_id },
-      {
-        ...req.body,
-      }
-    );
-
-    if (!task) {
-      return res.status(404).json({ error: "No such task" });
-    }
+    if (!task) return res.status(404).json({ error: "No such task" });
 
     res.status(200).json(task);
   }
