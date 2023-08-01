@@ -149,7 +149,6 @@ export default function LeftNavbar() {
             borderRadius: panelContext.showCreateJEntryPanel ? "5px" : "",
           }}
           >
-            {/* <NavBarCom text="Start Journal Entry" locate=""> */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -165,7 +164,6 @@ export default function LeftNavbar() {
                 />
               </svg>
               <TitleText text="Start Journal Entry" />
-            {/* </NavBarCom> */}
           </div>
         </div>
 

@@ -13,9 +13,9 @@ import { useContext } from "react";
 
 export default function UpdateJournalPanel() {
     const [form] = Form.useForm(); // use the form in the journal i.e. title and body
-    const journalentry_id = "64ad7f66397f2aa705c4dc61"; // journal entry hardcoded id
+    const journalentry_id = "64c8afa2bb7974ea233d5137"; // journal entry hardcoded id
     const { data: jentrydata, isLoading: jentryIsLoading } = useJEntryQuery(journalentry_id); // fetching data from prev journal entry 
-    // console.log(typeof jentrydata);
+    // console.log(jentrydata);
     const updateJEntryMutation = useJournalEntryUpdate(journalentry_id); // use the mutation to update journal entry
 
     const blurHandler = () => {
