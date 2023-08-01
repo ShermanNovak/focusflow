@@ -128,8 +128,16 @@ export function PanelContextProvider(props: any) {
         closeCreateTaskPanel,
         openUpdateTaskPanel,
         closeUpdateTaskPanel,
+        openCreateJEntryPanel,
+        closeCreateJEntryPanel,
+        openUpdateJEntryPanel,
+        closeUpdateJEntryPanel,
         openSessionPanel,
         closeSessionPanel,
+        openCreateEventPanel,
+        closeCreateEventPanel,
+        openUpdateEventPanel,
+        closeUpdateEventPanel
       }}
     >
       {props.children}
