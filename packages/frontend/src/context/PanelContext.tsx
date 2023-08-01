@@ -6,10 +6,16 @@ export const PanelContext = createContext({
   showSessionPanel: false,
   showCreateJEntryPanel: false,
   showUpdateJEntryPanel: false,
+  showCreateEventPanel: false,
+  showUpdateEventPanel: false,
   openCreateTaskPanel: () => {},
   closeCreateTaskPanel: () => {},
   openUpdateTaskPanel: () => {},
   closeUpdateTaskPanel: () => {},
+  openCreateEventPanel: () => {},
+  closeCreateEventPanel: () => {},
+  openUpdateEventPanel: () => {},
+  closeUpdateEventPanel: () => {},
   openSessionPanel: () => {},
   closeSessionPanel: () => {},
   openCreateJEntryPanel: () => {},
@@ -24,6 +30,8 @@ export function PanelContextProvider(props: any) {
   const [showSessionPanel, setShowSessionPanel] = useState(false);
   const [showCreateJEntryPanel, setShowCreateJEntryPanel] = useState(false);
   const [showUpdateJEntryPanel, setShowUpdateJEntryPanel] = useState(false);
+  const [showCreateEventPanel, setShowCreateEventPanel] = useState(false);
+  const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
 
   function resetPanels() {
     setShowCreateTaskPanel(false);
@@ -31,6 +39,8 @@ export function PanelContextProvider(props: any) {
     setShowSessionPanel(false);
     setShowCreateJEntryPanel(false);
     setShowUpdateJEntryPanel(false);
+    setShowCreateEventPanel(false);
+    setShowUpdateEventPanel(false);
   }
 
   function openCreateTaskPanel() {
@@ -84,6 +94,26 @@ export function PanelContextProvider(props: any) {
   }
 
 
+  function openCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(true);
+  }
+
+  function closeCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(false);
+  }
+
+  function openUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(true);
+  }
+
+  function closeUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(false);
+  }
+
   return (
     <PanelContext.Provider
       value={{
@@ -92,16 +122,14 @@ export function PanelContextProvider(props: any) {
         showSessionPanel,
         showCreateJEntryPanel,
         showUpdateJEntryPanel,
+        showCreateEventPanel,
+        showUpdateEventPanel,
         openCreateTaskPanel,
         closeCreateTaskPanel,
         openUpdateTaskPanel,
         closeUpdateTaskPanel,
         openSessionPanel,
         closeSessionPanel,
-        openCreateJEntryPanel,
-        closeCreateJEntryPanel,
-        openUpdateJEntryPanel,
-        closeUpdateJEntryPanel,
       }}
     >
       {props.children}

@@ -12,6 +12,8 @@ import { PanelContext } from "./context/PanelContext";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
+import CreateEventPanel from "./features/events/CreateEventPanel";
+import UpdateEventPanel from "./features/events/UpdateEventPanel";
 import Spotify from "./pages/Spotify"
 import SpotifyModal from "./features/spotify/SpotifyModal";
 
@@ -36,6 +38,8 @@ function App() {
       {panelContext.showCreateTaskPanel && <CreateTaskPanel />}
       {panelContext.showUpdateTaskPanel && <UpdateTaskPanel />}
       {panelContext.showSessionPanel && <SessionPanel />}
+      {panelContext.showCreateEventPanel && <CreateEventPanel />}
+      {panelContext.showUpdateEventPanel && <UpdateEventPanel />}
       {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
     </div>
   );

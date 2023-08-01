@@ -9,15 +9,18 @@ const taskSchema = new Schema(
       required: true,
     },
     description: String,
-    deadline: Date,
     isCompleted: {
       type: Boolean,
       default: false,
     },
-    dateCompleted: Date,
-    image: {
+    imageURL: {
       type: String
     },
+    type: String,
+    dateCompleted: Date,
+    deadline: Date,
+    startTime: Date,
+    endTime: Date,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",

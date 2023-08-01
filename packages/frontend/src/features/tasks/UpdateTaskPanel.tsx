@@ -25,7 +25,7 @@ import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 import DashedButton from "../../components/DashedButton";
 
-const task_id = "647df86e7bbd7311caed7d7d";
+const task_id = "64ae82495e0b764c0dfcf7e2";
 
 export default function UpdateTaskPanel() {
   const [form] = Form.useForm();
@@ -79,8 +79,8 @@ export default function UpdateTaskPanel() {
           labelCol={{ span: 5 }}
           form={form}
           initialValues={{
-            ...taskData[0],
-            deadline: dayjs(taskData[0].deadline),
+            ...taskData,
+            deadline: dayjs(taskData.deadline),
           }}
         >
           <Form.Item name="title">
@@ -116,6 +116,7 @@ export default function UpdateTaskPanel() {
                 }
                 options={selectOptions}
                 onBlur={blurHandler}
+                allowClear={true}
               />
             </Form.Item>
             <Form.Item name="deadline" label="Deadline">
