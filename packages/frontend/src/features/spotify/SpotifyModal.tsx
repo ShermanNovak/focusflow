@@ -1,13 +1,19 @@
-import { Modal, Input, Table, InputRef } from "antd"
+import { Modal, Input, Table, InputRef } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import { spotifySearch } from "../../services/spotify.service";
+import { setSOTD } from "../../services/sotd.service";
 
-export default function SpotifyModal({ open, showModal, selectedSong, setSelectedSong } : { 
-  open: boolean, 
-  showModal: React.Dispatch<React.SetStateAction<boolean>>,
-  selectedSong: Spotify.Track,
-  setSelectedSong: React.Dispatch<React.SetStateAction<Spotify.Track>>,
+export default function SpotifyModal({
+  open,
+  showModal,
+  selectedSong,
+  setSelectedSong,
+}: {
+  open: boolean;
+  showModal: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedSong: Spotify.Track;
+  setSelectedSong: React.Dispatch<React.SetStateAction<Spotify.Track>>;
 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Spotify.Track[]>([]);
@@ -20,17 +26,25 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
     {
       title: "#",
       dataIndex: "key",
-      key: "key"
+      key: "key",
     },
     {
       title: "Title",
       key: "title",
       render: (track: Spotify.Track) => (
         <div className="flex w-96 cursor-pointer">
-          <img className="h-10 w-10 my-auto mr-3" src={track.album.images[track.album.images.length-1].url} alt=""/>
+          <img
+            className="h-10 w-10 my-auto mr-3"
+            src={track.album.images[track.album.images.length - 1].url}
+            alt=""
+          />
           <div className="text-ellipsis whitespace-nowrap overflow-hidden">
             <b>{track.name}</b>
-            <p className="my-0 text-ellipsis overflow-hidden">{track.artists.map((artist: Spotify.Entity) => artist.name).join(", ")}</p>
+            <p className="my-0 text-ellipsis overflow-hidden">
+              {track.artists
+                .map((artist: Spotify.Entity) => artist.name)
+                .join(", ")}
+            </p>
           </div>
         </div>
       ),
@@ -39,15 +53,19 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
       title: "Album",
       dataIndex: "album",
       key: "album",
-      render: (album: Spotify.Album) => <div className="text-ellipsis whitespace-nowrap w-48 overflow-hidden">{album.name}</div> 
+      render: (album: Spotify.Album) => (
+        <div className="text-ellipsis whitespace-nowrap w-48 overflow-hidden">
+          {album.name}
+        </div>
+      ),
     },
-  ]
+  ];
   const fetchSpotifyResults = (query: string) => {
     spotifySearch(query).then((data) => {
-      setResults(data.tracks.items)
+      setResults(data.tracks.items);
       setLoading(false);
     });
-  }
+  };
 
   useEffect(() => {
     if (query) {
@@ -56,7 +74,7 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
     } else {
       setResults([]);
     }
-  }, [query])
+  }, [query]);
 
   return (
     <Modal
@@ -70,8 +88,10 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
         if (ref.current && ref.current.input) ref.current.input.value = "";
       }}
       onOk={() => {
+        const selectedSong = results[selectedKey - 1];
         setQuery("");
-        setSelectedSong(results[selectedKey-1])
+        setSelectedSong(selectedSong);
+        setSOTD({ name: selectedSong.name, uri: selectedSong.uri, user: "" });
         setResults([]);
         showModal(false);
         setSelectedKey(null);
@@ -81,20 +101,39 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
       centered
       width={720}
     >
-      {selectedSong &&
+      {selectedSong && (
         <div className="flex w-96 mb-3 ml-1">
-          <img className="h-10 w-10 my-auto mr-3" src={selectedSong.album.images[selectedSong.album.images.length-1].url} alt=""/>
+          <img
+            className="h-10 w-10 my-auto mr-3"
+            src={
+              selectedSong.album.images[selectedSong.album.images.length - 1]
+                .url
+            }
+            alt=""
+          />
           <div className="text-ellipsis whitespace-nowrap overflow-hidden">
             <b>{selectedSong.name}</b>
-            <p className="my-0 text-ellipsis overflow-hidden">{selectedSong.artists.map((artist: Spotify.Entity) => artist.name).join(", ")}</p>
+            <p className="my-0 text-ellipsis overflow-hidden">
+              {selectedSong.artists
+                .map((artist: Spotify.Entity) => artist.name)
+                .join(", ")}
+            </p>
           </div>
         </div>
-      }
-      <Input placeholder="Search for a song" onChange={debounce((event) => setQuery(event.target.value), 250)} ref={ref} allowClear/>
-      {query && 
-        <Table 
+      )}
+      <Input
+        placeholder="Search for a song"
+        onChange={debounce((event) => setQuery(event.target.value), 250)}
+        ref={ref}
+        allowClear
+      />
+      {query && (
+        <Table
           className="mt-4"
-          dataSource={results.map((item, index) => ({...item, key: index + 1}))}
+          dataSource={results.map((item, index) => ({
+            ...item,
+            key: index + 1,
+          }))}
           columns={columns}
           size={"small"}
           loading={loading}
@@ -108,11 +147,11 @@ export default function SpotifyModal({ open, showModal, selectedSong, setSelecte
           }}
           onRow={(row) => ({
             onClick: () => {
-              setSelectedKey(row.key)
-            }
+              setSelectedKey(row.key);
+            },
           })}
         />
-      }
+      )}
     </Modal>
   );
 }
