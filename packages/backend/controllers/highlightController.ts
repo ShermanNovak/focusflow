@@ -16,41 +16,43 @@ class HighlightController {
 
     public async getHighlight (req: AuthenticatedRequest, res: Response) {
         try {
-            const { date } = req.params;
-            const startDate = new Date(date); // today's date
+            // const { date } = req.params;
+            const startDate = new Date(); // today's date
             startDate.setHours(0, 0, 0, 0); // set time to 00:00:00:000
-            const endDate = new Date(date);
+            const endDate = new Date();
             endDate.setHours(23, 59, 59, 999); // set time to 23:59:59:999
 
-            const highlights = await Highlight.findOne({
-                createdAt: { $gte: startDate, $lt: endDate }// >= startdate and < enddate -> within the day
-            });
+            const highlight = await Highlight.findOne(
+                { createdAt: { $gte: startDate, $lt: endDate } }, // >= startDate and < endDate -> within the day
+                null, // include all fields when returning
+                { sort: { createdAt: -1 } } // sort by createdAt field in descending order
+            );
 
-            if (highlights.length === 0) {
+            if (highlight.length === 0) {
                 return res.status(404).json({ error: 'No highlights found for today' });
             }
-            res.json(highlights);
+            res.json(highlight);
           } catch (error: any) { // to catch errors
             res.status(400).json({ error: error.message })
         }
     }
+    // BELOW IS UPDATE HIGHLIGHT - TBC IF WANT TO LEAVE IN OR TAKE OUT
+    // public async updateHighlight (req: AuthenticatedRequest, res: Response) {
+    //     const { date } = req.params;
+    //     const startDate = new Date(date); // today's date
+    //     startDate.setHours(0, 0, 0, 0); // set time to 00:00:00:000
+    //     const endDate = new Date(date);
+    //     endDate.setHours(23, 59, 59, 999); // set time to 23:59:59:999
 
-    public async updateHighlight (req: AuthenticatedRequest, res: Response) {
-        const { date } = req.params;
-        const startDate = new Date(date); // today's date
-        startDate.setHours(0, 0, 0, 0); // set time to 00:00:00:000
-        const endDate = new Date(date);
-        endDate.setHours(23, 59, 59, 999); // set time to 23:59:59:999
+    //     const highlight = await Highlight.findOneAndUpdate(
+    //         { createdAt: { $gte: startDate, $lt: endDate } }, // filter by date range
+    //         { $set: { content: req.body.content } }, // update content
+    //         { new: true }, // return updated highlight
+    //     )
+    //     if (!highlight) return res.status(404).json({ error: 'No highlight for today' });
 
-        const highlight = await Highlight.findOneAndUpdate(
-            { createdAt: { $gte: startDate, $lt: endDate } }, // filter by date range
-            { $set: { content: req.body.content } }, // update content
-            { new: true }, // return updated highlight
-        )
-        if (!highlight) return res.status(404).json({ error: 'No highlight for today' });
-
-        res.json(highlight);
-    }
+    //     res.json(highlight);
+    // }
 }
 
 export const highlightController = new HighlightController();

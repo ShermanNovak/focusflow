@@ -9,8 +9,8 @@ router.use(requireAuth); // requires user to sign in
 
 router.post("/", highlightController.createHighlight);
 
-router.get("/:date", highlightController.getHighlight);
+router.get("/", highlightController.getHighlight);
 
-router.patch("/:date", highlightController.updateHighlight);
+// router.patch("/:date", highlightController.updateHighlight);
 
 export default router;
