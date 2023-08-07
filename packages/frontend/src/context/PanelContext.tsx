@@ -1,13 +1,15 @@
 import { useState, createContext } from "react";
 
 export const PanelContext = createContext({
+  currentTask: "",
+  changeCurrentTask: (task_id: string) => {},
   showCreateTaskPanel: false,
   showUpdateTaskPanel: false,
   showSessionPanel: false,
-  showCreateJEntryPanel: false,
-  showUpdateJEntryPanel: false,
   showCreateEventPanel: false,
   showUpdateEventPanel: false,
+  showCreateJEntryPanel: false,
+  showUpdateJEntryPanel: false,
   openCreateTaskPanel: () => {},
   closeCreateTaskPanel: () => {},
   openUpdateTaskPanel: () => {},
@@ -25,6 +27,7 @@ export const PanelContext = createContext({
 });
 
 export function PanelContextProvider(props: any) {
+  const [currentTask, setCurrentTask] = useState("");
   const [showCreateTaskPanel, setShowCreateTaskPanel] = useState(false);
   const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
   const [showSessionPanel, setShowSessionPanel] = useState(false);
@@ -37,6 +40,8 @@ export function PanelContextProvider(props: any) {
     setShowCreateTaskPanel(false);
     setShowUpdateTaskPanel(false);
     setShowSessionPanel(false);
+    setShowCreateEventPanel(false);
+    setShowUpdateEventPanel(false);
     setShowCreateJEntryPanel(false);
     setShowUpdateJEntryPanel(false);
     setShowCreateEventPanel(false);
@@ -73,11 +78,20 @@ export function PanelContextProvider(props: any) {
     setShowSessionPanel(false);
   }
 
+  function openUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(true);
+  }
+
+  function closeUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(false);
+  }
   function openCreateJEntryPanel() {
     resetPanels();
     setShowCreateJEntryPanel(true);
   }
-  
+
   function closeCreateJEntryPanel() {
     resetPanels();
     setShowCreateJEntryPanel(false);
@@ -87,12 +101,11 @@ export function PanelContextProvider(props: any) {
     resetPanels();
     setShowUpdateJEntryPanel(true);
   }
-  
+
   function closeUpdateJEntryPanel() {
     resetPanels();
     setShowUpdateJEntryPanel(false);
   }
-
 
   function openCreateEventPanel() {
     resetPanels();
@@ -104,40 +117,36 @@ export function PanelContextProvider(props: any) {
     setShowCreateEventPanel(false);
   }
 
-  function openUpdateEventPanel() {
-    resetPanels();
-    setShowUpdateEventPanel(true);
-  }
-
-  function closeUpdateEventPanel() {
-    resetPanels();
-    setShowUpdateEventPanel(false);
+  function changeCurrentTask(task_id: string) {
+    setCurrentTask(task_id);
   }
 
   return (
     <PanelContext.Provider
       value={{
+        currentTask,
+        changeCurrentTask,
         showCreateTaskPanel,
         showUpdateTaskPanel,
         showSessionPanel,
-        showCreateJEntryPanel,
-        showUpdateJEntryPanel,
         showCreateEventPanel,
         showUpdateEventPanel,
+        showCreateJEntryPanel,
+        showUpdateJEntryPanel,
         openCreateTaskPanel,
         closeCreateTaskPanel,
         openUpdateTaskPanel,
         closeUpdateTaskPanel,
-        openCreateJEntryPanel,
-        closeCreateJEntryPanel,
-        openUpdateJEntryPanel,
-        closeUpdateJEntryPanel,
         openSessionPanel,
         closeSessionPanel,
         openCreateEventPanel,
         closeCreateEventPanel,
         openUpdateEventPanel,
-        closeUpdateEventPanel
+        closeUpdateEventPanel,
+        openCreateJEntryPanel,
+        closeCreateJEntryPanel,
+        openUpdateJEntryPanel,
+        closeUpdateJEntryPanel,
       }}
     >
       {props.children}

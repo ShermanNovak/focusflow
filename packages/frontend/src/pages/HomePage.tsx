@@ -1,17 +1,23 @@
 import toast from "react-hot-toast";
-import { useState } from "react";
 
-import { KeyboardEvent } from "react";
-import { Input, Form } from "antd";
-import { useTaskCreation } from "../api/tasks.query";
+import { useState, KeyboardEvent, useContext } from "react";
+import { Input, Form, Checkbox } from "antd";
+import {
+  useEventsQuery,
+  useTaskCreation,
+  useTasksQuery,
+} from "../api/tasks.query";
 import { JournalEntry } from "../types/jentry.d";
 import { useJournalEntryCreation } from "../api/jentry.query";
 import { useJEntryQuery } from "../api/jentry.query";
-import { useHighlightCreation } from "../api/highlight.query";
-import { useHighlightQuery } from "../api/highlight.query";
-
+import { useFilePicker } from "use-file-picker";
+import { useImageQuery } from "../api/image.query";
+import { axiosImageInstance } from "../api/axios";
+import {
+  useHighlightQuery,
+  useHighlightCreation,
+} from "../api/highlight.query";
 import { PanelContext } from "../context/PanelContext";
-import { useContext } from "react";
 
 import SmallCaps from "../components/SmallCaps";
 
@@ -37,6 +43,7 @@ export default function HomePage() {
       }
     }
   };
+  const { data: tasksData } = useTasksQuery();
 
   const createHighlightHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -50,6 +57,37 @@ export default function HomePage() {
       }
     }
   };
+
+  const { data: eventsData } = useEventsQuery();
+
+  const { data: imageData } = useImageQuery();
+
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      try {
+        const formData = new FormData();
+        formData.append("actualFile", plainFiles[0]);
+        axiosImageInstance
+          .post("photooftheday", formData)
+          .then(function (response: any) {
+            //handle success
+            console.log(response);
+          });
+        toast.success("Successfully uploaded image");
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    },
+  });
+
+
+
+  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+
   const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
 
   const journalentry_id = "64ac1f7f9259486213d36139"; // journal entry hardcoded id
@@ -93,7 +131,6 @@ export default function HomePage() {
       </div>
     );
   };
-
   // to get name from user context
   return (
     <div className="p-8 w-full">
@@ -119,17 +156,16 @@ export default function HomePage() {
           </div>
           {highlightIsLoading && <h6>Fetching Higlight Entry...</h6>}
           {!highlightIsLoading && (
-            <Form form={highlightForm} initialValues={highlightData}>
-              <Form.Item name="content">
-                <Input
-                  className="bg-pale-yellow"
-                  onKeyDown={createHighlightHandler}
-                />
-              </Form.Item>
-            </Form>
+          <Form 
+            form={highlightForm}
+            initialValues={highlightData}
+            >
+            <Form.Item name="content">
+              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
+            </Form.Item>
+          </Form>
           )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-          <JournalEntry entry={JEntryQuery.data?.entry || null} />
         </div>
 
         <div>
@@ -155,6 +191,20 @@ export default function HomePage() {
               <Input className="bg-pale-purple" onKeyDown={createTaskHandler} />
             </Form.Item>
           </Form>
+          <div className="flex flex-col gap-y-5">
+            {tasksData &&
+              tasksData.map((task: any) => (
+                <span
+                  key={task._id}
+                  onClick={() => {
+                    panelContext.changeCurrentTask(task._id);
+                    panelContext.openUpdateTaskPanel();
+                  }}
+                >
+                  {task.title}
+                </span>
+              ))}
+          </div>
         </div>
       </div>
     </div>

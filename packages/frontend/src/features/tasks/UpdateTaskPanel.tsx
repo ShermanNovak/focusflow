@@ -25,11 +25,11 @@ import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 import DashedButton from "../../components/DashedButton";
 
-const task_id = "64ae82495e0b764c0dfcf7e2";
-
 export default function UpdateTaskPanel() {
+  const panelContext = useContext(PanelContext);
+
   const [form] = Form.useForm();
-  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(task_id);
+  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(panelContext.currentTask);
 
   const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
@@ -41,14 +41,14 @@ export default function UpdateTaskPanel() {
     }));
   }
 
-  const updateTaskMutation = useTaskUpdate(task_id);
+  const updateTaskMutation = useTaskUpdate(panelContext.currentTask);
 
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
     updateTaskMutation.mutate(updatedData);
   };
 
-  const deleteTaskMutation = useTaskDelete(task_id);
+  const deleteTaskMutation = useTaskDelete(panelContext.currentTask);
   const { confirm } = Modal;
 
   const deleteTaskHandler = () => {
@@ -59,7 +59,7 @@ export default function UpdateTaskPanel() {
         "Are you sure you want to delete this task? This action cannot be undone. Deleting the task will remove it permanently from the system",
       okText: "Confirm",
       onOk() {
-        deleteTaskMutation.mutate(task_id);
+        deleteTaskMutation.mutate(panelContext.currentTask);
         toast.success("Successfully deleted task");
       },
       onCancel() {
@@ -67,9 +67,7 @@ export default function UpdateTaskPanel() {
       },
     });
   };
-
-  const panelContext = useContext(PanelContext);
-
+  console.log(panelContext.currentTask)
   return (
     <RightPanel>
       {taskIsLoading && <h2>Loading</h2>}
