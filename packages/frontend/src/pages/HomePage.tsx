@@ -47,11 +47,10 @@ export default function HomePage() {
       }
     }
   }
-  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry 
+  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry 
   
   const { data: eventsData } = useEventsQuery();
   console.log(tasksData);
-  console.log(new Date(tasksData[1].deadline).getDate())
 
   const { data: imageData } = useImageQuery();
 
@@ -103,8 +102,6 @@ export default function HomePage() {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-          {highlightIsLoading && <h6>Fetching Higlight Entry...</h6>}
-          {!highlightIsLoading && (
           <Form 
             form={highlightForm}
             initialValues={highlightData}
@@ -113,7 +110,6 @@ export default function HomePage() {
               <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
             </Form.Item>
           </Form>
-          )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           {eventsData && eventsData.map((event: any) => event.title)}
           <div>

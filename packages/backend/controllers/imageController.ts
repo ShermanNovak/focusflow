@@ -40,7 +40,7 @@ class ImageController {
       createdAt: { $gte: startDate, $lt: endDate },
       user: req.user_id,
     }).sort({ createdAt: -1 });
-    if (!images) return res.status(404).json({ error: "No images found" });
+    if (!images) return res.json({});
 
     res.json(images);
   }
