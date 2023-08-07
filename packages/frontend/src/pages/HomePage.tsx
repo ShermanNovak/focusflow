@@ -10,8 +10,10 @@ import {
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
-import { useHighlightCreation } from "../api/highlight.query";
-import { useHighlightQuery } from "../api/highlight.query";
+import {
+  useHighlightQuery,
+  useHighlightCreation,
+} from "../api/highlight.query";
 import { PanelContext } from "../context/PanelContext";
 
 import SmallCaps from "../components/SmallCaps";
@@ -53,7 +55,6 @@ export default function HomePage() {
   const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
 
   const { data: eventsData } = useEventsQuery();
-  console.log(tasksData);
 
   const { data: imageData } = useImageQuery();
 
@@ -66,9 +67,8 @@ export default function HomePage() {
       try {
         const formData = new FormData();
         formData.append("actualFile", plainFiles[0]);
-        console.log(plainFiles[0]);
         axiosImageInstance
-          .post("uploadfile", formData)
+          .post("photooftheday", formData)
           .then(function (response: any) {
             //handle success
             console.log(response);
@@ -114,7 +114,10 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-          {eventsData && eventsData.map((event: any) => event.title)}
+          {eventsData &&
+            eventsData.map((event: any) => (
+              <span key={event._id}>{event.title}</span>
+            ))}
           <div>
             {!imageData && filesContent.length < 1 && (
               <button
@@ -191,6 +194,7 @@ export default function HomePage() {
             {tasksData &&
               tasksData.map((task: any) => (
                 <span
+                  key={task._id}
                   onClick={() => {
                     panelContext.changeCurrentTask(task._id);
                     panelContext.openUpdateTaskPanel();

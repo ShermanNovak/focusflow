@@ -28,8 +28,8 @@ class HighlightController {
                 { sort: { createdAt: -1 } } // sort by createdAt field in descending order
             );
 
-            if (highlight.length === 0) {
-                return res.status(404).json({ error: 'No highlights found for today' });
+            if (!highlight) {
+                return res.json({});
             }
             res.json(highlight);
           } catch (error: any) { // to catch errors

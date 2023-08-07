@@ -13,7 +13,7 @@ export const axiosInstance = axios.create({
 });
 
 export const axiosImageInstance = axios.create({
-  baseURL: "http://localhost:3001/api/image/",
+  baseURL: "http://localhost:3001/api/images/",
   headers: {
     "Content-Type": "multipart/form-data",
     Authorization: `Bearer ${TOKEN}`,

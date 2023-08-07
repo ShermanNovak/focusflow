@@ -9,6 +9,8 @@ router.use(requireAuth);
 
 router.get("/", imageController.getImageFiles);
 
-router.post("/uploadfile", imageController.uploadImageFile);
+router.post("/journal", imageController.uploadJournalPhoto);
+
+router.post("/photooftheday", imageController.uploadPhotoOfTheDay);
 
 export default router;
