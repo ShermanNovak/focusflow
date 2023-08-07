@@ -40,7 +40,7 @@ export default function HomePage() {
         formData.append("actualFile", plainFiles[0]);
         console.log(plainFiles[0]);
         axiosImageInstance
-          .post("http://localhost:3001/api/image/uploadfile", formData)
+          .post("uploadfile", formData)
           .then(function (response: any) {
             //handle success
             console.log(response);
