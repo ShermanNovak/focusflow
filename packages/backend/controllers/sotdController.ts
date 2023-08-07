@@ -13,7 +13,7 @@ class SOTDController {
 
   public async getSong(req: AuthenticatedRequest, res: Response) {
     const { date } = req.query;
-    if (!date) return res.status(400).json({ error: "date required in body" });
+    if (!date) return res.status(400).json({ error: "date required as param" });
 
     const start = new Date(date.toString());
     start.setHours(0, 0, 0, 0);
