@@ -11,7 +11,6 @@ import { useContext } from "react";
 
 export default function JournalPanel() {
     const [form] = Form.useForm(); // use the form in the journal i.e. title and body
-    // const { data: JournalEntry } = useJEntryQuery(); // fetching data from prev journal entry (dont need for creation?), CURRENTLY RETURNS VOID
     const createJEntryMutation = useJournalEntryCreation(); // use the mutation to create a new journal entry
 
     const formSubmissionHandler = () => {

@@ -8,6 +8,8 @@ export const PanelContext = createContext({
   showUpdateEventPanel: false,
   showCreateJEntryPanel: false,
   showUpdateJEntryPanel: false,
+  showCreateEventPanel: false,
+  showUpdateEventPanel: false,
   openCreateTaskPanel: () => {},
   closeCreateTaskPanel: () => {},
   openUpdateTaskPanel: () => {},
@@ -32,6 +34,8 @@ export function PanelContextProvider(props: any) {
   const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
   const [showCreateJEntryPanel, setShowCreateJEntryPanel] = useState(false);
   const [showUpdateJEntryPanel, setShowUpdateJEntryPanel] = useState(false);
+  const [showCreateEventPanel, setShowCreateEventPanel] = useState(false);
+  const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
 
   function resetPanels() {
     setShowCreateTaskPanel(false);
@@ -41,6 +45,8 @@ export function PanelContextProvider(props: any) {
     setShowUpdateEventPanel(false);
     setShowCreateJEntryPanel(false);
     setShowUpdateJEntryPanel(false);
+    setShowCreateEventPanel(false);
+    setShowUpdateEventPanel(false);
   }
 
   function openCreateTaskPanel() {
@@ -113,6 +119,26 @@ export function PanelContextProvider(props: any) {
   }
 
 
+  function openCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(true);
+  }
+
+  function closeCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(false);
+  }
+
+  function openUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(true);
+  }
+
+  function closeUpdateEventPanel() {
+    resetPanels();
+    setShowUpdateEventPanel(false);
+  }
+
   return (
     <PanelContext.Provider
       value={{
@@ -123,6 +149,8 @@ export function PanelContextProvider(props: any) {
         showUpdateEventPanel,
         showCreateJEntryPanel,
         showUpdateJEntryPanel,
+        showCreateEventPanel,
+        showUpdateEventPanel,
         openCreateTaskPanel,
         closeCreateTaskPanel,
         openUpdateTaskPanel,
@@ -137,6 +165,12 @@ export function PanelContextProvider(props: any) {
         closeCreateJEntryPanel,
         openUpdateJEntryPanel,
         closeUpdateJEntryPanel,
+        openSessionPanel,
+        closeSessionPanel,
+        openCreateEventPanel,
+        closeCreateEventPanel,
+        openUpdateEventPanel,
+        closeUpdateEventPanel
       }}
     >
       {props.children}

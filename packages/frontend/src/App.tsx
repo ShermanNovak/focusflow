@@ -16,6 +16,8 @@ import CreateEventPanel from "./features/events/CreateEventPanel";
 import UpdateEventPanel from "./features/events/UpdateEventPanel";
 import Spotify from "./pages/Spotify"
 import SpotifyModal from "./features/spotify/SpotifyModal";
+import Spotify from "./pages/Spotify"
+import SpotifyModal from "./features/spotify/SpotifyModal";
 
 function App() {
   const panelContext = useContext(PanelContext);
@@ -41,6 +43,8 @@ function App() {
       {panelContext.showCreateEventPanel && <CreateEventPanel />}
       {panelContext.showUpdateEventPanel && <UpdateEventPanel />}
       {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
+      {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
+      {panelContext.showUpdateJEntryPanel && <UpdateJEntryPanel />}
     </div>
   );
 }

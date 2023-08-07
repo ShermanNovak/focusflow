@@ -4,6 +4,8 @@ import { DatePicker, Form, Input, Button, Space } from "antd";
 import { useTaskCreation } from "../../api/tasks.query";
 import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
+import DashedButton from "../../components/DashedButton";
+import { CameraFilled } from "@ant-design/icons";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
@@ -44,7 +46,7 @@ export default function CreateEventPanel() {
             bordered={false}
           />
         </Form.Item>
-        <SmallCaps text="description" />
+        <SmallCaps text="description" className="-mt-4" /> {/* xl:mt-0 */}
         <Form.Item name="description">
           <Input.TextArea
             autoSize
@@ -53,16 +55,76 @@ export default function CreateEventPanel() {
             bordered={false}
           />
         </Form.Item>
-        <SmallCaps text="details" />
-        <div className="bg-white rounded-lg p-4 mb-4">
-          <Form.Item name="startTime" label="Start" rules={[{ required: true }]}>
-            <DatePicker showTime bordered={false} className="px-0" />
+        <SmallCaps text="details" className="-mt-4" /> {/* xl:mt-0 */}
+        <div className="bg-white rounded-lg px-4 py-1 mb-4">
+          <Form.Item
+            name="goalName"
+            label="Goal:"
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
           </Form.Item>
-          <Form.Item name="endTime" label="End" rules={[{ required: true }]}>
-            <DatePicker showTime bordered={false} className="px-0" />
+          <div className="grid grid-cols-2 gap-4">
+            <Form.Item
+              name="startTime"
+              label="Start"
+              className="mb-1"
+              rules={[{ required: true }]}
+            >
+              <DatePicker showTime bordered={false} className="px-0" />
+            </Form.Item>
+            <Form.Item
+              name="endTime"
+              label="End"
+              className="mb-1"
+              rules={[{ required: true }]}
+            >
+              <DatePicker showTime bordered={false} className="px-0" />
+            </Form.Item>
+          </div>
+          <Form.Item
+            name=""
+            label="Location: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Google Meet: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Guests: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Repeat: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
           </Form.Item>
         </div>
       </Form>
+      <div className="mx-auto my-auto">
+        <DashedButton
+          boldText="Snap a photo to commerate your event."
+          text="What picture best represents the event?"
+        >
+          <CameraFilled className="text-2xl" />
+        </DashedButton>
+      </div>
       <Space>
         <Button type="primary" htmlType="submit" className="my-2">
           Submit

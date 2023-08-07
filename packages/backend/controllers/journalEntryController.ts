@@ -6,7 +6,7 @@ const JournalEntry = require("../models/JournalEntry");
 class JournalEntryController {
   public async getJournalEntries(req: AuthenticatedRequest, res: Response) {
     const journalEntries = await JournalEntry.find({
-      user: req.params.id,
+      user: req.user_id,
     }).sort({ createdAt: -1 });
     res.json(journalEntries);
   }
@@ -22,7 +22,7 @@ class JournalEntryController {
     try {
       const entry = await JournalEntry.create({
         ...req.body,
-        user: req.params.id,
+        user: req.user_id,
       });
       res.json(entry);
     } catch (error: any) {
