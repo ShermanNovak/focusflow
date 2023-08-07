@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent, useContext } from "react";
-import { Input, Form, Checkbox } from "antd";
+import { Input, Form, List } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
@@ -114,7 +114,15 @@ export default function HomePage() {
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           {eventsData &&
             eventsData.map((event: any) => (
-              <div key={event._id} className="flex flex-row gap-x-3"><span>{new Date(event.startTime).getHours()}{new Date(event.startTime).getMinutes()} - {new Date(event.endTime).getHours()}{new Date(event.endTime).getMinutes()}</span><span>{event.title}</span></div>
+              <div key={event._id} className="flex flex-row gap-x-3">
+                <span>
+                  {new Date(event.startTime).getHours()}
+                  {new Date(event.startTime).getMinutes()} -{" "}
+                  {new Date(event.endTime).getHours()}
+                  {new Date(event.endTime).getMinutes()}
+                </span>
+                <span>{event.title}</span>
+              </div>
             ))}
           <div className="py-5">
             {!imageData && filesContent.length < 1 && (
@@ -189,18 +197,20 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <div className="flex flex-col gap-y-5">
-            {tasksData &&
-              tasksData.map((task: any) => (
-                <span
-                  key={task._id}
+            <List
+              bordered
+              dataSource={tasksData}
+              renderItem={(task: any) => (
+                <List.Item
                   onClick={() => {
                     panelContext.changeCurrentTask(task._id);
                     panelContext.openUpdateTaskPanel();
                   }}
                 >
                   {task.title}
-                </span>
-              ))}
+                </List.Item>
+              )}
+            />
           </div>
         </div>
       </div>
