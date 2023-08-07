@@ -109,6 +109,7 @@ export default function UpdateJournalPanel() {
           <img
             alt="journal entry"
             src={jentrydata.imageURL}
+            className="rounded object-cover w-full drop-shadow"
             onClick={() => {
               openFileSelector();
             }}
@@ -118,7 +119,7 @@ export default function UpdateJournalPanel() {
           <img
             alt={filesContent[0].name}
             src={filesContent[0].content}
-            className="rounded w-72 drop-shadow"
+            className="rounded object-cover w-full drop-shadow"
             onClick={() => {
               openFileSelector();
             }}

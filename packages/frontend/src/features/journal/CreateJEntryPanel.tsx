@@ -87,7 +87,7 @@ export default function JournalPanel() {
           <img
             alt={filesContent[0].name}
             src={filesContent[0].content}
-            className="rounded h-52 drop-shadow"
+            className="rounded object-cover w-full drop-shadow"
             onClick={() => {
               openFileSelector();
             }}
