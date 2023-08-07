@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useContext } from "react";
 import { Input, Form, Checkbox } from "antd";
 import {
   useEventsQuery,
@@ -12,10 +12,13 @@ import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
 import { useHighlightCreation } from "../api/highlight.query";
 import { useHighlightQuery } from "../api/highlight.query";
+import { PanelContext } from "../context/PanelContext";
 
 import SmallCaps from "../components/SmallCaps";
 
 export default function HomePage() {
+  const panelContext = useContext(PanelContext);
+
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
   const createHighlightMutation = useHighlightCreation();
@@ -46,9 +49,9 @@ export default function HomePage() {
         toast.error(e.message);
       }
     }
-  }
-  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry 
-  
+  };
+  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
+
   const { data: eventsData } = useEventsQuery();
   console.log(tasksData);
 
@@ -102,12 +105,12 @@ export default function HomePage() {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-          <Form 
-            form={highlightForm}
-            initialValues={highlightData}
-            >
+          <Form form={highlightForm} initialValues={highlightData}>
             <Form.Item name="content">
-              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
+              <Input
+                className="bg-pale-yellow"
+                onKeyDown={createHighlightHandler}
+              />
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
@@ -187,10 +190,13 @@ export default function HomePage() {
           <div className="flex flex-col gap-y-5">
             {tasksData &&
               tasksData.map((task: any) => (
-                <span>
-                  <Checkbox value={task._id} id={task._id}>
-                    {task.title}
-                  </Checkbox>
+                <span
+                  onClick={() => {
+                    panelContext.changeCurrentTask(task._id);
+                    panelContext.openUpdateTaskPanel();
+                  }}
+                >
+                  {task.title}
                 </span>
               ))}
           </div>
