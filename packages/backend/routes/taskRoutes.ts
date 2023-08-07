@@ -11,6 +11,8 @@ router.param("id", requireValidId);
 
 router.get("/", taskController.getTasksOnly);
 
+router.get("/events", taskController.getEventsOnly);
+
 router.get("/:id", taskController.getTask);
 
 router.post("/", taskController.createTask);

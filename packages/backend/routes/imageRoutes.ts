@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.use(requireAuth);
 
-router.post("/upload", imageController.uploadImage); 
-router.post("/uploadfile", imageController.uploadImageFile); 
+router.get("/", imageController.getImageFiles);
+
+router.post("/uploadfile", imageController.uploadImageFile);
 
 export default router;

@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
-import { uploadImage } from "../services/image.service";
+import { useQuery } from "@tanstack/react-query";
+import { getImages } from "../services/image.service";
 
-export const useImageUpload = () => {
-  return useMutation({
-    mutationFn: uploadImage,
+export const useImageQuery = () => {
+  return useQuery({
+    queryKey: ["images"],
+    queryFn: () => getImages(),
   });
 };

@@ -1,15 +1,13 @@
 import toast from "react-hot-toast";
-import axios from "axios";
 
 import { useState, KeyboardEvent } from "react";
 import { Input, Form } from "antd";
-import { useTaskCreation } from "../api/tasks.query";
+import { useEventsQuery, useTaskCreation } from "../api/tasks.query";
 import { useFilePicker } from "use-file-picker";
+import { useImageQuery } from "../api/image.query";
+import { axiosImageInstance } from "../api/axios";
 
 import SmallCaps from "../components/SmallCaps";
-
-const TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2OTA2Njc2MDQsImV4cCI6MTY5MDkyNjgwNH0.iVdD470om_kcXmckyJyll3Jshl0YDqBvAo1l_JvbYGU";
 
 export default function HomePage() {
   const createTaskMutation = useTaskCreation();
@@ -27,8 +25,9 @@ export default function HomePage() {
       }
     }
   };
+  const { data: eventsData } = useEventsQuery();
 
-  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+  const { data: imageData } = useImageQuery();
 
   const [openFileSelector, { filesContent }] = useFilePicker({
     readAs: "DataURL",
@@ -39,13 +38,9 @@ export default function HomePage() {
       try {
         const formData = new FormData();
         formData.append("actualFile", plainFiles[0]);
-        axios
-          .post("http://localhost:3001/api/image/uploadfile", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${TOKEN}`,
-            },
-          })
+        console.log(plainFiles[0]);
+        axiosImageInstance
+          .post("http://localhost:3001/api/image/uploadfile", formData)
           .then(function (response: any) {
             //handle success
             console.log(response);
@@ -56,6 +51,8 @@ export default function HomePage() {
       }
     },
   });
+
+  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
 
   // to get name from user context
   return (
@@ -86,8 +83,11 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
+            {eventsData && eventsData.map((event: any) => (
+              event.title
+            ))}
           <div>
-            {filesContent.length < 1 && (
+            {!imageData && filesContent.length < 1 && (
               <button
                 onClick={() => {
                   openFileSelector();
@@ -118,6 +118,19 @@ export default function HomePage() {
                 alt={filesContent[0].name}
                 src={filesContent[0].content}
                 className="rounded w-72 drop-shadow"
+                onClick={() => {
+                  openFileSelector();
+                }}
+              ></img>
+            )}
+            {(imageData && filesContent.length < 1) && (
+              <img
+                alt="photo_of_the_day"
+                src={imageData.url}
+                className="rounded w-72 drop-shadow"
+                onClick={() => {
+                  openFileSelector();
+                }}
               ></img>
             )}
           </div>
