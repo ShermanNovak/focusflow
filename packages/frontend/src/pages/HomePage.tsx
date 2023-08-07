@@ -53,9 +53,7 @@ export default function HomePage() {
     }
   };
   const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
-
   const { data: eventsData } = useEventsQuery();
-
   const { data: imageData } = useImageQuery();
 
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -116,15 +114,15 @@ export default function HomePage() {
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           {eventsData &&
             eventsData.map((event: any) => (
-              <span key={event._id}>{event.title}</span>
+              <div key={event._id} className="flex flex-row gap-x-3"><span>{new Date(event.startTime).getHours()}{new Date(event.startTime).getMinutes()} - {new Date(event.endTime).getHours()}{new Date(event.endTime).getMinutes()}</span><span>{event.title}</span></div>
             ))}
-          <div>
+          <div className="py-5">
             {!imageData && filesContent.length < 1 && (
               <button
                 onClick={() => {
                   openFileSelector();
                 }}
-                className="w-72 border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
+                className="border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +147,7 @@ export default function HomePage() {
               <img
                 alt={filesContent[0].name}
                 src={filesContent[0].content}
-                className="rounded w-72 drop-shadow"
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
                 onClick={() => {
                   openFileSelector();
                 }}
@@ -159,7 +157,7 @@ export default function HomePage() {
               <img
                 alt="photo_of_the_day"
                 src={imageData.url}
-                className="rounded w-72 drop-shadow"
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
                 onClick={() => {
                   openFileSelector();
                 }}

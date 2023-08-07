@@ -45,6 +45,7 @@ export default function CreateEventPanel() {
             });
           createTaskMutation.mutate({
             ...values,
+            type: "event",
             imageURL: `https://storage.cloud.google.com/task_photos/${user_id}/${filesContent[0].name}`,
           });
         } else {
@@ -90,7 +91,6 @@ export default function CreateEventPanel() {
             name="goalName"
             label="Goal:"
             className="mb-1"
-            rules={[{ required: true }]}
           >
             <Input size="small" />
           </Form.Item>
@@ -116,7 +116,6 @@ export default function CreateEventPanel() {
             name=""
             label="Location: "
             className="mb-1"
-            rules={[{ required: true }]}
           >
             <Input size="small" />
           </Form.Item>
@@ -124,7 +123,6 @@ export default function CreateEventPanel() {
             name=""
             label="Google Meet: "
             className="mb-1"
-            rules={[{ required: true }]}
           >
             <Input size="small" />
           </Form.Item>
@@ -132,7 +130,6 @@ export default function CreateEventPanel() {
             name=""
             label="Guests: "
             className="mb-1"
-            rules={[{ required: true }]}
           >
             <Input size="small" />
           </Form.Item>
@@ -140,46 +137,45 @@ export default function CreateEventPanel() {
             name=""
             label="Repeat: "
             className="mb-1"
-            rules={[{ required: true }]}
           >
             <Input size="small" />
           </Form.Item>
         </div>
-      </Form>
-      {filesContent.length < 1 && (
-        <div className="mx-auto my-auto">
-          <button
-            className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+        {filesContent.length < 1 && (
+          <div className="mx-auto my-auto">
+            <button
+              className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+              onClick={() => {
+                openFileSelector();
+              }}
+            >
+              <CameraFilled className="text-2xl" />
+              <div className="flex flex-col items-start gap-1 font-sans">
+                <span className="font-bold">Add a photo to your journal</span>
+                <span>What picture best represents your day?</span>
+              </div>
+            </button>
+          </div>
+        )}
+        {filesContent.length > 0 && (
+          <img
+            alt={filesContent[0].name}
+            src={filesContent[0].content}
+            className="py-2 block h-52 rounded drop-shadow"
             onClick={() => {
               openFileSelector();
             }}
-          >
-            <CameraFilled className="text-2xl" />
-            <div className="flex flex-col items-start gap-1 font-sans">
-              <span className="font-bold">Add a photo to your journal</span>
-              <span>What picture best represents your day?</span>
-            </div>
-          </button>
-        </div>
-      )}
-      {filesContent.length > 0 && (
-        <img
-          alt={filesContent[0].name}
-          src={filesContent[0].content}
-          className="py-2 block h-52 rounded drop-shadow"
-          onClick={() => {
-            openFileSelector();
-          }}
-        ></img>
-      )}
-      <Space>
-        <Button type="primary" htmlType="submit" className="my-2">
-          Submit
-        </Button>
-        <Button type="default" onClick={panelContext.closeCreateEventPanel}>
-          Close
-        </Button>
-      </Space>
+          ></img>
+        )}
+        <Space>
+          <Button type="primary" htmlType="submit" className="my-2">
+            Submit
+          </Button>
+          <Button type="default" onClick={panelContext.closeCreateEventPanel}>
+            Close
+          </Button>
+        </Space>
+      </Form>
     </RightPanel>
   );
 }

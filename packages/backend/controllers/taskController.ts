@@ -17,12 +17,10 @@ class TaskController {
 
   public async getEventsOnly(req: AuthenticatedRequest, res: Response) {
     const startDate = new Date().setHours(0, 0, 0, 0);
-    const endDate = new Date().setHours(23, 59, 59, 999);
     const tasks = await Task.find({
       user: req.user_id,
       type: "event",
       startTime: { $gte: startDate },
-      endTime: { $lt: endDate },
     }).sort({
       createdAt: -1,
     });
