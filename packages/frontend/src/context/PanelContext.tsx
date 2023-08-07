@@ -28,10 +28,10 @@ export function PanelContextProvider(props: any) {
   const [showCreateTaskPanel, setShowCreateTaskPanel] = useState(false);
   const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
   const [showSessionPanel, setShowSessionPanel] = useState(false);
-  const [showCreateEventPanel, setShowCreateEventPanel] = useState(false);
-  const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
   const [showCreateJEntryPanel, setShowCreateJEntryPanel] = useState(false);
   const [showUpdateJEntryPanel, setShowUpdateJEntryPanel] = useState(false);
+  const [showCreateEventPanel, setShowCreateEventPanel] = useState(false);
+  const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
 
   function resetPanels() {
     setShowCreateTaskPanel(false);
@@ -41,6 +41,8 @@ export function PanelContextProvider(props: any) {
     setShowUpdateEventPanel(false);
     setShowCreateJEntryPanel(false);
     setShowUpdateJEntryPanel(false);
+    setShowCreateEventPanel(false);
+    setShowUpdateEventPanel(false);
   }
 
   function openCreateTaskPanel() {
@@ -73,16 +75,6 @@ export function PanelContextProvider(props: any) {
     setShowSessionPanel(false);
   }
 
-  function openCreateEventPanel() {
-    resetPanels();
-    setShowCreateEventPanel(true);
-  }
-
-  function closeCreateEventPanel() {
-    resetPanels();
-    setShowCreateEventPanel(false);
-  }
-
   function openUpdateEventPanel() {
     resetPanels();
     setShowUpdateEventPanel(true);
@@ -112,6 +104,16 @@ export function PanelContextProvider(props: any) {
     setShowUpdateJEntryPanel(false);
   }
 
+
+  function openCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(true);
+  }
+
+  function closeCreateEventPanel() {
+    resetPanels();
+    setShowCreateEventPanel(false);
+  }
 
   return (
     <PanelContext.Provider

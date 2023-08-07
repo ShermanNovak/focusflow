@@ -12,6 +12,7 @@ import taskRoutes from "./routes/taskRoutes";
 import userRoutes from "./routes/userRoutes";
 import journalEntryRoutes from "./routes/journalEntryRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
+import highlightRoutes from './routes/highlightRoutes';
 import imageRoutes from "./routes/imageRoutes";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -32,7 +33,8 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
-app.use("/api/image", imageRoutes);
+app.use("/api/highlight", highlightRoutes);
+app.use("/api/images", imageRoutes);
 
 var schema = buildSchema(`
   type Query {
