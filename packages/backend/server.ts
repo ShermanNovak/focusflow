@@ -33,6 +33,8 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
+app.use("/api/highlight", highlightRoutes);
+app.use("/api/images", imageRoutes);
 
 var schema = buildSchema(`
   type Query {

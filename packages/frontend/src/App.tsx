@@ -43,7 +43,6 @@ function App() {
       {panelContext.showCreateEventPanel && <CreateEventPanel />}
       {panelContext.showUpdateEventPanel && <UpdateEventPanel />}
       {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
-      {panelContext.showCreateJEntryPanel && <CreateJEntryPanel />}
       {panelContext.showUpdateJEntryPanel && <UpdateJEntryPanel />}
     </div>
   );
