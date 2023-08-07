@@ -6,6 +6,8 @@ export const PanelContext = createContext({
   showSessionPanel: false,
   showCreateEventPanel: false,
   showUpdateEventPanel: false,
+  showCreateJEntryPanel: false,
+  showUpdateJEntryPanel: false,
   openCreateTaskPanel: () => {},
   closeCreateTaskPanel: () => {},
   openUpdateTaskPanel: () => {},
@@ -16,6 +18,10 @@ export const PanelContext = createContext({
   closeUpdateEventPanel: () => {},
   openSessionPanel: () => {},
   closeSessionPanel: () => {},
+  openCreateJEntryPanel: () => {},
+  closeCreateJEntryPanel: () => {},
+  openUpdateJEntryPanel: () => {},
+  closeUpdateJEntryPanel: () => {},
 });
 
 export function PanelContextProvider(props: any) {
@@ -24,6 +30,8 @@ export function PanelContextProvider(props: any) {
   const [showSessionPanel, setShowSessionPanel] = useState(false);
   const [showCreateEventPanel, setShowCreateEventPanel] = useState(false);
   const [showUpdateEventPanel, setShowUpdateEventPanel] = useState(false);
+  const [showCreateJEntryPanel, setShowCreateJEntryPanel] = useState(false);
+  const [showUpdateJEntryPanel, setShowUpdateJEntryPanel] = useState(false);
 
   function resetPanels() {
     setShowCreateTaskPanel(false);
@@ -31,6 +39,8 @@ export function PanelContextProvider(props: any) {
     setShowSessionPanel(false);
     setShowCreateEventPanel(false);
     setShowUpdateEventPanel(false);
+    setShowCreateJEntryPanel(false);
+    setShowUpdateJEntryPanel(false);
   }
 
   function openCreateTaskPanel() {
@@ -82,6 +92,26 @@ export function PanelContextProvider(props: any) {
     resetPanels();
     setShowUpdateEventPanel(false);
   }
+  function openCreateJEntryPanel() {
+    resetPanels();
+    setShowCreateJEntryPanel(true);
+  }
+  
+  function closeCreateJEntryPanel() {
+    resetPanels();
+    setShowCreateJEntryPanel(false);
+  }
+
+  function openUpdateJEntryPanel() {
+    resetPanels();
+    setShowUpdateJEntryPanel(true);
+  }
+  
+  function closeUpdateJEntryPanel() {
+    resetPanels();
+    setShowUpdateJEntryPanel(false);
+  }
+
 
   return (
     <PanelContext.Provider
@@ -91,6 +121,8 @@ export function PanelContextProvider(props: any) {
         showSessionPanel,
         showCreateEventPanel,
         showUpdateEventPanel,
+        showCreateJEntryPanel,
+        showUpdateJEntryPanel,
         openCreateTaskPanel,
         closeCreateTaskPanel,
         openUpdateTaskPanel,
@@ -101,6 +133,10 @@ export function PanelContextProvider(props: any) {
         closeCreateEventPanel,
         openUpdateEventPanel,
         closeUpdateEventPanel,
+        openCreateJEntryPanel,
+        closeCreateJEntryPanel,
+        openUpdateJEntryPanel,
+        closeUpdateJEntryPanel,
       }}
     >
       {props.children}

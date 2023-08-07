@@ -10,11 +10,15 @@
     "start": "lerna run --parallel start"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.29.9",
     "lerna": "^6.6.2",
     "react-router-dom": "^6.12.1",
     "typescript": "^5.0.4"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "package.json": "^2.0.1"
+  }
 }

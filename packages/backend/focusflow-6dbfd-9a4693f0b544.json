@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "focusflow-6dbfd",
+  "private_key_id": "9a4693f0b544e513785a1c8226ee59b86889f209",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDIdO5gYGO2LEek\n6kzeBu/xx7Qd82VP64TLyqRUfJkun8pTcH5RrUun84lFDIDSpWFXYlSdsBYJOpMz\n50H6H/lFnWeokzvVbhxvu3q16MFLq5BrFqqYq43n66kVVZ2mAz5EGQX7Z/zgRWuW\n+HWHcjBzStrGGopSuNfLEddhtj9KLlipec/H1U0yrJ4uZQAb7vbO07G+lTCg4E1q\noVgWRZjd52+u96jjmRco3y65Gzxa+EdSm9AoSJPdlg2mXxZmI1VJ4KBTDdD8glJP\nn9gWsRsyryNHbwqVGED/bsMzBIoIWFkHfX/hpp7ydAmgnHPZ8oOj1VYXlxhQMoqR\nb242RynjAgMBAAECggEAS3XxUqiWgLq0kbl+DEryQsNZ47h/mBFiIVF8gS2SgMG4\naaa8dsTU6Tm9oBev2xxUw4+JqP7jnL/HME/LP3yP2wwBPK2IZbUY0VrzO82ODo1c\nRWP3/pb+SaMmOJjNSvSHmR0OanDf+hFICkIoBEARSyWPq+nLzo409gYWXXs84hBb\nxAhD4AZ7aqMuDY0bhEUo/2ooCy4JWK+p9f5oCn47Is4b2P7gM4GFdnHAdbTDCWgz\nDbDWpUSAwKQ83dwDKb5GVEy+lnzXJoe9vxuISIFv8n/R5SLeoT5DELfgc5cx7SK3\nGfOyYG3t7g2VDfdliI2nwpJ44oh7deRyGbOEFL4cuQKBgQDosSLFpTv7g8oCziOH\n5DwVQLrI4QE0HXjnUuWsU8ce/ZTqa531WHNgpAXMG4z4kGV2IKUMbfmtWVRBrjei\n5oP67tbaOYWUNBD1xbSIyh73JdYWP7GoUImLKTa06O3bZgMHSB3MUDGZETtrxWW9\n21id7g/YrOlPmrlm+NyIGbv6XQKBgQDciTJGwyl52XwxjF1kZ6GkkOsKXjHUPqi7\ntpV+x0ZaZ17knLdWW61tomY80byz2zm1ewQYTlQGuVVMpePZASiqR79VZcZQUXS7\nIgwF4nPmGlGsnJqyjM9/kU8RusVy+dJdX2yGAOCdHkWA0Sd2avt5pW+zwjjXHjcS\nU+/YDG/xPwKBgQCiP8kwKUvOz5EPLa9mtMUUSKM1KHcPYLGKEqpk47HHMSgh4NIu\nXfNtYlFMhbVhKEYm/RI4vYJH1i7C8XiH1NYYJWuYlF1I/pkI1kdQziaTTEWgE9+L\nrkSJzT4BHR2lStc3v5hPe2dqBLL7LZQIsyZyUKmp+r9gK1G1tDcJi3AgXQKBgBn7\nS+IMUhGZ7sjDmakfkGqb7CTvjf1MWIKs8xXZkk9KSGK0l+Djsh3teRAHQa0K0dSw\npn3alImqQgNis+I4Abt18nO0JtYFkrQNQc9bq33bce3dEVihwDxuORuEnoh6KC95\n84YiClRYYaXYfka0OeZN+Ef8RMgLNj/Bhcs1Q+bvAoGAWBgfbvWv4ZIkGbSYT6LQ\nuDpI0thCmFsG2CUFlFTIvb0BKwS9oDXPp5CalTCnQek16tjYiEsGyA+DLl2g2ANj\nO7P/K7QaRGLFjtaAdOjESHpeTgOJuKsmoZbdzZmkmD57G8wdWimpGmC/hYO6slhQ\nLsuH0fCUBIkj81onbfjQ6EI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gbucket@focusflow-6dbfd.iam.gserviceaccount.com",
+  "client_id": "110784079619963513852",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gbucket%40focusflow-6dbfd.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

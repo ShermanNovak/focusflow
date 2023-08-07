@@ -7,6 +7,10 @@ export async function getTask(task_id: string) {
   return axiosInstance.get(`${PATH}/${task_id}`).then((res) => res.data);
 }
 
+export async function getEventsOnly() {
+  return axiosInstance.get(`${PATH}/events`).then((res) => res.data);
+}
+
 export async function createTask(req: Task) {
   return axiosInstance.post(`${PATH}`, req).then((res) => res.data);
 }

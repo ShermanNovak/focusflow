@@ -6,14 +6,24 @@ const Task = require("../models/Task");
 
 class TaskController {
   public async getTasksOnly(req: AuthenticatedRequest, res: Response) {
-    const tasks = await Task.find({ user: req.user_id, type: "task" }).sort({
+    const tasks = await Task.find({
+      user: req.user_id,
+      type: "task",
+    }).sort({
       createdAt: -1,
     });
     res.status(200).json(tasks);
   }
 
   public async getEventsOnly(req: AuthenticatedRequest, res: Response) {
-    const tasks = await Task.find({ user: req.user_id, type: "event" }).sort({
+    const startDate = new Date().setHours(0, 0, 0, 0);
+    const endDate = new Date().setHours(23, 59, 59, 999);
+    const tasks = await Task.find({
+      user: req.user_id,
+      type: "event",
+      startTime: { $gte: startDate },
+      endTime: { $lt: endDate },
+    }).sort({
       createdAt: -1,
     });
     res.status(200).json(tasks);

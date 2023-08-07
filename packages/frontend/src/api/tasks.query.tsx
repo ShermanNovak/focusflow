@@ -5,6 +5,7 @@ import {
   updateTask,
   deleteTask,
   getTasks,
+  getEventsOnly,
 } from "../services/tasks.service";
 
 export const useTaskQuery = (task_id: string) => {
@@ -34,3 +35,11 @@ export const useTasksQuery = () => {
     queryFn: () => getTasks(),
   })
 }
+
+export const useEventsQuery = () => {
+  return useQuery({
+    queryKey: ["events"],
+    queryFn: () => getEventsOnly(),
+  })
+}
+
