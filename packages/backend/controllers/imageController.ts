@@ -76,11 +76,20 @@ class ImageController {
     }
   }
 
-  public async getImageFiles(req: AuthenticatedRequest, res: Response) {
+  public async getImageFile(req: AuthenticatedRequest, res: Response) {
     const startDate = new Date().setHours(0, 0, 0, 0);
     const endDate = new Date().setHours(23, 59, 59, 999);
     const images = await Image.findOne({
       createdAt: { $gte: startDate, $lt: endDate },
+      user: req.user_id,
+    }).sort({ createdAt: -1 });
+    if (!images) return res.json({});
+
+    res.json(images);
+  }
+
+  public async getImageFiles(req: AuthenticatedRequest, res: Response) {
+    const images = await Image.find({
       user: req.user_id,
     }).sort({ createdAt: -1 });
     if (!images) return res.json({});

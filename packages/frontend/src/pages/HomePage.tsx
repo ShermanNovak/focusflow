@@ -112,19 +112,36 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-          {eventsData &&
-            eventsData.map((event: any) => (
-              <div key={event._id} className="flex flex-row gap-x-3">
-                <span>
-                  {new Date(event.startTime).getHours()}
-                  {new Date(event.startTime).getMinutes()} -{" "}
-                  {new Date(event.endTime).getHours()}
-                  {new Date(event.endTime).getMinutes()}
-                </span>
-                <span>{event.title}</span>
-              </div>
-            ))}
-          <div className="py-5">
+          <List
+            bordered
+            dataSource={eventsData}
+            renderItem={(event: any) => (
+              <List.Item
+                onClick={() => {
+                  panelContext.changeCurrentEvent(event._id);
+                  panelContext.openUpdateEventPanel();
+                }}
+                className="py-2"
+              >
+                {new Date(event.startTime)
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}
+                {new Date(event.startTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}{" "}
+                -{" "}
+                {new Date(event.endTime).getHours().toString().padStart(2, "0")}
+                {new Date(event.endTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}
+                <span className="ps-5">{event.title}</span>
+              </List.Item>
+            )}
+          />
+          <div className="pt-10">
             {!imageData && filesContent.length < 1 && (
               <button
                 onClick={() => {
@@ -196,6 +213,7 @@ export default function HomePage() {
               <Input className="bg-pale-purple" onKeyDown={createTaskHandler} />
             </Form.Item>
           </Form>
+          <SmallCaps text="HERE ARE ALL YOUR TASKS ✏️" />
           <div className="flex flex-col gap-y-5">
             <List
               bordered
@@ -206,6 +224,7 @@ export default function HomePage() {
                     panelContext.changeCurrentTask(task._id);
                     panelContext.openUpdateTaskPanel();
                   }}
+                  className="py-2"
                 >
                   {task.title}
                 </List.Item>

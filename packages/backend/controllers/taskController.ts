@@ -22,7 +22,7 @@ class TaskController {
       type: "event",
       startTime: { $gte: startDate },
     }).sort({
-      createdAt: -1,
+      startTime: 1,
     });
     res.status(200).json(tasks);
   }

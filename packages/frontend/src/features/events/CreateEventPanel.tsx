@@ -1,12 +1,13 @@
 import toast from "react-hot-toast";
 
-import { DatePicker, Form, Input, Button, Space } from "antd";
+import { DatePicker, Form, Input, Button, Space, Select } from "antd";
 import { useTaskCreation } from "../../api/tasks.query";
 import { useContext, useState } from "react";
 import { useFilePicker } from "use-file-picker";
 import { axiosImageInstance } from "../../api/axios";
 import { CameraFilled } from "@ant-design/icons";
 import { PanelContext } from "../../context/PanelContext";
+import { useGoalsQuery } from "../../api/goals.query";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
@@ -24,6 +25,16 @@ export default function CreateEventPanel() {
       setFileData(plainFiles[0]);
     },
   });
+
+  const { data: goals } = useGoalsQuery();
+  let selectOptions: { value: string; label: string }[] = [];
+
+  if (Array.isArray(goals)) {
+    selectOptions = goals.map((goal) => ({
+      value: goal._id,
+      label: goal.title,
+    }));
+  }
 
   const panelContext = useContext(PanelContext);
 
@@ -88,56 +99,42 @@ export default function CreateEventPanel() {
         <SmallCaps text="details" className="-mt-4" /> {/* xl:mt-0 */}
         <div className="bg-white rounded-lg px-4 py-1 mb-4">
           <Form.Item
-            name="goalName"
-            label="Goal:"
+            name="startTime"
+            label="Start"
             className="mb-1"
+            rules={[{ required: true }]}
           >
-            <Input size="small" />
-          </Form.Item>
-          <div className="grid grid-cols-2 gap-4">
-            <Form.Item
-              name="startTime"
-              label="Start"
-              className="mb-1"
-              rules={[{ required: true }]}
-            >
-              <DatePicker showTime bordered={false} className="px-0" />
-            </Form.Item>
-            <Form.Item
-              name="endTime"
-              label="End"
-              className="mb-1"
-              rules={[{ required: true }]}
-            >
-              <DatePicker showTime bordered={false} className="px-0" />
-            </Form.Item>
-          </div>
-          <Form.Item
-            name=""
-            label="Location: "
-            className="mb-1"
-          >
-            <Input size="small" />
+            <DatePicker showTime bordered={false} className="px-0" />
           </Form.Item>
           <Form.Item
-            name=""
-            label="Google Meet: "
+            name="endTime"
+            label="End"
             className="mb-1"
+            rules={[{ required: true }]}
           >
+            <DatePicker showTime bordered={false} className="px-0" />
+          </Form.Item>
+          <Form.Item name="goal" label="Goal" className="my-1">
+            <Select
+              showSearch
+              placeholder="Select a goal"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={selectOptions}
+              allowClear={true}
+            />
+          </Form.Item>
+          <Form.Item name="location" label="Location" className="mb-1">
             <Input size="small" />
           </Form.Item>
-          <Form.Item
-            name=""
-            label="Guests: "
-            className="mb-1"
-          >
+          <Form.Item name="googleMeet" label="Google Meet" className="mb-1">
             <Input size="small" />
           </Form.Item>
-          <Form.Item
-            name=""
-            label="Repeat: "
-            className="mb-1"
-          >
+          <Form.Item name="guests" label="Guests" className="mb-1">
             <Input size="small" />
           </Form.Item>
         </div>

@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.use(requireAuth);
 
-router.get("/", imageController.getImageFiles);
+router.get("/", imageController.getImageFile);
+
+router.get("/all", imageController.getImageFiles);
 
 router.post("/journal", imageController.uploadJournalPhoto);
 

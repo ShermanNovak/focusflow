@@ -20,11 +20,11 @@ import {
 } from "../../api/tasks.query";
 import { useContext } from "react";
 import { PanelContext } from "../../context/PanelContext";
+import { axiosImageInstance } from "../../api/axios";
+import { useFilePicker } from "use-file-picker";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
-import { axiosImageInstance } from "../../api/axios";
-import { useFilePicker } from "use-file-picker";
 
 export default function UpdateTaskPanel() {
   const user_id = "647c9b22146a622abdd08fbb";
@@ -171,13 +171,13 @@ export default function UpdateTaskPanel() {
                 <span className="font-bold">
                   Mark the completion of your task
                 </span>
-                <span>"Photograph your task completion with a snap."</span>
+                <span>Photograph your task completion with a snap.</span>
               </div>
             </button>
           )}
           {taskData && taskData.imageURL && filesContent.length < 1 && (
             <img
-              alt=""
+              alt="task"
               src={taskData.imageURL}
               className="block py-5 rounded h-52 drop-shadow"
               onClick={() => {

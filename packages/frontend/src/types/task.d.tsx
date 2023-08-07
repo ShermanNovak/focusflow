@@ -8,6 +8,9 @@ export interface Task {
     deadline: Date,
     startTime: Date,
     endTime: Date,
+    location: string,
+    googleMeet: string,
+    guests: string,
     user: string,
     goal: string
 }
