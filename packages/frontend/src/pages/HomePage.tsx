@@ -1,15 +1,25 @@
 import toast from "react-hot-toast";
-import { useState } from "react"
+import { useState } from "react";
 
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
 import { useTaskCreation } from "../api/tasks.query";
+import { JournalEntry } from "../types/jentry.d";
+import { useJournalEntryCreation } from "../api/jentry.query";
+import { useJEntryQuery } from "../api/jentry.query";
 import { useHighlightCreation } from "../api/highlight.query";
 import { useHighlightQuery } from "../api/highlight.query";
 
+import { PanelContext } from "../context/PanelContext";
+import { useContext } from "react";
+
 import SmallCaps from "../components/SmallCaps";
 
+
+
 export default function HomePage() {
+  const panelContext = useContext(PanelContext);
+
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
   const createHighlightMutation = useHighlightCreation();
@@ -39,13 +49,50 @@ export default function HomePage() {
         toast.error(e.message);
       }
     }
-  }
-  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry 
+  };
+  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
 
-  
-    const [showTaskModal, setShowTaskModal] = useState(false);
-    const [showTaskPanel, setShowTaskPanel] = useState(true);
-    const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+  const journalentry_id = "64ac1f7f9259486213d36139"; // journal entry hardcoded id
+  const JEntryQuery = useJEntryQuery(journalentry_id);
+
+  const JournalEntry = ({ entry }: { entry: JournalEntry | null }) => {
+    return (
+      <div>
+        {entry ? (
+          <div>
+            <span className="font-bold">{entry.title}</span>
+            <p>{entry.content}</p>
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              panelContext.openCreateJEntryPanel()
+            }}
+            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+              />
+            </svg>
+            <div>
+              <span className="font-bold">Write in your Journal Today</span>
+              <p>Self-reflection fuels personal growth.</p>
+            </div>
+          </button>
+        )}
+      </div>
+    );
+  };
 
   // to get name from user context
   return (
@@ -72,17 +119,19 @@ export default function HomePage() {
           </div>
           {highlightIsLoading && <h6>Fetching Higlight Entry...</h6>}
           {!highlightIsLoading && (
-          <Form 
-            form={highlightForm}
-            initialValues={highlightData}
-            >
-            <Form.Item name="content">
-              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
-            </Form.Item>
-          </Form>
+            <Form form={highlightForm} initialValues={highlightData}>
+              <Form.Item name="content">
+                <Input
+                  className="bg-pale-yellow"
+                  onKeyDown={createHighlightHandler}
+                />
+              </Form.Item>
+            </Form>
           )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
+          <JournalEntry entry={JEntryQuery.data?.entry || null} />
         </div>
+
         <div>
           <Form form={taskForm}>
             <div className="flex gap-x-1 items-center">
@@ -111,14 +160,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-  //   return (
-  //     <>
-  //       {showTaskModal && <TaskModal />}
-  //       {showTaskPanel && <TaskPanel />}
-  //       <SpotifyCard showModal={setShowSpotifyModal} />
-  //       <SpotifyModal open={showSpotifyModal} showModal={setShowSpotifyModal} />
-  //     </>
-  //   );
-  // }
-  
