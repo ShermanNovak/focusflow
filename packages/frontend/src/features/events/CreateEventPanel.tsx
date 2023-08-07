@@ -46,64 +46,83 @@ export default function CreateEventPanel() {
             bordered={false}
           />
         </Form.Item>
-          <SmallCaps text="description" className='-mt-4'/> {/* xl:mt-0 */}
-          <Form.Item name="description">
-            <Input.TextArea
-              autoSize
-              className="-ms-2 ps-2 hover:bg-hover-blue"
-              placeholder="Add a description..."
-              bordered={false}
-            />
+        <SmallCaps text="description" className="-mt-4" /> {/* xl:mt-0 */}
+        <Form.Item name="description">
+          <Input.TextArea
+            autoSize
+            className="-ms-2 ps-2 hover:bg-hover-blue"
+            placeholder="Add a description..."
+            bordered={false}
+          />
+        </Form.Item>
+        <SmallCaps text="details" className="-mt-4" /> {/* xl:mt-0 */}
+        <div className="bg-white rounded-lg px-4 py-1 mb-4">
+          <Form.Item
+            name="goalName"
+            label="Goal:"
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
           </Form.Item>
-          <SmallCaps text="details" className='-mt-4'/> {/* xl:mt-0 */}
-          <div className="bg-white rounded-lg px-4 py-1 mb-4">
-            <Form.Item name='goalName' label='Goal:' className='mb-1' rules={[{ required: true }]}>
-              <Input size="small" />
-            </Form.Item>
-            {/* <Form.Item name="startTime" label="Start" className='mb-1 mr-2 flex-1' rules={[{ required: true }]}>
+          <div className="grid grid-cols-2 gap-4">
+            <Form.Item
+              name="startTime"
+              label="Start"
+              className="mb-1"
+              rules={[{ required: true }]}
+            >
               <DatePicker showTime bordered={false} className="px-0" />
             </Form.Item>
-            <Form.Item name="endTime" label="End" className='mb-1 ml-2 flex-1' rules={[{ required: true }]}>
+            <Form.Item
+              name="endTime"
+              label="End"
+              className="mb-1"
+              rules={[{ required: true }]}
+            >
               <DatePicker showTime bordered={false} className="px-0" />
-            </Form.Item> */}
-            <div className="grid grid-cols-2 gap-4">
-              <Form.Item
-                name="startTime"
-                label="Start"
-                className="mb-1"
-                rules={[{ required: true }]}
-              >
-                <DatePicker showTime bordered={false} className="px-0" />
-              </Form.Item>
-              <Form.Item
-                name="endTime"
-                label="End"
-                className="mb-1"
-                rules={[{ required: true }]}
-              >
-                <DatePicker showTime bordered={false} className="px-0" />
-              </Form.Item>
-            </div>
-            <Form.Item name='' label='Location: ' className='mb-1' rules={[{ required: true }]}>
-              <Input size="small"/>
-            </Form.Item>
-            <Form.Item name='' label='Google Meet: ' className='mb-1' rules={[{ required: true }]}>
-              <Input size="small"/>
-            </Form.Item>
-            <Form.Item name='' label='Guests: ' className='mb-1' rules={[{ required: true }]}>
-              <Input size="small"/>
-            </Form.Item>
-            <Form.Item name='' label='Repeat: ' className='mb-1' rules={[{ required: true }]}>
-              <Input size="small"/>
             </Form.Item>
           </div>
+          <Form.Item
+            name=""
+            label="Location: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Google Meet: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Guests: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+          <Form.Item
+            name=""
+            label="Repeat: "
+            className="mb-1"
+            rules={[{ required: true }]}
+          >
+            <Input size="small" />
+          </Form.Item>
+        </div>
       </Form>
       <div className="mx-auto my-auto">
         <DashedButton
-            boldText="Snap a photo to commerate your event."
-            text="What picture best represents the event?"
+          boldText="Snap a photo to commerate your event."
+          text="What picture best represents the event?"
         >
-        <CameraFilled className="text-2xl" />
+          <CameraFilled className="text-2xl" />
         </DashedButton>
       </div>
       <Space>
