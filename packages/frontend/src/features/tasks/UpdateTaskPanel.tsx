@@ -179,7 +179,7 @@ export default function UpdateTaskPanel() {
             <img
               alt=""
               src={taskData.imageURL}
-              className="block py-5 rounded h-72 drop-shadow"
+              className="block py-5 rounded h-52 drop-shadow"
               onClick={() => {
                 openFileSelector();
               }}
@@ -189,7 +189,7 @@ export default function UpdateTaskPanel() {
             <img
               alt={filesContent[0].name}
               src={filesContent[0].content}
-              className="rounded w-72 drop-shadow"
+              className="rounded py-2 block h-52 drop-shadow"
               onClick={() => {
                 openFileSelector();
               }}

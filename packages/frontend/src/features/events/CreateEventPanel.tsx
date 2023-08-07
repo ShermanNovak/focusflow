@@ -2,15 +2,31 @@ import toast from "react-hot-toast";
 
 import { DatePicker, Form, Input, Button, Space } from "antd";
 import { useTaskCreation } from "../../api/tasks.query";
-import { PanelContext } from "../../context/PanelContext";
-import { useContext } from "react";
-import DashedButton from "../../components/DashedButton";
+import { useContext, useState } from "react";
+import { useFilePicker } from "use-file-picker";
+import { axiosImageInstance } from "../../api/axios";
 import { CameraFilled } from "@ant-design/icons";
+import { PanelContext } from "../../context/PanelContext";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 
 export default function CreateEventPanel() {
+  const user_id = "647c9b22146a622abdd08fbb";
+  const [fileData, setFileData] = useState<File | null>(null);
+
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      setFileData(plainFiles[0]);
+    },
+  });
+
+  const panelContext = useContext(PanelContext);
+
   const [form] = Form.useForm();
 
   const createTaskMutation = useTaskCreation();
@@ -18,17 +34,30 @@ export default function CreateEventPanel() {
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
-        console.log(values);
-        createTaskMutation.mutate({ ...values, type: "event" });
+        if (fileData) {
+          const formData = new FormData();
+          formData.append("actualFile", fileData);
+          axiosImageInstance
+            .post("/task", formData)
+            .then(function (response: any) {
+              //handle success
+              console.log(response);
+            });
+          createTaskMutation.mutate({
+            ...values,
+            imageURL: `https://storage.cloud.google.com/task_photos/${user_id}/${filesContent[0].name}`,
+          });
+        } else {
+          createTaskMutation.mutate({ ...values, type: "event" });
+        }
         toast.success("Successfully created task!");
         form.resetFields();
+        panelContext.closeCreateEventPanel();
       });
     } catch (e: any) {
       console.log(e.message);
     }
   };
-
-  const panelContext = useContext(PanelContext);
 
   return (
     <RightPanel>
@@ -117,14 +146,32 @@ export default function CreateEventPanel() {
           </Form.Item>
         </div>
       </Form>
-      <div className="mx-auto my-auto">
-        <DashedButton
-          boldText="Snap a photo to commerate your event."
-          text="What picture best represents the event?"
-        >
-          <CameraFilled className="text-2xl" />
-        </DashedButton>
-      </div>
+      {filesContent.length < 1 && (
+        <div className="mx-auto my-auto">
+          <button
+            className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+            onClick={() => {
+              openFileSelector();
+            }}
+          >
+            <CameraFilled className="text-2xl" />
+            <div className="flex flex-col items-start gap-1 font-sans">
+              <span className="font-bold">Add a photo to your journal</span>
+              <span>What picture best represents your day?</span>
+            </div>
+          </button>
+        </div>
+      )}
+      {filesContent.length > 0 && (
+        <img
+          alt={filesContent[0].name}
+          src={filesContent[0].content}
+          className="py-2 block h-52 rounded drop-shadow"
+          onClick={() => {
+            openFileSelector();
+          }}
+        ></img>
+      )}
       <Space>
         <Button type="primary" htmlType="submit" className="my-2">
           Submit

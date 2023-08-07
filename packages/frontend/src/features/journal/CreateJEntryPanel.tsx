@@ -87,7 +87,7 @@ export default function JournalPanel() {
           <img
             alt={filesContent[0].name}
             src={filesContent[0].content}
-            className="rounded w-72 drop-shadow"
+            className="rounded h-52 drop-shadow"
             onClick={() => {
               openFileSelector();
             }}
@@ -123,7 +123,7 @@ export default function JournalPanel() {
               style={{ width: 550, resize: "none", marginTop: "-5px" }}
               autoSize={{ minRows: 2, maxRows: 7 }}
               className="text-xl -ms-2 ps-2 text-black font-normal"
-              placeholder="Journal Entry"
+              placeholder="Insert Description Here"
               bordered={false}
             />
           </Form.Item>
