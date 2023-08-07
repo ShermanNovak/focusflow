@@ -50,13 +50,27 @@ class ImageController {
         .bucket(process.env.BUCKETNAME2 || "")
         .file(`${req.user_id}/${uploadedFile.name}`)
         .save(uploadedFile.data);
+    } catch (e: any) {
+      res.json(e.message);
+    }
+  }
 
-      const entry = await Image.create({
-        url: `https://storage.cloud.google.com/journal_images/${req.user_id}/${uploadedFile.name}`,
-        user: req.user_id,
-      });
+  public async uploadTaskPhoto(req: AuthenticatedRequest, res: Response) {
+    const storage = new Storage();
 
-      res.json(entry);
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+
+    const uploadedFile = Array.isArray(req.files.actualFile)
+    ? req.files.actualFile[0] // If multiple files are uploaded, use the first one
+    : req.files.actualFile;
+
+    try {
+      await storage
+        .bucket(process.env.BUCKETNAME3 || "")
+        .file(`${req.user_id}/${uploadedFile.name}`)
+        .save(uploadedFile.data);
     } catch (e: any) {
       res.json(e.message);
     }

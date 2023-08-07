@@ -11,6 +11,8 @@ router.get("/", imageController.getImageFiles);
 
 router.post("/journal", imageController.uploadJournalPhoto);
 
+router.post("/task", imageController.uploadTaskPhoto);
+
 router.post("/photooftheday", imageController.uploadPhotoOfTheDay);
 
 export default router;

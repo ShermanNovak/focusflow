@@ -107,7 +107,7 @@ export default function UpdateJournalPanel() {
         )}
         {jentrydata && jentrydata.imageURL && filesContent.length < 1 && (
           <img
-            alt="photo_of_the_day"
+            alt="journal entry"
             src={jentrydata.imageURL}
             onClick={() => {
               openFileSelector();
