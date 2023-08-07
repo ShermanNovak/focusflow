@@ -9,9 +9,7 @@ const router = express.Router();
 router.use(requireAuth);
 router.param("id", requireValidId);
 
-router.get("/", sotdController.getSongs);
-
-router.get("/:id", sotdController.getSong);
+router.get("/", sotdController.getSong);
 
 router.post("/", sotdController.createSong);
 
