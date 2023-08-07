@@ -58,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.195"
+    "@types/lodash": "^4.14.195",
+    "@types/spotify-web-playback-sdk": "^0.1.15"
   }
 }

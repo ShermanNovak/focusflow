@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 
-import { useState, KeyboardEvent, useContext } from "react";
+import { useState, KeyboardEvent, useContext, useState } from "react";
 import { Input, Form, Checkbox } from "antd";
 import {
   useEventsQuery,
@@ -18,6 +18,8 @@ import {
   useHighlightCreation,
 } from "../api/highlight.query";
 import { PanelContext } from "../context/PanelContext";
+import SpotifyCard from '../components/SpotifyCard';
+import SpotifyModal from '../features/spotify/SpotifyModal';
 
 import SmallCaps from "../components/SmallCaps";
 
@@ -26,6 +28,8 @@ import SmallCaps from "../components/SmallCaps";
 export default function HomePage() {
   const panelContext = useContext(PanelContext);
 
+  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
+  const [selectedSong, setSelectedSong] = useState<any>();
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
   const createHighlightMutation = useHighlightCreation();
@@ -83,10 +87,6 @@ export default function HomePage() {
       }
     },
   });
-
-
-
-  const [showSpotifyModal, setShowSpotifyModal] = useState(false);
 
   const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
 
@@ -207,6 +207,13 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      <SpotifyCard handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
+      <SpotifyModal 
+        open={showSpotifyModal} 
+        showModal={setShowSpotifyModal} 
+        selectedSong={selectedSong} 
+        setSelectedSong={setSelectedSong}
+      />
     </div>
   );
 }

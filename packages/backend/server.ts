@@ -14,6 +14,7 @@ import journalEntryRoutes from "./routes/journalEntryRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
 import highlightRoutes from './routes/highlightRoutes';
 import imageRoutes from "./routes/imageRoutes";
+import sotdRoutes from './routes/sotdRoutes';
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -35,6 +36,7 @@ app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
+app.use('/api/sotd', sotdRoutes);
 
 var schema = buildSchema(`
   type Query {

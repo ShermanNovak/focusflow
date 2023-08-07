@@ -4,7 +4,7 @@ import { SpotifyToken } from '../types/spotify.d';
 import Cookies from 'universal-cookie';
 
 const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-const scopes = "user-modify-playback-state";
+const scopes = "user-modify-playback-state user-read-playback-state streaming user-read-email user-read-private";
 const redirect_uri = process.env.REACT_APP_SPOTIFY_REDIRECT_URI;
 export const loginPath = `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scopes}&redirect_uri=${redirect_uri}`;
 
@@ -45,16 +45,42 @@ export async function refreshSpotifyToken() {
   })
 }
 
-const apiPath = "https://api.spotify.com/v1/search";
+const apiPath = "https://api.spotify.com/v1";
 
 export async function spotifySearch(query: String) {
-  return axios.get(apiPath, {
+  return axios.get(`${apiPath}/search`, {
     params: {
       q: query,
       type: "track"
     },
     headers: {
       Authorization: `Bearer ${cookies.get("spotify-token")}`
+    }
+  }).then((res) => res.data)
+  .catch(err => console.log(err));
+}
+
+export async function transferPlayback(device_id: string) {
+  return axios.put(`${apiPath}/me/player`, {
+    device_ids: [
+      device_id
+    ]
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${cookies.get("spotify-token")}`
+    }
+  }).then(res => res.data)
+  .catch(err => console.log(err));
+}
+
+
+export async function playSong(uri: string, device_id: string) {
+  return axios.put(`${apiPath}/me/player/play`, { uris: [uri]}, {
+    params: { device_id },
+    headers: {
+      "Authorization": `Bearer ${cookies.get("spotify-token")}`,
+      "Content-Type": "application/json"
     }
   }).then((res) => res.data)
   .catch(err => console.log(err));
