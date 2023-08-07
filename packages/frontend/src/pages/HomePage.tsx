@@ -1,8 +1,12 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent } from "react";
-import { Input, Form } from "antd";
-import { useEventsQuery, useTaskCreation } from "../api/tasks.query";
+import { Input, Form, Checkbox } from "antd";
+import {
+  useEventsQuery,
+  useTaskCreation,
+  useTasksQuery,
+} from "../api/tasks.query";
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
@@ -25,7 +29,10 @@ export default function HomePage() {
       }
     }
   };
+  const { data: tasksData } = useTasksQuery();
   const { data: eventsData } = useEventsQuery();
+  console.log(tasksData);
+  console.log(new Date(tasksData[1].deadline).getDate())
 
   const { data: imageData } = useImageQuery();
 
@@ -83,9 +90,7 @@ export default function HomePage() {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-            {eventsData && eventsData.map((event: any) => (
-              event.title
-            ))}
+          {eventsData && eventsData.map((event: any) => event.title)}
           <div>
             {!imageData && filesContent.length < 1 && (
               <button
@@ -123,7 +128,7 @@ export default function HomePage() {
                 }}
               ></img>
             )}
-            {(imageData && filesContent.length < 1) && (
+            {imageData && filesContent.length < 1 && (
               <img
                 alt="photo_of_the_day"
                 src={imageData.url}
@@ -158,6 +163,16 @@ export default function HomePage() {
               <Input className="bg-pale-purple" onKeyDown={createTaskHandler} />
             </Form.Item>
           </Form>
+          <div className="flex flex-col gap-y-5">
+            {tasksData &&
+              tasksData.map((task: any) => (
+                <span>
+                  <Checkbox value={task._id} id={task._id}>
+                    {task.title}
+                  </Checkbox>
+                </span>
+              ))}
+          </div>
         </div>
       </div>
     </div>

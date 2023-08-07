@@ -9,7 +9,7 @@ const router = express.Router();
 router.use(requireAuth);
 router.param("id", requireValidId);
 
-router.get("/", taskController.getTasksOnly);
+router.get("/tasks", taskController.getTasksOnly);
 
 router.get("/events", taskController.getEventsOnly);
 

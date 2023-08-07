@@ -4,7 +4,7 @@ import {
   createTask,
   updateTask,
   deleteTask,
-  getTasks,
+  getTasksOnly,
   getEventsOnly,
 } from "../services/tasks.service";
 
@@ -32,7 +32,7 @@ export const useTaskDelete = (task_id: string) => {
 export const useTasksQuery = () => {
   return useQuery({
     queryKey: ["tasks"],
-    queryFn: () => getTasks(),
+    queryFn: () => getTasksOnly(),
   })
 }
 

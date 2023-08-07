@@ -23,6 +23,6 @@ export async function deleteTask(task_id: string) {
   return axiosInstance.delete(`${PATH}/${task_id}`).then((res) => res.data);
 }
 
-export async function getTasks() {
-  return axiosInstance.get(`${PATH}`).then((res) => res.data);
+export async function getTasksOnly() {
+  return axiosInstance.get(`${PATH}/tasks`).then((res) => res.data);
 }
