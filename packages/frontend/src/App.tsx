@@ -13,8 +13,9 @@ import { Routes, Route } from "react-router-dom";
 import { useContext } from "react";
 import CreateEventPanel from "./features/events/CreateEventPanel";
 import UpdateEventPanel from "./features/events/UpdateEventPanel";
-import Spotify from "./pages/Spotify"
+import Spotify from "./pages/Spotify";
 import SpotifyModal from "./features/spotify/SpotifyModal";
+import DailyAchievements from "./pages/DailyAchievements";
 
 function App() {
   const panelContext = useContext(PanelContext);
@@ -27,6 +28,7 @@ function App() {
         <Route path="/junyitest" element={<NewJournalPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
+        <Route path="/dailyachievements" element={<DailyAchievements />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/" element={<HomePage />} />
