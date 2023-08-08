@@ -42,6 +42,7 @@ export default function HomePage(props: Props) {
         taskForm.validateFields().then((values) => {
           createTaskMutation.mutate({ ...values, type: "task" });
           toast.success("Successfully created task!");
+          window.location.reload();
         });
       } catch (e: any) {
         toast.error(e.message);
@@ -87,7 +88,7 @@ export default function HomePage(props: Props) {
     },
   });
 
-  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
+  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
   const { Paragraph } = Typography;
   const date = new Date().toJSON(); // today's date
   const todayDate = date.slice(0, 10);
@@ -170,15 +171,16 @@ export default function HomePage(props: Props) {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-
-          <Form form={highlightForm} initialValues={highlightData}>
+          {!highlightIsLoading && (
+          <Form 
+            form={highlightForm}
+            initialValues={highlightData}
+            >
             <Form.Item name="content">
-              <Input
-                className="bg-pale-yellow"
-                onKeyDown={createHighlightHandler}
-              />
+              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
             </Form.Item>
           </Form>
+          )}
 
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
 
