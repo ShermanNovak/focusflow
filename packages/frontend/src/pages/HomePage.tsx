@@ -122,6 +122,7 @@ export default function HomePage() {
                   panelContext.openUpdateEventPanel();
                 }}
                 className="py-2"
+                key={event._id}
               >
                 {new Date(event.startTime)
                   .getHours()

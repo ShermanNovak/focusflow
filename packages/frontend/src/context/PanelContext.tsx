@@ -125,7 +125,7 @@ export function PanelContextProvider(props: any) {
   }
 
   function changeCurrentEvent(event_id: string) {
-    setCurrentTask(event_id);
+    setCurrentEvent(event_id);
   }
 
   return (

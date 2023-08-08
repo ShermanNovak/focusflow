@@ -9,7 +9,7 @@ import {
 } from "../../api/tasks.query";
 import { useGoalsQuery } from "../../api/goals.query";
 import { CameraFilled, ExclamationCircleFilled } from "@ant-design/icons";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { PanelContext } from "../../context/PanelContext";
 import { useFilePicker } from "use-file-picker";
 import { axiosImageInstance } from "../../api/axios";
@@ -18,21 +18,20 @@ import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 
 export default function UpdateEventPanel() {
-  const event_id = "64d0c988c8ab6ddf84b47808";
   const user_id = "647c9b22146a622abdd08fbb";
-
   const [form] = Form.useForm();
   const panelContext = useContext(PanelContext);
-  const updateTaskMutation = useTaskUpdate(event_id);
+  console.log(panelContext.currentEvent)
+  const updateTaskMutation = useTaskUpdate(panelContext.currentEvent);
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
     console.log(updatedData);
     updateTaskMutation.mutate(updatedData);
   };
 
-  const deleteTaskMutation = useTaskDelete(event_id);
+  const deleteTaskMutation = useTaskDelete(panelContext.currentEvent);
 
-  const { data: eventData, isLoading: eventIsLoading } = useTaskQuery(event_id);
+  const { data: eventData, isLoading: eventIsLoading } = useTaskQuery(panelContext.currentEvent);
 
   const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
@@ -53,7 +52,7 @@ export default function UpdateEventPanel() {
         "Are you sure you want to delete this event? This action cannot be undone. Deleting the task will remove it permanently from the system.",
       okText: "Confirm",
       onOk() {
-        deleteTaskMutation.mutate(event_id);
+        deleteTaskMutation.mutate(panelContext.currentEvent);
         toast.success("Successfully deleted task");
       },
       onCancel() {
