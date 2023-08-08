@@ -1,4 +1,5 @@
 import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
@@ -16,6 +17,7 @@ import { useFilePicker } from "use-file-picker";
 import RightPanel from "../../components/RightPanel";
 
 export default function UpdateJournalPanel() {
+  const queryClient = useQueryClient();
   const panelContext = useContext(PanelContext);
 
   const date = new Date().toJSON(); // today's date
@@ -27,9 +29,27 @@ export default function UpdateJournalPanel() {
   
   const [form] = Form.useForm(); // use the form in the journal i.e. title and body
   
-  const blurHandler = () => {
+  // const blurHandler = () => {
+  //   const updatedData = form.getFieldsValue();
+  //   updateJEntryMutation.mutate(updatedData);
+  // };
+
+  const blurHandler = async () => {
     const updatedData = form.getFieldsValue();
-    updateJEntryMutation.mutate(updatedData);
+  
+    try {
+      await updateJEntryMutation.mutateAsync(updatedData);
+      
+      // Refresh the data to update the UI
+      queryClient.invalidateQueries(['jentries', todayDate]);
+      
+      // Show a success toast
+      toast.success('Journal Entry updated successfully.');
+    } catch (error) {
+      // Handle error, if necessary
+      console.error(error);
+      toast.error('An error occurred while updating the Journal Entry.');
+    }
   };
 
   const deleteJEntryMutation = useJournalEntryDelete(jentrydata._id);
