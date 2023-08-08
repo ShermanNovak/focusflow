@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent, useContext } from "react";
-import { Input, Form, List, Switch, Typography } from "antd";
+import { Input, Form, List, Typography } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
   useTasksQuery,
 } from "../api/tasks.query";
 import { JournalEntry } from "../types/jentry.d";
-import { useJEntryQuery, useJournalEntriesQuery } from "../api/jentry.query";
+import { useJEntryQuery } from "../api/jentry.query";
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
@@ -88,7 +88,7 @@ export default function HomePage(props: Props) {
   });
 
   const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
-  const { Paragraph, Text} = Typography;
+  const { Paragraph } = Typography;
   const date = new Date().toJSON(); // today's date
   const todayDate = date.slice(0, 10);
   const { data: jentrydata} = useJEntryQuery(todayDate); // fetching data from prev journal entry

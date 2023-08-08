@@ -27,9 +27,9 @@ export const useJournalEntryDelete = (journalentry_id: string) => {
   return useMutation((journalentry_id: string) => deleteJournalEntry(journalentry_id));
 };
 
-export const useJournalEntriesQuery = (date:string, limit?:string) => {
-  return useQuery({
-    queryKey: ["journalentries"], // getting all the entries, so no specific id
-    queryFn: () => getJournalEntries(date, limit),
-  })
-}
+// export const useJournalEntriesQuery = (date:string, limit?:string) => {
+//   return useQuery({
+//     queryKey: ["journalentries"], // getting all the entries, so no specific id
+//     queryFn: () => getJournalEntries(date, limit),
+//   })
+// }

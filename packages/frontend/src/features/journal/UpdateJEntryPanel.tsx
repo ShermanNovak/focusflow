@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
@@ -28,25 +28,16 @@ export default function UpdateJournalPanel() {
   const updateJEntryMutation = useJournalEntryUpdate(jentrydata._id);
   
   const [form] = Form.useForm(); // use the form in the journal i.e. title and body
-  
-  // const blurHandler = () => {
-  //   const updatedData = form.getFieldsValue();
-  //   updateJEntryMutation.mutate(updatedData);
-  // };
 
   const blurHandler = async () => {
     const updatedData = form.getFieldsValue();
-  
     try {
       await updateJEntryMutation.mutateAsync(updatedData);
-      
-      // Refresh the data to update the UI
+      // refresh data to update ui
       queryClient.invalidateQueries(['jentries', todayDate]);
-      
-      // Show a success toast
       toast.success('Journal Entry updated successfully.');
     } catch (error) {
-      // Handle error, if necessary
+      // error handling
       console.error(error);
       toast.error('An error occurred while updating the Journal Entry.');
     }
@@ -74,7 +65,7 @@ export default function UpdateJournalPanel() {
 
   const currentDate = new Date();
   const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1; // Months are zero-based, so we add 1
+  const month = currentDate.getMonth() + 1; // months are zero-based, so we add 1
   const year = currentDate.getFullYear();
   const dayOfWeek = currentDate
     .toLocaleDateString("en-US", { weekday: "long" })
