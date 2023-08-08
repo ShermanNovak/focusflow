@@ -11,29 +11,36 @@ import UpdateJEntryPanel from "./features/journal/UpdateJEntryPanel";
 import { PanelContext } from "./context/PanelContext";
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CreateEventPanel from "./features/events/CreateEventPanel";
 import UpdateEventPanel from "./features/events/UpdateEventPanel";
-import Spotify from "./pages/Spotify"
+import Spotify from "./pages/Spotify";
 import SpotifyModal from "./features/spotify/SpotifyModal";
 import PhotosOfTheMonth from "./pages/PhotosOfTheMonth";
 
 function App() {
   const panelContext = useContext(PanelContext);
+  const [showLeftNavbar, setShowLeftNavbar] = useState(true);
 
   return (
-    <div className="flex">
-      <LeftNavbar />
+    <div className="flex lg:flex-row md:flex-row flex-col">
+      <LeftNavbar
+        showLeftNavbar={showLeftNavbar}
+        setShowLeftNavbar={setShowLeftNavbar}
+      />
       <Routes>
         <Route path="/spotify/callback" element={<Spotify />} />
-        <Route path="/createjentry" element={<CreateJEntryPanel />}/>
+        <Route path="/createjentry" element={<CreateJEntryPanel />} />
         <Route path="/updatejentry" element={<UpdateJEntryPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/updateevent" element={<UpdateEventPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={<HomePage showLeftNavbar={showLeftNavbar} />}
+        />
         <Route path="/photosofthemonth" element={<PhotosOfTheMonth />} />
       </Routes>
       <Toaster position="top-right" />
