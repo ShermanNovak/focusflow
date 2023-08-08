@@ -8,7 +8,6 @@ const Image = require("../models/Image");
 class ImageController {
   public async uploadPhotoOfTheDay(req: AuthenticatedRequest, res: Response) {
     const storage = new Storage();
-    console.log(req.files);
 
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
