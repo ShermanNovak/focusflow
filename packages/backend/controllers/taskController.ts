@@ -76,6 +76,16 @@ class TaskController {
 
     res.status(200).json(task);
   }
+
+  public async getTasksForGoal(req: AuthenticatedRequest, res: Response) {
+    const tasks = await Task.find({
+      user: req.user_id,
+      goal: req.params.goal_id,
+    }).sort({
+      createdAt: -1,
+    });
+    res.status(200).json(tasks); 
+  }
 }
 
 export const taskController = new TaskController();

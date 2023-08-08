@@ -6,6 +6,7 @@ import {
   deleteTask,
   getTasksOnly,
   getEventsOnly,
+  getTasksForGoal,
 } from "../services/tasks.service";
 
 export const useTaskQuery = (task_id: string) => {
@@ -42,4 +43,11 @@ export const useEventsQuery = () => {
     queryFn: () => getEventsOnly(),
   })
 }
+
+export const useTasksForGoalQuery = (goal_id: string) => {
+  return useQuery({
+    queryKey: ["tasks", goal_id],
+    queryFn: () => getTasksForGoal(goal_id),
+  });
+};
 

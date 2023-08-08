@@ -18,6 +18,8 @@ import Spotify from "./pages/Spotify";
 import SpotifyModal from "./features/spotify/SpotifyModal";
 import PhotosOfTheMonth from "./pages/PhotosOfTheMonth";
 import DailyAchievements from "./pages/DailyAchievements";
+import GoalRoadmaps from "./pages/GoalRoadmaps";
+
 function App() {
   const panelContext = useContext(PanelContext);
   const [showLeftNavbar, setShowLeftNavbar] = useState(true);
@@ -43,6 +45,7 @@ function App() {
           element={<HomePage showLeftNavbar={showLeftNavbar} />}
         />
         <Route path="/photosofthemonth" element={<PhotosOfTheMonth />} />
+        <Route path="/goalroadmaps" element={<GoalRoadmaps />} />
       </Routes>
       <Toaster position="top-right" />
 
