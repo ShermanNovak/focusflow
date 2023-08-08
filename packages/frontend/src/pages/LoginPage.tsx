@@ -6,17 +6,23 @@ import {Auth0Provider} from "@auth0/auth0-react";
 import ReactDOM from 'react-dom';
 import React, { useState } from 'react';
 import {useAuth0} from '@auth0/auth0-react';
+import { useUserContext } from "../context/UserContext";
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN || '';
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || '';
 
-export default function SignUpPage() {
+export default function LoginPage() {
+  
+  const {loginWithRedirect, user} = useAuth0();
+  const { updateUser } = useUserContext();
   const onFinish = (values: any) => {
     console.log('Success:', values);
+    if (user) {
+      updateUser({ userId: user.sub });
+    }
   };
 
-  const {loginWithRedirect} = useAuth0();
-  
+
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -35,7 +41,7 @@ export default function SignUpPage() {
 
   return (
     <body>
-    <div className="w-100 h-100" style={{backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center', height:'100vh'}}>
+    <div className="w-100 h-100" style={{backgroundImage: `url(${background})`, backgroundSize: 'cover', backgroundPosition: 'center', height:'100%'}}>
       <div className= "topnav">
         <img src={logo} alt="Logo" style={{ width: '2.5%',height: '2.5%', padding: '0px', float: 'left'}}/>
         <div style={{padding: '10px'}}>

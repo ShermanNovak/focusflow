@@ -1,6 +1,5 @@
 import NewJournalPanel from "./components/JournalPanel";
 import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
 import HomePage from "./pages/HomePage";
 import LeftNavbar from "./components/LeftNavbar";
 import CreateTaskPanel from "./features/tasks/CreateTaskPanel";
