@@ -56,6 +56,7 @@ export default function UpdateJournalPanel() {
       onOk() {
         deleteJEntryMutation.mutate(jentrydata._id);
         toast.success("Successfully deleted Journal Entry.");
+        window.location.reload();
       },
       onCancel() {
         console.log("Cancelled Journal Entry Deletion.");
