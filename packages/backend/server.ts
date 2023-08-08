@@ -33,6 +33,7 @@ app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
+app.get("/", () => {return "Hello"})
 
 mongoose
   .connect(MONGODB_URI)
