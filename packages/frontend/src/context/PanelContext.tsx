@@ -3,6 +3,8 @@ import { useState, createContext } from "react";
 export const PanelContext = createContext({
   currentTask: "",
   changeCurrentTask: (task_id: string) => {},
+  currentJE: "",
+  changeCurrentJE: (journalentry_id: string) => {},
   currentEvent: "",
   changeCurrentEvent: (event_id: string) => {},
   showCreateTaskPanel: false,
@@ -30,6 +32,7 @@ export const PanelContext = createContext({
 
 export function PanelContextProvider(props: any) {
   const [currentTask, setCurrentTask] = useState("");
+  const [currentJE, setCurrentJE] = useState(""); // current journal entry id
   const [currentEvent, setCurrentEvent] = useState("");
   const [showCreateTaskPanel, setShowCreateTaskPanel] = useState(false);
   const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
@@ -128,11 +131,17 @@ export function PanelContextProvider(props: any) {
     setCurrentEvent(event_id);
   }
 
+  function changeCurrentJE(journalentry_id: string) {
+    setCurrentJE(journalentry_id)
+  }
+
   return (
     <PanelContext.Provider
       value={{
         currentTask,
         changeCurrentTask,
+        currentJE,
+        changeCurrentJE,
         currentEvent,
         changeCurrentEvent,
         showCreateTaskPanel,
