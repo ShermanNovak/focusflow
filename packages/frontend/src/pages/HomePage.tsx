@@ -18,7 +18,11 @@ import { PanelContext } from "../context/PanelContext";
 
 import SmallCaps from "../components/SmallCaps";
 
-export default function HomePage() {
+type Props = {
+  showLeftNavbar: Boolean;
+};
+
+export default function HomePage(props: Props) {
   const panelContext = useContext(PanelContext);
 
   const createTaskMutation = useTaskCreation();
@@ -82,7 +86,7 @@ export default function HomePage() {
 
   // to get name from user context
   return (
-    <div className="p-8 md:block lg:block">
+    <div className={`${props.showLeftNavbar? "hidden" : "md:block lg:block"} p-8`}>
       <span className="text-xl text-black font-bold">
         Good morning, Antonio
       </span>
