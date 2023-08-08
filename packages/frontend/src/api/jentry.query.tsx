@@ -8,10 +8,10 @@ import {
 } from "../services/jentry.service";
 import { JournalEntry } from "../types/jentry.d";
 
-export const useJEntryQuery = (journalentry_id: string) => {
+export const useJEntryQuery = (date: string) => {
   return useQuery({
-    queryKey: ["jentries", journalentry_id], // something like a "primary key"; identifier for the query
-    queryFn: () => getJournalEntry(journalentry_id), // function called when the query is made with the parameter passed in
+    queryKey: ["jentries", date], // something like a "primary key"; identifier for the query
+    queryFn: () => getJournalEntry(date), // function called when the query is made with the parameter passed in
   });
 };
 
@@ -27,9 +27,9 @@ export const useJournalEntryDelete = (journalentry_id: string) => {
   return useMutation((journalentry_id: string) => deleteJournalEntry(journalentry_id));
 };
 
-export const useJournalEntrysQuery = () => {
+export const useJournalEntriesQuery = (date:string, limit?:string) => {
   return useQuery({
     queryKey: ["journalentries"], // getting all the entries, so no specific id
-    queryFn: () => getJournalEntries(),
+    queryFn: () => getJournalEntries(date, limit),
   })
 }

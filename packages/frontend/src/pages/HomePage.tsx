@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent, useContext } from "react";
-import { Input, Form, List } from "antd";
+import { Input, Form, List, Switch, Typography } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
   useTasksQuery,
 } from "../api/tasks.query";
 import { JournalEntry } from "../types/jentry.d";
-import { useJEntryQuery } from "../api/jentry.query";
+import { useJEntryQuery, useJournalEntriesQuery } from "../api/jentry.query";
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
@@ -88,13 +88,11 @@ export default function HomePage(props: Props) {
   });
 
   const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
-
-  const [currentJE, changeCurrentJE] = useState("");
+  const { Paragraph, Text} = Typography;
   const date = new Date().toJSON(); // today's date
   const todayDate = date.slice(0, 10);
-  console.log(todayDate)
   const { data: jentrydata} = useJEntryQuery(todayDate); // fetching data from prev journal entry
-  console.log(jentrydata)
+  console.log('jentry',jentrydata)
 
   const JournalEntry = ({ entry }: { entry: JournalEntry | null }) => {
     return ( 
@@ -103,13 +101,12 @@ export default function HomePage(props: Props) {
           <div>
             <button
             onClick={() => {
-              panelContext.changeCurrentJE(currentJE);
               panelContext.openUpdateJEntryPanel();
             }}
-            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
+            className="w-72 border-none drop-shadow px-5 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
             >
             <span className="font-bold">{entry.title}</span>
-            <p>{entry.content}</p>
+            <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>{entry.content}</Paragraph>
             </button>
           </div>
         ) : (

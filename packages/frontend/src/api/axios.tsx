@@ -2,7 +2,7 @@ import axios from "axios";
 
 // change token variable to user context token
 let TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2OTEzODU2MTgsImV4cCI6MTY5MTY0NDgxOH0.y9xXAEG5ynuU3NTByYAqe8v1ybgbYLY3Q0vHgybVVk4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdjOWIyMjE0NmE2MjJhYmRkMDhmYmIiLCJpYXQiOjE2OTEzMTExNTYsImV4cCI6MTY5MTU3MDM1Nn0.aqnHYxQzTGYPLuPKYNvKdik9MDsWv-Mk4HeV6e1oBbQ";
 
 export const axiosInstance = axios.create({
   baseURL: "http://localhost:3001/",

@@ -17,21 +17,22 @@ import RightPanel from "../../components/RightPanel";
 
 export default function UpdateJournalPanel() {
   const panelContext = useContext(PanelContext);
-  
+
+  const date = new Date().toJSON(); // today's date
+  const todayDate = date.slice(0, 10);
+  const { data: jentrydata, isLoading: jentryIsLoading } = useJEntryQuery(todayDate); // fetching data from prev journal entry
   const user_id = "647c9b22146a622abdd08fbb";
-  const jentryid = "64d1a9320ef17ca332f770ab";
-  const updateJEntryMutation = useJournalEntryUpdate(jentryid);
+  console.log(jentrydata._id)
+  const updateJEntryMutation = useJournalEntryUpdate(jentrydata._id);
   
   const [form] = Form.useForm(); // use the form in the journal i.e. title and body
-  // console.log("currentJE", panelContext.currentJE)
-  const { data: jentrydata, isLoading: jentryIsLoading } = useJEntryQuery(jentryid); // fetching data from prev journal entry
-
+  
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
     updateJEntryMutation.mutate(updatedData);
   };
 
-  const deleteJEntryMutation = useJournalEntryDelete(panelContext.currentJE);
+  const deleteJEntryMutation = useJournalEntryDelete(jentrydata._id);
   const { confirm } = Modal;
 
   const deleteJEntryHandler = () => {
@@ -42,7 +43,7 @@ export default function UpdateJournalPanel() {
         "Are you sure you want to delete this Journal Entry? This action cannot be undone. Deleting a Journal Entry will remove it permanently from the system",
       okText: "Confirm",
       onOk() {
-        deleteJEntryMutation.mutate(panelContext.currentJE);
+        deleteJEntryMutation.mutate(jentrydata._id);
         toast.success("Successfully deleted Journal Entry.");
       },
       onCancel() {
