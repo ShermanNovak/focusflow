@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const User = require('../models/User');
 
@@ -14,11 +15,11 @@ class UserController {
     }
 
     public async signUpUser(req: Request, res: Response) {
-        const { username, email, password } = req.body;
+        const {user} = useAuth0();
 
         try {
-            const user = await User.signup(username, email, password);
-            const token = UserController.createToken(user._id);
+            const usern = await User.signup(username, email, user.sub);
+            const token = UserController.createToken(usern._id);
             res.status(200).json({ email, token })
         } catch (error: any) {
             res.status(400).json({ error: error.message })

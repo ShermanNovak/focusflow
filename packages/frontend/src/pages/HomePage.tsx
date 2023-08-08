@@ -3,12 +3,14 @@ import toast from "react-hot-toast";
 import { KeyboardEvent } from "react";
 import { Input, Form } from "antd";
 import { useTaskCreation } from "../api/tasks.query";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import SmallCaps from "../components/SmallCaps";
 
 export default function HomePage() {
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
+  const {user} = useAuth0();
 
   const createTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -23,11 +25,10 @@ export default function HomePage() {
     }
   };
 
-  // to get name from user context
   return (
     <div className="p-8 w-full">
       <span className="text-xl text-black font-bold">
-        Good morning, Antonio
+      Good morning, {user?.name || "User"}
       </span>
       <div className="pt-3 grid grid-cols-2 gap-4">
         <div>

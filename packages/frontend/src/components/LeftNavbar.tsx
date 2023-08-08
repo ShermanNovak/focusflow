@@ -4,10 +4,17 @@ import Logo from "../assets/Logo.svg";
 
 import { useContext } from "react";
 import { PanelContext } from "../context/PanelContext";
+
 import TitleText from "./TitleText";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function LeftNavbar() {
+  const navigate = useNavigate();
   const panelContext = useContext(PanelContext);
+  const {logout, isAuthenticated}= useAuth0();
 
   return (
     <>
@@ -216,7 +223,7 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Logout" locate="">
+          <NavBarCom text="Logout" locate="" onClick={() => logout({ logoutParams: { returnTo: "https://dev-tzqbbnp2zwignnsi.us.auth0.com/v2/logout?returnTo=http%3A%2F%2Flocalhost:3000/login" } })}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

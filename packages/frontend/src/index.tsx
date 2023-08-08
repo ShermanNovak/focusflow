@@ -19,24 +19,18 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-      <Auth0Provider
-            domain="dev-tzqbbnp2zwignnsi.us.auth0.com"
-            clientId="pNVvOCRs7ONdT6mMJ4ZbPXaqO3V1oEhB"
-            authorizationParams={{
-              redirect_uri: window.location.origin
-            }}
-          >
-            <App />
-          </Auth0Provider>,
-        <ReactQueryDevtools />
-      </BrowserRouter>
-    </QueryClientProvider>
     <PanelContextProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+        <Auth0Provider
+              domain="dev-tzqbbnp2zwignnsi.us.auth0.com"
+              clientId="pNVvOCRs7ONdT6mMJ4ZbPXaqO3V1oEhB"
+              authorizationParams={{
+                redirect_uri: window.location.origin
+              }}
+            >
+              <App />
+            </Auth0Provider>,
           <ReactQueryDevtools />
         </BrowserRouter>
       </QueryClientProvider>
@@ -44,7 +38,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
