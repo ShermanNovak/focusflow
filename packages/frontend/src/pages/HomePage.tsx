@@ -143,7 +143,7 @@ export default function HomePage() {
             )}
           />
           <div className="pt-10">
-            {!imageData && filesContent.length < 1 && (
+            {(!imageData || !imageData.url) && filesContent.length < 1 && (
               <button
                 onClick={() => {
                   openFileSelector();
@@ -179,7 +179,7 @@ export default function HomePage() {
                 }}
               ></img>
             )}
-            {imageData && filesContent.length < 1 && (
+            {imageData && imageData.url && filesContent.length < 1 && (
               <img
                 alt="photo_of_the_day"
                 src={imageData.url}
