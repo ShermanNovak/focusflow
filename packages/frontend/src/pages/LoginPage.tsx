@@ -68,10 +68,6 @@ export default function LoginPage() {
             <Button onClick={() => loginWithRedirect()} type="primary" htmlType="submit" style={{width:'100px',  backgroundColor: '#404040', color:'#FFFFFF', textAlign: "center", boxShadow: '0px 3px 1px rgba(0, 0, 0, 0.2)', borderRadius: '20px', marginBottom:'20px'}}>
               <b>Sign in &gt;</b>
             </Button>
-            <h2>Features</h2>
-            <h3 style={{fontWeight: 'normal'}}>Experience the transformative power of recording your thoughts and experiences regularly. 
-              Our app offers a seamless space for self-expression that fosters self-awareness, emotional 
-              well-being, and personal growth, all while supercharging your productivity.</h3>
           </div>
       </div>
     <Footer></Footer>
