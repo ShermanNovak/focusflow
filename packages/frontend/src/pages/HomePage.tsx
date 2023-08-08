@@ -90,7 +90,7 @@ export default function HomePage(props: Props) {
     <div
       className={`${
         props.showLeftNavbar ? "hidden" : ""
-      } md:block lg:block p-8`}
+      } md:block lg:block p-8 w-full`}
     >
       <PageTitle text="Good morning, Antonio" />
       <div className="pt-3 lg:grid lg:grid-cols-2 lg:gap-4">
