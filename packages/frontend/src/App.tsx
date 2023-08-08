@@ -16,6 +16,7 @@ import CreateEventPanel from "./features/events/CreateEventPanel";
 import UpdateEventPanel from "./features/events/UpdateEventPanel";
 import Spotify from "./pages/Spotify"
 import SpotifyModal from "./features/spotify/SpotifyModal";
+import PhotosOfTheMonth from "./pages/PhotosOfTheMonth";
 
 function App() {
   const panelContext = useContext(PanelContext);
@@ -28,10 +29,12 @@ function App() {
         <Route path="/createjentry" element={<CreateJEntryPanel />}/>
         <Route path="/updatejentry" element={<UpdateJEntryPanel />} />
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
+        <Route path="/updateevent" element={<UpdateEventPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/photosofthemonth" element={<PhotosOfTheMonth />} />
       </Routes>
       <Toaster position="top-right" />
 

@@ -1,29 +1,33 @@
 import toast from "react-hot-toast";
-import { ExclamationCircleFilled } from "@ant-design/icons";
 
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import {
   useJEntryQuery,
   useJournalEntryDelete,
   useJournalEntryUpdate,
 } from "../../api/jentry.query";
-
-import RightPanel from "../../components/RightPanel";
-import DashedButton from "../../components/DashedButton";
 import { CameraFilled } from "@ant-design/icons";
 import { Form, Input, Space, Button, Modal } from "antd";
 import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
+import { axiosImageInstance } from "../../api/axios";
+import { useFilePicker } from "use-file-picker";
+
+import RightPanel from "../../components/RightPanel";
 
 export default function UpdateJournalPanel() {
-    const [form] = Form.useForm(); // use the form in the journal i.e. title and body
-    const journalentry_id = "64c8afa2bb7974ea233d5137"; // journal entry hardcoded id
-    const { data: jentrydata, isLoading: jentryIsLoading } = useJEntryQuery(journalentry_id); // fetching data from prev journal entry 
-    // console.log(jentrydata);
-    const updateJEntryMutation = useJournalEntryUpdate(journalentry_id); // use the mutation to update journal entry
+  const journalentry_id = "64d0932683d7f892da32bdec"; // journal entry hardcoded id
+  const user_id = "647c9b22146a622abdd08fbb";
+
+  const [form] = Form.useForm(); // use the form in the journal i.e. title and body
+
+  const { data: jentrydata, isLoading: jentryIsLoading } =
+    useJEntryQuery(journalentry_id); // fetching data from prev journal entry
+
+  const updateJEntryMutation = useJournalEntryUpdate(journalentry_id); // use the mutation to update journal entry
 
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
-    console.log("newdata", updatedData);
     updateJEntryMutation.mutate(updatedData);
   };
 
@@ -56,26 +60,70 @@ export default function UpdateJournalPanel() {
     .toUpperCase();
 
   const panelContext = useContext(PanelContext);
-  console.log("jentrydata:", jentrydata);
+
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      try {
+        const formData = new FormData();
+        formData.append("actualFile", plainFiles[0]);
+        axiosImageInstance
+          .post("journal", formData)
+          .then(function (response: any) {
+            //handle success
+            console.log(response);
+          });
+        updateJEntryMutation.mutate({
+          imageURL: `https://storage.cloud.google.com/journal_images/${user_id}/${plainFiles[0].name}`,
+        });
+        toast.success("Successfully uploaded image");
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    },
+  });
 
   return (
     <RightPanel>
       <div className="absolute w-full left-0 h-1/4 top-0 bg-white flex">
-        {(!jentrydata || !jentrydata.imageURL) && (
+        {(!jentrydata || !jentrydata.imageURL) && filesContent.length < 1 && (
           <div className="mx-auto my-auto">
-            <DashedButton
-              boldText="Add your Photo of the Day"
-              text="What picture best represents your day?"
+            <button
+              className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+              onClick={() => {
+                openFileSelector();
+              }}
             >
               <CameraFilled className="text-2xl" />
-            </DashedButton>
+              <div className="flex flex-col items-start gap-1 font-sans">
+                <span className="font-bold">Add a photo to your journal</span>
+                <span>What picture best represents your day?</span>
+              </div>
+            </button>
           </div>
         )}
-        {jentrydata && jentrydata.imageURL && (
+        {jentrydata && jentrydata.imageURL && filesContent.length < 1 && (
           <img
-            alt="photo_of_the_day"
+            alt="journal entry"
             src={jentrydata.imageURL}
+            className="rounded object-cover w-full drop-shadow"
+            onClick={() => {
+              openFileSelector();
+            }}
           />
+        )}
+        {filesContent.length > 0 && (
+          <img
+            alt={filesContent[0].name}
+            src={filesContent[0].content}
+            className="rounded object-cover w-full drop-shadow"
+            onClick={() => {
+              openFileSelector();
+            }}
+          ></img>
         )}
       </div>
       <div className="absolute h-3/4 bottom-0">

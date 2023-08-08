@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
-import { useState, KeyboardEvent } from "react";
-import { Input, Form, Checkbox } from "antd";
+import { useState, KeyboardEvent, useContext } from "react";
+import { Input, Form, List } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
@@ -10,12 +10,17 @@ import {
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
 import { axiosImageInstance } from "../api/axios";
-import { useHighlightCreation } from "../api/highlight.query";
-import { useHighlightQuery } from "../api/highlight.query";
+import {
+  useHighlightQuery,
+  useHighlightCreation,
+} from "../api/highlight.query";
+import { PanelContext } from "../context/PanelContext";
 
 import SmallCaps from "../components/SmallCaps";
 
 export default function HomePage() {
+  const panelContext = useContext(PanelContext);
+
   const createTaskMutation = useTaskCreation();
   const [taskForm] = Form.useForm();
   const createHighlightMutation = useHighlightCreation();
@@ -46,12 +51,9 @@ export default function HomePage() {
         toast.error(e.message);
       }
     }
-  }
-  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry 
-  
+  };
+  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
   const { data: eventsData } = useEventsQuery();
-  console.log(tasksData);
-
   const { data: imageData } = useImageQuery();
 
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -63,9 +65,8 @@ export default function HomePage() {
       try {
         const formData = new FormData();
         formData.append("actualFile", plainFiles[0]);
-        console.log(plainFiles[0]);
         axiosImageInstance
-          .post("uploadfile", formData)
+          .post("photooftheday", formData)
           .then(function (response: any) {
             //handle success
             console.log(response);
@@ -102,23 +103,52 @@ export default function HomePage() {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-          <Form 
-            form={highlightForm}
-            initialValues={highlightData}
-            >
+          <Form form={highlightForm} initialValues={highlightData}>
             <Form.Item name="content">
-              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
+              <Input
+                className="bg-pale-yellow"
+                onKeyDown={createHighlightHandler}
+              />
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-          {eventsData && eventsData.map((event: any) => event.title)}
-          <div>
-            {!imageData && filesContent.length < 1 && (
+          <List
+            bordered
+            dataSource={eventsData}
+            renderItem={(event: any) => (
+              <List.Item
+                onClick={() => {
+                  panelContext.changeCurrentEvent(event._id);
+                  panelContext.openUpdateEventPanel();
+                }}
+                className="py-2"
+                key={event._id}
+              >
+                {new Date(event.startTime)
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}
+                {new Date(event.startTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}{" "}
+                -{" "}
+                {new Date(event.endTime).getHours().toString().padStart(2, "0")}
+                {new Date(event.endTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}
+                <span className="ps-5">{event.title}</span>
+              </List.Item>
+            )}
+          />
+          <div className="pt-10">
+            {(!imageData || !imageData.url) && filesContent.length < 1 && (
               <button
                 onClick={() => {
                   openFileSelector();
                 }}
-                className="w-72 border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
+                className="border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,17 +173,17 @@ export default function HomePage() {
               <img
                 alt={filesContent[0].name}
                 src={filesContent[0].content}
-                className="rounded w-72 drop-shadow"
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
                 onClick={() => {
                   openFileSelector();
                 }}
               ></img>
             )}
-            {imageData && filesContent.length < 1 && (
+            {imageData && imageData.url && filesContent.length < 1 && (
               <img
                 alt="photo_of_the_day"
                 src={imageData.url}
-                className="rounded w-72 drop-shadow"
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
                 onClick={() => {
                   openFileSelector();
                 }}
@@ -184,15 +214,23 @@ export default function HomePage() {
               <Input className="bg-pale-purple" onKeyDown={createTaskHandler} />
             </Form.Item>
           </Form>
+          <SmallCaps text="HERE ARE ALL YOUR TASKS ✏️" />
           <div className="flex flex-col gap-y-5">
-            {tasksData &&
-              tasksData.map((task: any) => (
-                <span>
-                  <Checkbox value={task._id} id={task._id}>
-                    {task.title}
-                  </Checkbox>
-                </span>
-              ))}
+            <List
+              bordered
+              dataSource={tasksData}
+              renderItem={(task: any) => (
+                <List.Item
+                  onClick={() => {
+                    panelContext.changeCurrentTask(task._id);
+                    panelContext.openUpdateTaskPanel();
+                  }}
+                  className="py-2"
+                >
+                  {task.title}
+                </List.Item>
+              )}
+            />
           </div>
         </div>
       </div>

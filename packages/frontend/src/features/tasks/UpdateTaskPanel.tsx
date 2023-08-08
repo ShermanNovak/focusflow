@@ -20,16 +20,20 @@ import {
 } from "../../api/tasks.query";
 import { useContext } from "react";
 import { PanelContext } from "../../context/PanelContext";
+import { axiosImageInstance } from "../../api/axios";
+import { useFilePicker } from "use-file-picker";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
-import DashedButton from "../../components/DashedButton";
-
-const task_id = "64ae82495e0b764c0dfcf7e2";
 
 export default function UpdateTaskPanel() {
+  const user_id = "647c9b22146a622abdd08fbb";
+  const panelContext = useContext(PanelContext);
+
   const [form] = Form.useForm();
-  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(task_id);
+  const { data: taskData, isLoading: taskIsLoading } = useTaskQuery(
+    panelContext.currentTask
+  );
 
   const { data: goals } = useGoalsQuery();
   let selectOptions: { value: string; label: string }[] = [];
@@ -41,14 +45,14 @@ export default function UpdateTaskPanel() {
     }));
   }
 
-  const updateTaskMutation = useTaskUpdate(task_id);
+  const updateTaskMutation = useTaskUpdate(panelContext.currentTask);
 
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
     updateTaskMutation.mutate(updatedData);
   };
 
-  const deleteTaskMutation = useTaskDelete(task_id);
+  const deleteTaskMutation = useTaskDelete(panelContext.currentTask);
   const { confirm } = Modal;
 
   const deleteTaskHandler = () => {
@@ -59,7 +63,7 @@ export default function UpdateTaskPanel() {
         "Are you sure you want to delete this task? This action cannot be undone. Deleting the task will remove it permanently from the system",
       okText: "Confirm",
       onOk() {
-        deleteTaskMutation.mutate(task_id);
+        deleteTaskMutation.mutate(panelContext.currentTask);
         toast.success("Successfully deleted task");
       },
       onCancel() {
@@ -68,7 +72,30 @@ export default function UpdateTaskPanel() {
     });
   };
 
-  const panelContext = useContext(PanelContext);
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      try {
+        const formData = new FormData();
+        formData.append("actualFile", plainFiles[0]);
+        axiosImageInstance
+          .post("task", formData)
+          .then(function (response: any) {
+            //handle success
+            console.log(response);
+          });
+        updateTaskMutation.mutate({
+          imageURL: `https://storage.cloud.google.com/task_photos/${user_id}/${plainFiles[0].name}`,
+        });
+        toast.success("Successfully uploaded image");
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    },
+  });
 
   return (
     <RightPanel>
@@ -132,12 +159,42 @@ export default function UpdateTaskPanel() {
             </Form.Item>
           </div>
 
-          <DashedButton
-            boldText="Snap a photo to mark the completion of your task"
-            text="Feel motivated and inspired by visually documenting your progress"
-          >
-            <CameraFilled className="text-2xl" />
-          </DashedButton>
+          {!taskData.imageURL && filesContent.length < 1 && (
+            <button
+              className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+              onClick={() => {
+                openFileSelector();
+              }}
+            >
+              <CameraFilled className="text-2xl" />
+              <div className="flex flex-col items-start gap-1 font-sans">
+                <span className="font-bold">
+                  Mark the completion of your task
+                </span>
+                <span>Photograph your task completion with a snap.</span>
+              </div>
+            </button>
+          )}
+          {taskData && taskData.imageURL && filesContent.length < 1 && (
+            <img
+              alt="task"
+              src={taskData.imageURL}
+              className="block py-5 rounded h-52 drop-shadow"
+              onClick={() => {
+                openFileSelector();
+              }}
+            />
+          )}
+          {filesContent.length > 0 && (
+            <img
+              alt={filesContent[0].name}
+              src={filesContent[0].content}
+              className="rounded py-2 block h-52 drop-shadow"
+              onClick={() => {
+                openFileSelector();
+              }}
+            ></img>
+          )}
 
           <Space>
             <Button type="primary" danger onClick={deleteTaskHandler}>

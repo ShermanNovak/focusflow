@@ -1,6 +1,10 @@
 import { useState, createContext } from "react";
 
 export const PanelContext = createContext({
+  currentTask: "",
+  changeCurrentTask: (task_id: string) => {},
+  currentEvent: "",
+  changeCurrentEvent: (event_id: string) => {},
   showCreateTaskPanel: false,
   showUpdateTaskPanel: false,
   showSessionPanel: false,
@@ -25,6 +29,8 @@ export const PanelContext = createContext({
 });
 
 export function PanelContextProvider(props: any) {
+  const [currentTask, setCurrentTask] = useState("");
+  const [currentEvent, setCurrentEvent] = useState("");
   const [showCreateTaskPanel, setShowCreateTaskPanel] = useState(false);
   const [showUpdateTaskPanel, setShowUpdateTaskPanel] = useState(false);
   const [showSessionPanel, setShowSessionPanel] = useState(false);
@@ -88,7 +94,7 @@ export function PanelContextProvider(props: any) {
     resetPanels();
     setShowCreateJEntryPanel(true);
   }
-  
+
   function closeCreateJEntryPanel() {
     resetPanels();
     setShowCreateJEntryPanel(false);
@@ -98,12 +104,11 @@ export function PanelContextProvider(props: any) {
     resetPanels();
     setShowUpdateJEntryPanel(true);
   }
-  
+
   function closeUpdateJEntryPanel() {
     resetPanels();
     setShowUpdateJEntryPanel(false);
   }
-
 
   function openCreateEventPanel() {
     resetPanels();
@@ -115,9 +120,21 @@ export function PanelContextProvider(props: any) {
     setShowCreateEventPanel(false);
   }
 
+  function changeCurrentTask(task_id: string) {
+    setCurrentTask(task_id);
+  }
+
+  function changeCurrentEvent(event_id: string) {
+    setCurrentEvent(event_id);
+  }
+
   return (
     <PanelContext.Provider
       value={{
+        currentTask,
+        changeCurrentTask,
+        currentEvent,
+        changeCurrentEvent,
         showCreateTaskPanel,
         showUpdateTaskPanel,
         showSessionPanel,
