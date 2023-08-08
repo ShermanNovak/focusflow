@@ -91,7 +91,6 @@ export default function SpotifyModal({
         const selectedSong = results[selectedKey - 1];
         setQuery("");
         setSelectedSong(selectedSong);
-        setSOTD({ name: selectedSong.name, uri: selectedSong.uri, user: "" });
         setResults([]);
         showModal(false);
         setSelectedKey(null);
