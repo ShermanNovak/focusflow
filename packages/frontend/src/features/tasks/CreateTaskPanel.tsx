@@ -4,12 +4,28 @@ import { DatePicker, Form, Input, Checkbox, Select, Button, Space } from "antd";
 import { useGoalsQuery } from "../../api/goals.query";
 import { useTaskCreation } from "../../api/tasks.query";
 import { PanelContext } from "../../context/PanelContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useFilePicker } from "use-file-picker";
+import { axiosImageInstance } from "../../api/axios";
+import { CameraFilled } from "@ant-design/icons";
 
 import SmallCaps from "../../components/SmallCaps";
 import RightPanel from "../../components/RightPanel";
 
 export default function CreateTaskPanel() {
+  const user_id = "647c9b22146a622abdd08fbb";
+  const [fileData, setFileData] = useState<File | null>(null);
+
+  const [openFileSelector, { filesContent }] = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    limitFilesConfig: { max: 1 },
+    onFilesSuccessfulySelected: ({ plainFiles }) => {
+      setFileData(plainFiles[0]);
+    },
+  });
+
   const [form] = Form.useForm();
 
   const { data: goals } = useGoalsQuery();
@@ -27,9 +43,25 @@ export default function CreateTaskPanel() {
   const formSubmissionHandler = () => {
     try {
       form.validateFields().then((values) => {
-        createTaskMutation.mutate({ ...values, type: "task" });
+        if (fileData) {
+          const formData = new FormData();
+          formData.append("actualFile", fileData);
+          axiosImageInstance
+            .post("/task", formData)
+            .then(function (response: any) {
+              //handle success
+              console.log(response);
+            });
+          createTaskMutation.mutate({
+            ...values,
+            imageURL: `https://storage.cloud.google.com/task_photos/${user_id}/${filesContent[0].name}`,
+          });
+        } else {
+          createTaskMutation.mutate({ ...values, type: "task" });
+        }
         toast.success("Successfully created task!");
         form.resetFields();
+        panelContext.closeCreateTaskPanel();
       });
     } catch (e: any) {
       console.log(e.message);
@@ -86,7 +118,32 @@ export default function CreateTaskPanel() {
             <Checkbox />
           </Form.Item>
         </div>
-
+        {filesContent.length < 1 && (
+          <div className="mx-auto my-auto">
+            <button
+              className="flex flex-row items-center gap-8 border-dashed rounded-lg px-8 py-3 my-3 bg-inherit"
+              onClick={() => {
+                openFileSelector();
+              }}
+            >
+              <CameraFilled className="text-2xl" />
+              <div className="flex flex-col items-start gap-1 font-sans">
+                <span className="font-bold">Add a photo to your journal</span>
+                <span>What picture best represents your day?</span>
+              </div>
+            </button>
+          </div>
+        )}
+        {filesContent.length > 0 && (
+          <img
+            alt={filesContent[0].name}
+            src={filesContent[0].content}
+            className="py-2 block h-52 rounded drop-shadow"
+            onClick={() => {
+              openFileSelector();
+            }}
+          ></img>
+        )}
         <Space>
           <Button type="primary" htmlType="submit" className="my-2">
             Submit

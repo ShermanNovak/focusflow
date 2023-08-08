@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
-import { useState, KeyboardEvent, useContext, useState } from "react";
-import { Input, Form, Checkbox } from "antd";
+import { useState, KeyboardEvent, useContext } from "react";
+import { Input, Form, List } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
@@ -61,9 +61,7 @@ export default function HomePage() {
       }
     }
   };
-
   const { data: eventsData } = useEventsQuery();
-
   const { data: imageData } = useImageQuery();
 
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -166,6 +164,84 @@ export default function HomePage() {
           </Form>
           )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
+          <List
+            bordered
+            dataSource={eventsData}
+            renderItem={(event: any) => (
+              <List.Item
+                onClick={() => {
+                  panelContext.changeCurrentEvent(event._id);
+                  panelContext.openUpdateEventPanel();
+                }}
+                className="py-2"
+                key={event._id}
+              >
+                {new Date(event.startTime)
+                  .getHours()
+                  .toString()
+                  .padStart(2, "0")}
+                {new Date(event.startTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}{" "}
+                -{" "}
+                {new Date(event.endTime).getHours().toString().padStart(2, "0")}
+                {new Date(event.endTime)
+                  .getMinutes()
+                  .toString()
+                  .padStart(2, "0")}
+                <span className="ps-5">{event.title}</span>
+              </List.Item>
+            )}
+          />
+          <div className="pt-10">
+            {(!imageData || !imageData.url) && filesContent.length < 1 && (
+              <button
+                onClick={() => {
+                  openFileSelector();
+                }}
+                className="border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="font-bold">Add Your Photo of the Day</span>
+                <span>
+                  Embrace and cherish the fleeting beauty of precious moments.
+                </span>
+              </button>
+            )}
+            {filesContent.length > 0 && (
+              <img
+                alt={filesContent[0].name}
+                src={filesContent[0].content}
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
+                onClick={() => {
+                  openFileSelector();
+                }}
+              ></img>
+            )}
+            {imageData && imageData.url && filesContent.length < 1 && (
+              <img
+                alt="photo_of_the_day"
+                src={imageData.url}
+                className="object-cover max-h-56 rounded w-72 drop-shadow"
+                onClick={() => {
+                  openFileSelector();
+                }}
+              ></img>
+            )}
+          </div>
         </div>
 
         <div>
@@ -191,19 +267,23 @@ export default function HomePage() {
               <Input className="bg-pale-purple" onKeyDown={createTaskHandler} />
             </Form.Item>
           </Form>
+          <SmallCaps text="HERE ARE ALL YOUR TASKS ✏️" />
           <div className="flex flex-col gap-y-5">
-            {tasksData &&
-              tasksData.map((task: any) => (
-                <span
-                  key={task._id}
+            <List
+              bordered
+              dataSource={tasksData}
+              renderItem={(task: any) => (
+                <List.Item
                   onClick={() => {
                     panelContext.changeCurrentTask(task._id);
                     panelContext.openUpdateTaskPanel();
                   }}
+                  className="py-2"
                 >
                   {task.title}
-                </span>
-              ))}
+                </List.Item>
+              )}
+            />
           </div>
         </div>
       </div>

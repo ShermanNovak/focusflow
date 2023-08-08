@@ -21,6 +21,9 @@ const taskSchema = new Schema(
     deadline: Date,
     startTime: Date,
     endTime: Date,
+    location: String,
+    googleMeet: String,
+    guests: String,
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
