@@ -21,11 +21,9 @@ export default function UpdateEventPanel() {
   const user_id = "647c9b22146a622abdd08fbb";
   const [form] = Form.useForm();
   const panelContext = useContext(PanelContext);
-  console.log(panelContext.currentEvent)
   const updateTaskMutation = useTaskUpdate(panelContext.currentEvent);
   const blurHandler = () => {
     const updatedData = form.getFieldsValue();
-    console.log(updatedData);
     updateTaskMutation.mutate(updatedData);
   };
 
