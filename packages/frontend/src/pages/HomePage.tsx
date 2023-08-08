@@ -17,8 +17,8 @@ import {
   useHighlightCreation,
 } from "../api/highlight.query";
 import { PanelContext } from "../context/PanelContext";
-import SpotifyCard from '../components/SpotifyCard';
-import SpotifyModal from '../features/spotify/SpotifyModal';
+import SpotifyCard from "../components/SpotifyCard";
+import SpotifyModal from "../features/spotify/SpotifyModal";
 
 import SmallCaps from "../components/SmallCaps";
 
@@ -87,34 +87,39 @@ export default function HomePage(props: Props) {
     },
   });
 
-  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
+  const { data: highlightData, isLoading: highlightIsLoading } =
+    useHighlightQuery(); // fetching data from prev highlight entry
   const { Paragraph } = Typography;
   const date = new Date().toJSON(); // today's date
   const todayDate = date.slice(0, 10);
-  const { data: jentrydata} = useJEntryQuery(todayDate); // fetching data from prev journal entry
-  console.log('jentry',jentrydata)
+  const { data: jentrydata } = useJEntryQuery(todayDate); // fetching data from prev journal entry
+  console.log("jentry", jentrydata);
 
   const JournalEntry = ({ entry }: { entry: JournalEntry | null }) => {
-    return ( 
+    return (
       <div>
         {entry ? (
           <div>
             <button
-            onClick={() => {
-              panelContext.openUpdateJEntryPanel();
-            }}
-            className="w-72 border-none drop-shadow px-5 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
+              onClick={() => {
+                panelContext.openUpdateJEntryPanel();
+              }}
+              className="border-none drop-shadow px-5 py-16 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
             >
-            <span className="font-bold">{entry.title}</span>
-            <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: '...' }}>{entry.content}</Paragraph>
+              <span className="font-bold">{entry.title}</span>
+              <Paragraph
+                ellipsis={{ rows: 2, expandable: false, symbol: "..." }}
+              >
+                {entry.content}
+              </Paragraph>
             </button>
           </div>
         ) : (
           <button
             onClick={() => {
-              panelContext.openCreateJEntryPanel()
+              panelContext.openCreateJEntryPanel();
             }}
-            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] w-1/8"
+            className="border-none drop-shadow px-5 py-16 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +146,11 @@ export default function HomePage(props: Props) {
   };
   // to get name from user context
   return (
-    <div className={`${props.showLeftNavbar? "hidden" : ""} md:block lg:block p-8`}>
+    <div
+      className={`${
+        props.showLeftNavbar ? "hidden" : ""
+      } md:block lg:block p-8`}
+    >
       <span className="text-xl text-black font-bold">
         Good morning, Antonio
       </span>
@@ -163,14 +172,14 @@ export default function HomePage(props: Props) {
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
           {!highlightIsLoading && (
-          <Form 
-            form={highlightForm}
-            initialValues={highlightData}
-            >
-            <Form.Item name="content">
-              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
-            </Form.Item>
-          </Form>
+            <Form form={highlightForm} initialValues={highlightData}>
+              <Form.Item name="content">
+                <Input
+                  className="bg-pale-yellow"
+                  onKeyDown={createHighlightHandler}
+                />
+              </Form.Item>
+            </Form>
           )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
 
@@ -204,54 +213,70 @@ export default function HomePage(props: Props) {
               </List.Item>
             )}
           />
-          <div className="py-10">
-            <JournalEntry entry={jentrydata || null}/>
-            {(!imageData || !imageData.url) && filesContent.length < 1 && (
-              <button
-                onClick={() => {
-                  openFileSelector();
-                }}
-                className="border-none drop-shadow px-9 py-7 gap-y-2 rounded flex flex-col items-center bg-stone-50"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-6 h-6"
+          <div className="grid grid-rows-2 grid-cols-2">
+            <div className="row-span-2 flex justify-end">
+              <JournalEntry entry={jentrydata || null} />
+            </div>
+            <div className="mb-0">
+              <SpotifyCard
+                handleShowModal={setShowSpotifyModal}
+                selectedSong={selectedSong}
+              />
+              <SpotifyModal
+                open={showSpotifyModal}
+                showModal={setShowSpotifyModal}
+                selectedSong={selectedSong}
+                setSelectedSong={setSelectedSong}
+              />
+            </div>
+            <div>
+              {(!imageData || !imageData.url) && filesContent.length < 1 && (
+                <button
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                className="border-none bg-stone-50 px-5 py-4 mt-0 flex flex-col justify-start items-center drop-shadow"
                 >
-                  <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="font-bold">Add Your Photo of the Day</span>
-                <span>
-                  Embrace and cherish the fleeting beauty of precious moments.
-                </span>
-              </button>
-            )}
-            {filesContent.length > 0 && (
-              <img
-                alt={filesContent[0].name}
-                src={filesContent[0].content}
-                className="object-cover max-h-56 rounded w-72 drop-shadow"
-                onClick={() => {
-                  openFileSelector();
-                }}
-              ></img>
-            )}
-            {imageData && imageData.url && filesContent.length < 1 && (
-              <img
-                alt="photo_of_the_day"
-                src={imageData.url}
-                className="object-cover max-h-56 rounded w-72 drop-shadow"
-                onClick={() => {
-                  openFileSelector();
-                }}
-              ></img>
-            )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <span className="font-bold my-1">Add Your Photo of the Day</span>
+                  <span>
+                    Embrace and cherish the fleeting beauty of precious moments.
+                  </span>
+                </button>
+              )}
+              {filesContent.length > 0 && (
+                <img
+                  alt={filesContent[0].name}
+                  src={filesContent[0].content}
+                  className="object-cover max-h-56 rounded w-72 drop-shadow"
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                ></img>
+              )}
+              {imageData && imageData.url && filesContent.length < 1 && (
+                <img
+                  alt="photo_of_the_day"
+                  src={imageData.url}
+                  className="object-cover max-h-56 rounded w-72 drop-shadow"
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                ></img>
+              )}
+            </div>
           </div>
         </div>
 
@@ -298,13 +323,6 @@ export default function HomePage(props: Props) {
           </div>
         </div>
       </div>
-      <SpotifyCard handleShowModal={setShowSpotifyModal} selectedSong={selectedSong}/>
-      <SpotifyModal 
-        open={showSpotifyModal} 
-        showModal={setShowSpotifyModal} 
-        selectedSong={selectedSong} 
-        setSelectedSong={setSelectedSong}
-      />
     </div>
   );
 }
