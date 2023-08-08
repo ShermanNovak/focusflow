@@ -18,10 +18,12 @@ import Spotify from "./pages/Spotify";
 import SpotifyModal from "./features/spotify/SpotifyModal";
 import PhotosOfTheMonth from "./pages/PhotosOfTheMonth";
 import GoalRoadmaps from "./pages/GoalRoadmaps";
+import Settings from "./pages/Settings";
 
 function App() {
   const panelContext = useContext(PanelContext);
   const [showLeftNavbar, setShowLeftNavbar] = useState(true);
+  const [themeColour, setThemeColour] = useState("bg-navbar-green");
 
   return (
     <div className="flex lg:flex-row md:flex-row flex-col">
@@ -38,6 +40,7 @@ function App() {
         <Route path="/createtask" element={<CreateTaskPanel />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/settings" element={<Settings />} />
         <Route
           path="/"
           element={<HomePage showLeftNavbar={showLeftNavbar} />}

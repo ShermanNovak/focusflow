@@ -6,13 +6,12 @@ import {
   useGoalDelete,
 } from "../api/goals.query";
 import { useTasksForGoalQuery } from "../api/tasks.query";
-import { Form, Input, List, Select, Checkbox, Modal, Progress } from "antd";
+import { Form, Input, List, Select, Checkbox, Modal, Progress, Spin } from "antd";
 import { KeyboardEvent, useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 
 import SmallCaps from "../components/SmallCaps";
 import PageTitle from "../components/PageTitle";
-import { filter } from "lodash";
 
 export default function GoalRoadmaps() {
   const createGoalMutation = useGoalCreation();
@@ -31,7 +30,7 @@ export default function GoalRoadmaps() {
     }
   };
 
-  const { data: goalsData, refetch: refetchGoals } = useGoalsQuery();
+  const { data: goalsData, refetch: refetchGoals, isLoading: goalsAreLoading } = useGoalsQuery();
   const [selectedGoal, setSelectedGoal] = useState();
   const { data: tasksData } = useTasksForGoalQuery(selectedGoal || "");
 
@@ -106,7 +105,8 @@ export default function GoalRoadmaps() {
       <Progress percent={100*filteredTasks?.length / tasksData?.length} />
       <div className="pt-4">
         <SmallCaps text="MANAGE MY GOALS" />
-        <List
+        {goalsAreLoading && <div className="grid place-content-center"><Spin /></div>}
+        {!goalsAreLoading && <List
           bordered
           dataSource={goalsData}
           renderItem={(goal: any) => (
@@ -148,7 +148,7 @@ export default function GoalRoadmaps() {
               </svg>
             </List.Item>
           )}
-        />
+        />}
       </div>
     </div>
   );

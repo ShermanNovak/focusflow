@@ -12,6 +12,7 @@ module.exports = {
         'hover-blue': '#d9e0e7',
         'pale-yellow': '#f9f2e4',
         'pale-purple': '#e9e7f5',
+        'pastel-orange': '#ff9574',
       }
     },
   },

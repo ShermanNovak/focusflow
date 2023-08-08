@@ -7,7 +7,7 @@ import {
   useJournalEntryUpdate,
 } from "../../api/jentry.query";
 import { CameraFilled } from "@ant-design/icons";
-import { Form, Input, Space, Button, Modal } from "antd";
+import { Form, Input, Space, Button, Modal, Spin } from "antd";
 import { PanelContext } from "../../context/PanelContext";
 import { useContext } from "react";
 import { axiosImageInstance } from "../../api/axios";
@@ -134,7 +134,7 @@ export default function UpdateJournalPanel() {
           <h3 className="font-semibold">|</h3>
           <h3 className="ml-3 font-semibold">{dayOfWeek}</h3>
         </div>
-        {jentryIsLoading && <h2>Fetching Journal Entry...</h2>}{" "}
+        {jentryIsLoading && <div className="h-screen grid place-content-center"><Spin /></div>}{" "}
         {/* if data is loading, will show "loading" on the screen */}
         {!jentryIsLoading && (
           <Form labelAlign="left" form={form} initialValues={jentrydata}>

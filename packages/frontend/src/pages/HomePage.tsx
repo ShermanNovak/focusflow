@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent, useContext } from "react";
-import { Input, Form, List } from "antd";
+import { Input, Form, List, Spin } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
@@ -43,7 +43,7 @@ export default function HomePage(props: Props) {
       }
     }
   };
-  const { data: tasksData } = useTasksQuery();
+  const { data: tasksData, isLoading: tasksAreLoading } = useTasksQuery();
 
   const createHighlightHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -58,7 +58,7 @@ export default function HomePage(props: Props) {
     }
   };
   const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
-  const { data: eventsData } = useEventsQuery();
+  const { data: eventsData, isLoading: eventsAreLoading } = useEventsQuery();
   const { data: imageData } = useImageQuery();
 
   const [openFileSelector, { filesContent }] = useFilePicker({
@@ -119,36 +119,46 @@ export default function HomePage(props: Props) {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
-          <List
-            bordered
-            dataSource={eventsData}
-            renderItem={(event: any) => (
-              <List.Item
-                onClick={() => {
-                  panelContext.changeCurrentEvent(event._id);
-                  panelContext.openUpdateEventPanel();
-                }}
-                className="py-2"
-                key={event._id}
-              >
-                {new Date(event.startTime)
-                  .getHours()
-                  .toString()
-                  .padStart(2, "0")}
-                {new Date(event.startTime)
-                  .getMinutes()
-                  .toString()
-                  .padStart(2, "0")}{" "}
-                -{" "}
-                {new Date(event.endTime).getHours().toString().padStart(2, "0")}
-                {new Date(event.endTime)
-                  .getMinutes()
-                  .toString()
-                  .padStart(2, "0")}
-                <span className="ps-5">{event.title}</span>
-              </List.Item>
-            )}
-          />
+          {eventsAreLoading && (
+            <div className="grid place-content-center">
+              <Spin />
+            </div>
+          )}
+          {!eventsAreLoading && (
+            <List
+              bordered
+              dataSource={eventsData}
+              renderItem={(event: any) => (
+                <List.Item
+                  onClick={() => {
+                    panelContext.changeCurrentEvent(event._id);
+                    panelContext.openUpdateEventPanel();
+                  }}
+                  className="py-2"
+                  key={event._id}
+                >
+                  {new Date(event.startTime)
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}
+                  {new Date(event.startTime)
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")}{" "}
+                  -{" "}
+                  {new Date(event.endTime)
+                    .getHours()
+                    .toString()
+                    .padStart(2, "0")}
+                  {new Date(event.endTime)
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, "0")}
+                  <span className="ps-5">{event.title}</span>
+                </List.Item>
+              )}
+            />
+          )}
           <div className="py-10">
             {(!imageData || !imageData.url) && filesContent.length < 1 && (
               <button
@@ -222,7 +232,12 @@ export default function HomePage(props: Props) {
             </Form.Item>
           </Form>
           <SmallCaps text="HERE ARE ALL YOUR TASKS ✏️" />
-          <div className="flex flex-col gap-y-5">
+          {tasksAreLoading && (
+            <div className="grid place-content-center">
+              <Spin />
+            </div>
+          )}
+          {!tasksAreLoading && (
             <List
               bordered
               dataSource={tasksData}
@@ -238,7 +253,7 @@ export default function HomePage(props: Props) {
                 </List.Item>
               )}
             />
-          </div>
+          )}
         </div>
       </div>
     </div>
