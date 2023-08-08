@@ -17,6 +17,7 @@ import {
 import { PanelContext } from "../context/PanelContext";
 
 import SmallCaps from "../components/SmallCaps";
+import PageTitle from "../components/PageTitle";
 
 type Props = {
   showLeftNavbar: Boolean;
@@ -86,10 +87,12 @@ export default function HomePage(props: Props) {
 
   // to get name from user context
   return (
-    <div className={`${props.showLeftNavbar? "hidden" : ""} md:block lg:block p-8`}>
-      <span className="text-xl text-black font-bold">
-        Good morning, Antonio
-      </span>
+    <div
+      className={`${
+        props.showLeftNavbar ? "hidden" : ""
+      } md:block lg:block p-8`}
+    >
+      <PageTitle text="Good morning, Antonio" />
       <div className="pt-3 lg:grid lg:grid-cols-2 lg:gap-4">
         <div>
           <div className="flex gap-x-1 items-center">
