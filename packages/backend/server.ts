@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 import cors from "cors";
 import fileUpload from "express-fileupload";
 
-import { buildSchema } from "graphql";
-import { graphqlHTTP } from "express-graphql";
 import { swaggerRouter } from "./routes/swaggerRoutes";
 
 import goalRoutes from "./routes/goalRoutes";
@@ -37,27 +35,6 @@ app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
 app.use('/api/sotd', sotdRoutes);
-
-var schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-var root = {
-  hello: () => {
-    return "Hello world!";
-  },
-};
-
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    rootValue: root,
-    graphiql: true,
-  })
-);
 
 mongoose
   .connect(MONGODB_URI)
