@@ -3,9 +3,9 @@ import { SongOfTheDay } from "../types/sotd.d";
 
 const path = "api/sotd";
 
-export async function getSOTD() {
+export async function getSOTD(date: Date) {
   return axiosInstance
-    .get(path)
+    .get(path, { params: { date: date.toISOString() } })
     .then((response: { data: SongOfTheDay }) => response.data);
 }
 
