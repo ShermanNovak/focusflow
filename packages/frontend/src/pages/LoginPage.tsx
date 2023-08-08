@@ -33,7 +33,7 @@ export default function LoginPage() {
   const Footer = () => {
     return (
       <div className="container">
-        <footer style={{ backgroundColor: '#828282', padding: '0.5px', textAlign: 'center' , width:'99.8%', overflow: 'hidden', marginTop: 'auto', marginBottom:'0px', paddingBottom:'0px'}}>
+        <footer style={{ backgroundColor: '#828282', padding: '0px', textAlign: 'center' , width:'100%', overflow: 'hidden', margin:'0px'}}>
           <h6 style={{fontWeight: "normal"}}>© 2023 FocusFlow. All rights reserved.</h6>
         </footer>
       </div>
@@ -65,7 +65,7 @@ export default function LoginPage() {
         personalized features to ensure that you stay focused, motivated, and organized throughout your day.</h3>
         <h3 style={{fontWeight: 'normal', padding: '0px', margin: '0px'}}> Start your journey today</h3>
           <br></br>
-            <Button onClick={() => loginWithRedirect()} type="primary" htmlType="submit" style={{width:'100px',  backgroundColor: '#404040', color:'#FFFFFF', textAlign: "center", boxShadow: '0px 3px 1px rgba(0, 0, 0, 0.2)', borderRadius: '20px', }}>
+            <Button onClick={() => loginWithRedirect()} type="primary" htmlType="submit" style={{width:'100px',  backgroundColor: '#404040', color:'#FFFFFF', textAlign: "center", boxShadow: '0px 3px 1px rgba(0, 0, 0, 0.2)', borderRadius: '20px', marginBottom:'20px'}}>
               <b>Sign in &gt;</b>
             </Button>
           </div>
