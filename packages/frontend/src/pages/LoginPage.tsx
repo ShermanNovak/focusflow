@@ -1,6 +1,7 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import logo from '../logo.svg';
 import background from '../background2.svg';
+import laptop from '../laptop.svg'
 import "../index.css"
 import {Auth0Provider} from "@auth0/auth0-react";
 import ReactDOM from 'react-dom';
@@ -53,6 +54,9 @@ export default function LoginPage() {
         <div style={{ display: 'block', alignItems: 'left', justifyContent: 'center', }}>
         <img src={logo} alt="Logo" style={{ display:'flex', width:'100px', margin: 'auto', padding: '30px', paddingBottom: '0px'}}/>
         <h3 style={{textAlign:'center', paddingBottom:'15px', marginTop:'5px'}}>FocusFlow</h3>
+        <div className="object-right">
+          <img className="object-right" src={laptop} style={{width: '50%', float: 'right'}}/>
+        </div>
         <div style={{marginBottom:'0px', marginLeft:'20%', marginRight:'50%'}}>
         <h1 style={{marginBottom:'0px', marginTop:'0px'}}>Productivity Application Just For You</h1>
         <h3 style={{fontWeight: 'normal', color:'#616161'}}> We designed to empower individuals in achieving their goals, 
