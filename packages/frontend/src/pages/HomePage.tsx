@@ -86,7 +86,7 @@ export default function HomePage(props: Props) {
 
   // to get name from user context
   return (
-    <div className={`${props.showLeftNavbar? "hidden" : "md:block lg:block"} w-full p-8`}>
+    <div className={`${props.showLeftNavbar? "hidden" : ""} md:block lg:block p-8`}>
       <span className="text-xl text-black font-bold">
         Good morning, Antonio
       </span>
