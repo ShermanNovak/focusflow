@@ -16,7 +16,7 @@ export const useJEntryQuery = (journalentry_id: string) => {
 };
 
 export const useJournalEntryCreation = () => {
-  return useMutation((req: JournalEntry) => createJournalEntry(req)); //useMutation: calls the axios function, and responsible for changing states (update/delete)
+  return useMutation((req: JournalEntry) => createJournalEntry(req)); // useMutation: calls the axios function, and responsible for changing states (update/delete)
 };
 
 export const useJournalEntryUpdate = (journalentry_id: string) => {

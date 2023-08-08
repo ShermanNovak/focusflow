@@ -8,7 +8,6 @@ import {
   useTasksQuery,
 } from "../api/tasks.query";
 import { JournalEntry } from "../types/jentry.d";
-import { useJournalEntryCreation } from "../api/jentry.query";
 import { useJEntryQuery } from "../api/jentry.query";
 import { useFilePicker } from "use-file-picker";
 import { useImageQuery } from "../api/image.query";
@@ -90,23 +89,35 @@ export default function HomePage(props: Props) {
 
   const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
 
-  const journalentry_id = "64ac1f7f9259486213d36139"; // journal entry hardcoded id
-  const JEntryQuery = useJEntryQuery(journalentry_id);
+  const [currentJE, changeCurrentJE] = useState("");
+  const date = new Date().toJSON(); // today's date
+  const todayDate = date.slice(0, 10);
+  console.log(todayDate)
+  const { data: jentrydata} = useJEntryQuery(todayDate); // fetching data from prev journal entry
+  console.log(jentrydata)
 
   const JournalEntry = ({ entry }: { entry: JournalEntry | null }) => {
-    return (
+    return ( 
       <div>
         {entry ? (
           <div>
+            <button
+            onClick={() => {
+              panelContext.changeCurrentJE(currentJE);
+              panelContext.openUpdateJEntryPanel();
+            }}
+            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
+            >
             <span className="font-bold">{entry.title}</span>
             <p>{entry.content}</p>
+            </button>
           </div>
         ) : (
           <button
             onClick={() => {
               panelContext.openCreateJEntryPanel()
             }}
-            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] h- w-1/3"
+            className="w-72 border-none drop-shadow px-3 py-9 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3] w-1/8"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -154,7 +165,6 @@ export default function HomePage(props: Props) {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-          {highlightIsLoading && <h6>Fetching Higlight Entry...</h6>}
           {!highlightIsLoading && (
           <Form 
             form={highlightForm}
@@ -166,6 +176,7 @@ export default function HomePage(props: Props) {
           </Form>
           )}
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
+
           <List
             bordered
             dataSource={eventsData}
@@ -197,6 +208,7 @@ export default function HomePage(props: Props) {
             )}
           />
           <div className="py-10">
+            <JournalEntry entry={jentrydata || null}/>
             {(!imageData || !imageData.url) && filesContent.length < 1 && (
               <button
                 onClick={() => {
