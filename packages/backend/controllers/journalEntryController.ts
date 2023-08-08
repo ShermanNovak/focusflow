@@ -5,10 +5,33 @@ const JournalEntry = require("../models/JournalEntry");
 
 class JournalEntryController {
   public async getJournalEntries(req: AuthenticatedRequest, res: Response) {
-    const journalEntries = await JournalEntry.find({
-      user: req.user_id,
-    }).sort({ createdAt: -1 });
-    res.json(journalEntries);
+    try {
+      const { date, limit } = req.query;
+      const filter: {
+        user?: string;
+        createdAt?: {
+          $gte: Date;
+          $lte: Date;
+        };
+      } = { user: req.user_id };
+
+      if (date) {
+        const start = new Date(date.toString());
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(date.toString());
+        end.setHours(23, 59, 59, 999);
+
+        filter.createdAt = { $gte: start, $lte: end };
+      }
+
+      let query = JournalEntry.find(filter).sort({ createdAt: -1 });
+      if (limit) query = query.limit(limit);
+      const journalEntries = await query;
+
+      res.json(journalEntries);
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
   }
 
   public async getJournalEntry(req: AuthenticatedRequest, res: Response) {
