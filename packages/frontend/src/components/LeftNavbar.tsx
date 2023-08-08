@@ -50,7 +50,7 @@ export default function LeftNavbar(props: Props) {
       <div
         className={`${
           props.showLeftNavbar ? "" : "hidden"
-        } lg:block lg:w-[20rem] md:block md:min-w-fit h-screen bg-navbar-green relative`}
+        } lg:block lg:w-[20rem] md:block md:min-w-fit min-h-max h-screen bg-navbar-green relative`}
       >
         <div className="px-10 py-8">
         <div className="flex items-center gap-x-3">
@@ -265,7 +265,7 @@ export default function LeftNavbar(props: Props) {
           </NavBarCom>
           <NavBarCom
             text="Goal Roadmaps"
-            locate=""
+            locate="/goalroadmaps"
             onClick={() => {
               props.setShowLeftNavbar(false);
             }}
