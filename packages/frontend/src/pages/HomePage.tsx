@@ -82,11 +82,11 @@ export default function HomePage() {
 
   // to get name from user context
   return (
-    <div className="p-8 w-full">
+    <div className="p-8 md:block lg:block">
       <span className="text-xl text-black font-bold">
         Good morning, Antonio
       </span>
-      <div className="pt-3 grid grid-cols-2 gap-4">
+      <div className="pt-3 lg:grid lg:grid-cols-2 lg:gap-4">
         <div>
           <div className="flex gap-x-1 items-center">
             <svg
@@ -142,7 +142,7 @@ export default function HomePage() {
               </List.Item>
             )}
           />
-          <div className="pt-10">
+          <div className="py-10">
             {(!imageData || !imageData.url) && filesContent.length < 1 && (
               <button
                 onClick={() => {

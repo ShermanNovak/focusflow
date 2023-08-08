@@ -22,7 +22,7 @@ function App() {
   const panelContext = useContext(PanelContext);
 
   return (
-    <div className="flex">
+    <div className="flex lg:flex-row md:flex-row flex-col">
       <LeftNavbar />
       <Routes>
         <Route path="/spotify/callback" element={<Spotify />} />

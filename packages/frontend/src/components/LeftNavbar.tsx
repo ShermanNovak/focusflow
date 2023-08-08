@@ -1,34 +1,53 @@
+import { useContext, useState } from "react";
+import { PanelContext } from "../context/PanelContext";
+
+import TitleText from "./TitleText";
 import SmallCaps from "./SmallCaps";
 import NavBarCom from "./NavBarCom";
 import Logo from "../assets/Logo.svg";
 
-import { useContext } from "react";
-import { PanelContext } from "../context/PanelContext";
-import TitleText from "./TitleText";
+/* 
+  lg: navbar
+  md: navbar 
+  default (sm): hamburger-navbar
+*/
 
 export default function LeftNavbar() {
   const panelContext = useContext(PanelContext);
+  const [showLeftNavbar, setShowLeftNavbar] = useState(true);
 
   return (
     <>
-      <div className="lg:hidden ml-3 mt-3">
+      <div
+        className={`${
+          showLeftNavbar ? "hidden" : "inline-flex"
+        } lg:hidden md:hidden px-5 py-2 bg-navbar-green relative`}
+      >
+        <div className="flex items-center gap-x-3">
+          <img src={Logo} alt="logo" className="w-8 h-8" />
+          <span className="font-bold">FocusFlow</span>
+        </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-7 h-7"
+          className="w-7 h-7 absolute right-4"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            onClick={() => alert("You have clicked the hamburger.")}
+            onClick={() => setShowLeftNavbar(true)}
           />
         </svg>
       </div>
-      <div className="hidden lg:block w-[16rem] bg-navbar-green h-screen px-10 py-8">
+      <div
+        className={`${
+          showLeftNavbar ? "" : "hidden"
+        } lg:block lg:w-[16rem] md:block md:w-[16rem] h-screen bg-navbar-green px-10 py-8 relative`}
+      >
         <div className="flex items-center gap-x-3">
           <img src={Logo} alt="logo" className="w-8 h-8" />
           <span className="font-bold">FocusFlow</span>
@@ -56,11 +75,12 @@ export default function LeftNavbar() {
         <div className="mt-2">
           <SmallCaps text="Quickstart" />
           <div
-            onClick={
+            onClick={() => {
               panelContext.showCreateTaskPanel
-                ? panelContext.closeCreateTaskPanel
-                : panelContext.openCreateTaskPanel
-            }
+                ? panelContext.closeCreateTaskPanel()
+                : panelContext.openCreateTaskPanel();
+              setShowLeftNavbar(false);
+            }}
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showCreateTaskPanel ? "white" : "",
@@ -84,11 +104,12 @@ export default function LeftNavbar() {
             <TitleText text="Create Task" />
           </div>
           <div
-            onClick={
+            onClick={() => {
               panelContext.showCreateEventPanel
-                ? panelContext.closeCreateEventPanel
-                : panelContext.openCreateEventPanel
-            }
+                ? panelContext.closeCreateEventPanel()
+                : panelContext.openCreateEventPanel();
+              setShowLeftNavbar(false);
+            }}
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showCreateEventPanel ? "white" : "",
@@ -112,11 +133,12 @@ export default function LeftNavbar() {
             <TitleText text="Create Event" />
           </div>
           <div
-            onClick={
+            onClick={() => {
               panelContext.showSessionPanel
-                ? panelContext.closeSessionPanel
-                : panelContext.openSessionPanel
-            }
+                ? panelContext.closeSessionPanel()
+                : panelContext.openSessionPanel();
+              setShowLeftNavbar(false);
+            }}
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showSessionPanel ? "white" : "",
@@ -138,11 +160,12 @@ export default function LeftNavbar() {
             <TitleText text="Start Session" />
           </div>
           <div
-            onClick={
+            onClick={() => {
               panelContext.showCreateJEntryPanel
-                ? panelContext.closeCreateJEntryPanel
-                : panelContext.openCreateJEntryPanel
-            }
+                ? panelContext.closeCreateJEntryPanel()
+                : panelContext.openCreateJEntryPanel();
+              setShowLeftNavbar(false);
+            }}
             className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
             style={{
               backgroundColor: panelContext.showCreateJEntryPanel
@@ -171,7 +194,7 @@ export default function LeftNavbar() {
 
         <div className="mt-4">
           <SmallCaps text="View" />
-          <NavBarCom text="Highlights of the Year" locate="">
+          <NavBarCom text="Highlights of the Year" locate="" onClick={() => {setShowLeftNavbar(false)}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -185,7 +208,7 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Photos of the Month" locate="/photosofthemonth">
+          <NavBarCom text="Photos of the Month" locate="/photosofthemonth" onClick={() => {setShowLeftNavbar(false)}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -201,7 +224,7 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Daily Achievements" locate="/dailyachievements">
+          <NavBarCom text="Daily Achievements" locate="/dailyachievements" onClick={() => {setShowLeftNavbar(false)}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -217,7 +240,7 @@ export default function LeftNavbar() {
               />
             </svg>
           </NavBarCom>
-          <NavBarCom text="Goal Roadmaps" locate="">
+          <NavBarCom text="Goal Roadmaps" locate="" onClick={() => {setShowLeftNavbar(false)}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -235,8 +258,8 @@ export default function LeftNavbar() {
           </NavBarCom>
         </div>
 
-        <div className="absolute bottom-0">
-          <NavBarCom text="Settings" locate="">
+        <div className="absolute bottom-8">
+          <NavBarCom text="Settings" locate="" onClick={() => {setShowLeftNavbar(false)}}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
