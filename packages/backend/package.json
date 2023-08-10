@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "tsc --outDir dist/ && nodemon dist/server.js"
+    "start": "tsc --outDir dist/ && nodemon dist/server.js",
+    "deploy": "tsc --outDir dist/ && node dist/server.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.12.0",

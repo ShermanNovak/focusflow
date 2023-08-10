@@ -14,7 +14,7 @@ export default function NavBarCom(props: Props) {
   return (
     <NavLink
       to={props.locate || ""}
-      className="flex justify-left items-center gap-x-3 -ms-4 ps-4 h-9 no-underline text-black"
+      className="flex justify-left items-center gap-x-3 -ms-4 px-4 h-9 no-underline text-black"
       style={({ isActive }) => {
         return {
           backgroundColor: isActive ? "white" : "",

@@ -8,7 +8,7 @@ import { Highlight } from "../types/highlight.d";
 
 export const useHighlightQuery = () => {
     return useQuery({
-      queryKey: [], // something like a "primary key"; identifier for the query
+      queryKey: ["highlight"], // something like a "primary key"; identifier for the query
       queryFn: () => getHighlight(), // function called when the query is made with the parameter passed in
     });
 };

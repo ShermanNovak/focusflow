@@ -1,7 +1,7 @@
-import axios from "axios";
-import { Buffer } from "buffer";
-import { SpotifyToken } from "../types/spotify.d";
-import Cookies from "universal-cookie";
+import axios from 'axios';
+import { Buffer } from 'buffer';
+import { SpotifyToken } from '../types/spotify.d';
+import Cookies from 'universal-cookie';
 
 const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 const scopes = [

@@ -10,6 +10,7 @@ import {
   Button,
   Modal,
   Space,
+  Spin,
 } from "antd";
 import { CameraFilled, ExclamationCircleFilled } from "@ant-design/icons";
 import { useGoalsQuery } from "../../api/goals.query";
@@ -99,7 +100,7 @@ export default function UpdateTaskPanel() {
 
   return (
     <RightPanel>
-      {taskIsLoading && <h2>Loading</h2>}
+      {taskIsLoading && <div className="h-screen grid place-content-center"><Spin /></div>}
       {!taskIsLoading && (
         <Form
           labelAlign="left"

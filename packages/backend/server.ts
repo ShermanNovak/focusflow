@@ -10,7 +10,7 @@ import taskRoutes from "./routes/taskRoutes";
 import userRoutes from "./routes/userRoutes";
 import journalEntryRoutes from "./routes/journalEntryRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
-import highlightRoutes from './routes/highlightRoutes';
+import highlightRoutes from "./routes/highlightRoutes";
 import imageRoutes from "./routes/imageRoutes";
 import sotdRoutes from './routes/sotdRoutes';
 
@@ -35,11 +35,14 @@ app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
 app.use('/api/sotd', sotdRoutes);
+app.get("/", () => {
+  return "Hello";
+});
 
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(parseInt(process.env.PORT!), "0.0.0.0", () => {
       console.log(
         `SUCCESSFULLY CONNECTED TO MONGODB! listening on http://localhost:${process.env.PORT}`
       );
