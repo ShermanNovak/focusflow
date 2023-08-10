@@ -10,8 +10,10 @@ import taskRoutes from "./routes/taskRoutes";
 import userRoutes from "./routes/userRoutes";
 import journalEntryRoutes from "./routes/journalEntryRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
-import highlightRoutes from './routes/highlightRoutes';
+import highlightRoutes from "./routes/highlightRoutes";
 import imageRoutes from "./routes/imageRoutes";
+import dotenv from "dotenv";
+dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
@@ -33,12 +35,14 @@ app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
-app.get("/", () => {return "Hello"})
+app.get("/", () => {
+  return "Hello";
+});
 
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(parseInt(process.env.PORT!), "0.0.0.0", () => {
       console.log(
         `SUCCESSFULLY CONNECTED TO MONGODB! listening on http://localhost:${process.env.PORT}`
       );
