@@ -35,7 +35,19 @@ class JournalEntryController {
   }
 
   public async getJournalEntry(req: AuthenticatedRequest, res: Response) {
-    const entry = await JournalEntry.findById(req.params.id);
+    const { date } = req.query;
+    if (!date) return res.status(400).json({ error: "date required as param" });
+
+    const start = new Date(date.toString());
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(date.toString());
+    end.setHours(23, 59, 59, 999);
+
+    const entry = await JournalEntry.findOne(
+      { createdAt: { $gte: start, $lte: end } },
+      null,
+      { sort: { createdAt: -1 } }
+    );
     if (!entry) return res.status(404).json({ error: "No such journal entry" });
 
     res.json(entry);

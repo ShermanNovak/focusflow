@@ -17,6 +17,7 @@ import UpdateEventPanel from "./features/events/UpdateEventPanel";
 import Spotify from "./pages/Spotify";
 import SpotifyModal from "./features/spotify/SpotifyModal";
 import PhotosOfTheMonth from "./pages/PhotosOfTheMonth";
+import DailyAchievements from "./pages/DailyAchievements";
 import GoalRoadmaps from "./pages/GoalRoadmaps";
 import Settings from "./pages/Settings";
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/updatetask" element={<UpdateTaskPanel />} />
         <Route path="/updateevent" element={<UpdateEventPanel />} />
         <Route path="/createtask" element={<CreateTaskPanel />} />
+        <Route path="/dailyachievements" element={<DailyAchievements />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/settings" element={<Settings />} />

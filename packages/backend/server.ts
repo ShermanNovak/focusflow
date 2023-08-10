@@ -13,6 +13,8 @@ import sessionRoutes from "./routes/sessionRoutes";
 import highlightRoutes from "./routes/highlightRoutes";
 import imageRoutes from "./routes/imageRoutes";
 import dotenv from "dotenv";
+import sotdRoutes from './routes/sotdRoutes';
+
 dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -35,6 +37,7 @@ app.use("/api/journal", journalEntryRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/highlight", highlightRoutes);
 app.use("/api/images", imageRoutes);
+app.use('/api/sotd', sotdRoutes);
 app.get("/", () => {
   return "Hello";
 });

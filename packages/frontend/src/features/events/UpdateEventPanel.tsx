@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
 
-import { DatePicker, Form, Input, Select, Modal, Button, Space, Spin} from "antd";
+import { DatePicker, Form, Input, Select, Modal, Button, Space, Spin } from "antd";
 import {
   useTaskQuery,
   useTaskUpdate,
@@ -86,8 +86,8 @@ export default function UpdateEventPanel() {
 
   return (
     <RightPanel>
-      {eventIsLoading && <div className="h-screen grid place-content-center"><Spin /></div>}
-      {!eventIsLoading && (
+      {!eventIsLoading && <div className="grid place-content-center"><Spin /></div>}
+      {eventIsLoading && (
         <Form
           labelAlign="left"
           labelCol={{ span: 5 }}
