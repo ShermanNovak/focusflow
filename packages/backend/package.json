@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "tsc --outDir dist/ && nodemon dist/server.js", 
+    "start": "tsc --outDir dist/ && nodemon dist/server.js",
     "deploy": "tsc --outDir dist/ && node dist/server.js"
   },
   "dependencies": {
@@ -18,7 +18,6 @@
     "@types/swagger-ui-express": "^4.1.3",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",

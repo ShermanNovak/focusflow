@@ -4,8 +4,6 @@ import { AuthenticatedRequest } from "../middleware/requireAuth";
 import { Storage } from "@google-cloud/storage";
 
 const Image = require("../models/Image");
-import dotenv from "dotenv";
-dotenv.config()
 
 class ImageController {
   public async uploadPhotoOfTheDay(req: AuthenticatedRequest, res: Response) {

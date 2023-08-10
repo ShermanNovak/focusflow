@@ -24,7 +24,7 @@ export default function PhotosOfTheMonth() {
   });
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full">
       <PageTitle text="Photos Of The Month" />
       <DatePicker
         defaultValue={dayjs(`${selectedYear}-${selectedMonth}-01`)}
@@ -52,7 +52,7 @@ export default function PhotosOfTheMonth() {
           ))}
         </div>
       )}
-      {(!filteredImages || filteredImages.length === 0) && (
+      {(!filteredImages || filteredImages.length === 0) && imagesAreLoading && (
         <p>Oops, you haven't uploaded any photos yet!</p>
       )}
     </div>

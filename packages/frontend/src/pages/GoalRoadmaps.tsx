@@ -6,7 +6,16 @@ import {
   useGoalDelete,
 } from "../api/goals.query";
 import { useTasksForGoalQuery } from "../api/tasks.query";
-import { Form, Input, List, Select, Checkbox, Modal, Progress, Spin } from "antd";
+import {
+  Form,
+  Input,
+  List,
+  Select,
+  Checkbox,
+  Modal,
+  Progress,
+  Spin,
+} from "antd";
 import { KeyboardEvent, useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 
@@ -16,6 +25,7 @@ import PageTitle from "../components/PageTitle";
 export default function GoalRoadmaps() {
   const createGoalMutation = useGoalCreation();
   const [goalForm] = Form.useForm();
+
   const createGoalHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       try {
@@ -23,14 +33,13 @@ export default function GoalRoadmaps() {
           createGoalMutation.mutate(values);
           toast.success("Successfully created goal!");
         });
-        refetchGoals();
       } catch (e: any) {
         toast.error(e.message);
       }
     }
   };
 
-  const { data: goalsData, refetch: refetchGoals, isLoading: goalsAreLoading } = useGoalsQuery();
+  const { data: goalsData, isLoading: goalsAreLoading } = useGoalsQuery();
   const [selectedGoal, setSelectedGoal] = useState();
   const { data: tasksData } = useTasksForGoalQuery(selectedGoal || "");
 
@@ -102,53 +111,58 @@ export default function GoalRoadmaps() {
           </List.Item>
         )}
       />
-      <Progress percent={100*filteredTasks?.length / tasksData?.length} />
+      <Progress percent={(100 * filteredTasks?.length) / tasksData?.length} />
       <div className="pt-4">
         <SmallCaps text="MANAGE MY GOALS" />
-        {goalsAreLoading && <div className="grid place-content-center"><Spin /></div>}
-        {!goalsAreLoading && <List
-          bordered
-          dataSource={goalsData}
-          renderItem={(goal: any) => (
-            <List.Item className="py-2 relative" key={goal._id}>
-              {goal.title}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 absolute right-5"
-                onClick={() => {
-                  setDeleteGoal(goal._id);
-                  confirm({
-                    title: `Delete ${goal.title}`,
-                    icon: (
-                      <ExclamationCircleFilled style={{ color: "#ff4d4f" }} />
-                    ),
-                    content:
-                      "Are you sure you want to delete this goal? This action cannot be undone. Deleting the task will remove it permanently from the system.",
-                    okText: "Confirm",
-                    onOk() {
-                      deleteGoalMutation.mutate(goal._id);
-                      toast.success("Successfully deleted task");
-                    },
-                    onCancel() {
-                      console.log("Cancel");
-                    },
-                  });
-                  refetchGoals();
-                }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                />
-              </svg>
-            </List.Item>
-          )}
-        />}
+        {goalsAreLoading && (
+          <div className="grid place-content-center">
+            <Spin />
+          </div>
+        )}
+        {!goalsAreLoading && (
+          <List
+            bordered
+            dataSource={goalsData}
+            renderItem={(goal: any) => (
+              <List.Item className="py-2 relative" key={goal._id}>
+                {goal.title}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 absolute right-5"
+                  onClick={() => {
+                    setDeleteGoal(goal._id);
+                    confirm({
+                      title: `Delete ${goal.title}`,
+                      icon: (
+                        <ExclamationCircleFilled style={{ color: "#ff4d4f" }} />
+                      ),
+                      content:
+                        "Are you sure you want to delete this goal? This action cannot be undone. Deleting the task will remove it permanently from the system.",
+                      okText: "Confirm",
+                      onOk() {
+                        deleteGoalMutation.mutate(goal._id);
+                        toast.success("Successfully deleted task");
+                      },
+                      onCancel() {
+                        console.log("Cancel");
+                      },
+                    });
+                  }}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </List.Item>
+            )}
+          />
+        )}
       </div>
     </div>
   );

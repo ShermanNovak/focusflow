@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 import { useState, KeyboardEvent, useContext } from "react";
-import { Input, Form, List, Spin } from "antd";
+import { Input, Form, List, Spin, Typography } from "antd";
 import {
   useEventsQuery,
   useTaskCreation,
@@ -17,11 +17,13 @@ import {
   useHighlightCreation,
 } from "../api/highlight.query";
 import { PanelContext } from "../context/PanelContext";
+
 import SpotifyCard from "../components/SpotifyCard";
 import SpotifyModal from "../features/spotify/SpotifyModal";
-
 import SmallCaps from "../components/SmallCaps";
 import PageTitle from "../components/PageTitle";
+
+const { Paragraph } = Typography;
 
 type Props = {
   showLeftNavbar: Boolean;
@@ -37,20 +39,23 @@ export default function HomePage(props: Props) {
   const createHighlightMutation = useHighlightCreation();
   const [highlightForm] = Form.useForm();
 
+  const {
+    data: tasksData,
+    isLoading: tasksAreLoading,
+  } = useTasksQuery();
+
   const createTaskHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       try {
         taskForm.validateFields().then((values) => {
           createTaskMutation.mutate({ ...values, type: "task" });
           toast.success("Successfully created task!");
-          window.location.reload();
         });
       } catch (e: any) {
         toast.error(e.message);
       }
     }
   };
-  const { data: tasksData, isLoading: tasksAreLoading } = useTasksQuery();
 
   const createHighlightHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -64,7 +69,7 @@ export default function HomePage(props: Props) {
       }
     }
   };
-  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
+
   const { data: eventsData, isLoading: eventsAreLoading } = useEventsQuery();
   const { data: imageData } = useImageQuery();
 
@@ -90,12 +95,10 @@ export default function HomePage(props: Props) {
     },
   });
 
-  const { data: highlightData, isLoading: highlightIsLoading } = useHighlightQuery(); // fetching data from prev highlight entry
-  const { Paragraph } = Typography;
+  const { data: highlightData } = useHighlightQuery(); // fetching data from prev highlight entry
   const date = new Date().toJSON(); // today's date
   const todayDate = date.slice(0, 10);
   const { data: jentrydata } = useJEntryQuery(todayDate); // fetching data from prev journal entry
-  console.log("jentry", jentrydata);
 
   const JournalEntry = ({ entry }: { entry: JournalEntry | null }) => {
     return (
@@ -105,7 +108,7 @@ export default function HomePage(props: Props) {
             onClick={() => {
               panelContext.openUpdateJEntryPanel();
             }}
-            className="w-full h-full border-none drop-shadow py-17 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
+            className="w-full border-none drop-shadow py-5 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
           >
             <span className="font-bold">{entry.title}</span>
             <Paragraph ellipsis={{ rows: 2, expandable: false, symbol: "..." }}>
@@ -117,7 +120,7 @@ export default function HomePage(props: Props) {
             onClick={() => {
               panelContext.openCreateJEntryPanel();
             }}
-            className="w-full h-full border-none drop-shadow py-17 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
+            className="w-full border-none drop-shadow py-5 gap-y-2 rounded flex flex-col items-center justify-center bg-[#E7FAF3]"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -171,16 +174,15 @@ export default function HomePage(props: Props) {
             </svg>
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
-          {!highlightIsLoading && (
-          <Form 
-            form={highlightForm}
-            initialValues={highlightData}
-            >
+
+          <Form form={highlightForm} initialValues={highlightData}>
             <Form.Item name="content">
-              <Input className="bg-pale-yellow" onKeyDown={createHighlightHandler}/>
+              <Input
+                className="bg-pale-yellow"
+                onKeyDown={createHighlightHandler}
+              />
             </Form.Item>
           </Form>
-          )}
 
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           {eventsAreLoading && (
@@ -189,8 +191,7 @@ export default function HomePage(props: Props) {
             </div>
           )}
           {!eventsAreLoading && (
-  
-          <List
+            <List
               bordered
               dataSource={eventsData}
               renderItem={(event: any) => (
@@ -224,74 +225,69 @@ export default function HomePage(props: Props) {
               )}
             />
           )}
-          <div className="grid grid-rows-2 grid-cols-2 gap-x-1 mt-12">
-            <div>
-              <JournalEntry entry={jentrydata || null} />
+          <div className="mt-5">
+            <JournalEntry entry={jentrydata || null} />
+            <div className="mt-2">
+              <SpotifyCard
+                handleShowModal={setShowSpotifyModal}
+                selectedSong={selectedSong}
+              />
+              <SpotifyModal
+                open={showSpotifyModal}
+                showModal={setShowSpotifyModal}
+                selectedSong={selectedSong}
+                setSelectedSong={setSelectedSong}
+              />
             </div>
-            <div className="flex flex-col gap-y-2 justify-between">
-              <div>
-                <SpotifyCard
-                  handleShowModal={setShowSpotifyModal}
-                  selectedSong={selectedSong}
-                />
-                <SpotifyModal
-                  open={showSpotifyModal}
-                  showModal={setShowSpotifyModal}
-                  selectedSong={selectedSong}
-                  setSelectedSong={setSelectedSong}
-                />
-              </div>
-              <div>
-                {(!imageData || !imageData.url) && filesContent.length < 1 && (
-                  <div
-                    onClick={() => {
-                      openFileSelector();
-                    }}
-                    className="rounded border-none bg-stone-50 px-4 py-4 flex flex-col justify-start items-center drop-shadow"
+            <div>
+              {(!imageData || !imageData.url) && filesContent.length < 1 && (
+                <div
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                  className="my-2 rounded border-none bg-stone-50 px-4 py-4 flex flex-col justify-start items-center drop-shadow"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
-                      <path
-                        fillRule="evenodd"
-                        d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <p className="text-[14px] mt-[5px] mb-[5px] font-bold text-center">
-                      Add Your Photo of the Day
-                    </p>
-                    <p className="text-[14px] mt-0 mb-[5px] text-center">
-                      Embrace and cherish the fleeting beauty of precious
-                      moments.
-                    </p>
-                  </div>
-                )}
-                {filesContent.length > 0 && (
-                  <img
-                    alt={filesContent[0].name}
-                    src={filesContent[0].content}
-                    className="object-cover max-h-56 rounded w-72 drop-shadow"
-                    onClick={() => {
-                      openFileSelector();
-                    }}
-                  ></img>
-                )}
-                {imageData && imageData.url && filesContent.length < 1 && (
-                  <img
-                    alt="photo_of_the_day"
-                    src={imageData.url}
-                    className="object-cover max-h-56 rounded w-72 drop-shadow"
-                    onClick={() => {
-                      openFileSelector();
-                    }}
-                  ></img>
-                )}
-              </div>
+                    <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" />
+                    <path
+                      fillRule="evenodd"
+                      d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  <p className="text-[14px] mt-[5px] mb-[5px] font-bold text-center">
+                    Add Your Photo of the Day
+                  </p>
+                  <p className="text-[14px] mt-0 mb-[5px] text-center">
+                    Embrace and cherish the fleeting beauty of precious moments.
+                  </p>
+                </div>
+              )}
+              {filesContent.length > 0 && (
+                <img
+                  alt={filesContent[0].name}
+                  src={filesContent[0].content}
+                  className="my-2 object-cover max-h-56 rounded w-full drop-shadow"
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                ></img>
+              )}
+              {imageData && imageData.url && filesContent.length < 1 && (
+                <img
+                  alt="photo_of_the_day"
+                  src={imageData.url}
+                  className="my-2 object-cover max-h-56 rounded w-full drop-shadow"
+                  onClick={() => {
+                    openFileSelector();
+                  }}
+                ></img>
+              )}
             </div>
           </div>
         </div>

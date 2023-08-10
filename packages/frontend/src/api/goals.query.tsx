@@ -1,5 +1,5 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { getGoals, createGoal, deleteGoal } from '../services/goals.service'
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getGoals, createGoal, deleteGoal } from "../services/goals.service";
 
 export const useGoalsQuery = () => {
   return useQuery({
@@ -9,12 +9,21 @@ export const useGoalsQuery = () => {
 };
 
 export const useGoalCreation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createGoal,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["goals"]);
+    },
   });
 };
 
-
 export const useGoalDelete = (goal_id: string) => {
-  return useMutation((goal_id: string) => deleteGoal(goal_id));
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (goal_id: string) => deleteGoal(goal_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["goals"]);
+    },
+  });
 };

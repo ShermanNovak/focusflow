@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getTask,
   createTask,
@@ -17,8 +17,13 @@ export const useTaskQuery = (task_id: string) => {
 };
 
 export const useTaskCreation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries(["events"]);
+    },
   });
 };
 
@@ -27,22 +32,29 @@ export const useTaskUpdate = (task_id: string) => {
 };
 
 export const useTaskDelete = (task_id: string) => {
-  return useMutation((task_id: string) => deleteTask(task_id));
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (task_id: string) => deleteTask(task_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["tasks"]);
+      queryClient.invalidateQueries(["events"]);
+    },
+  });
 };
 
 export const useTasksQuery = () => {
   return useQuery({
     queryKey: ["tasks"],
     queryFn: () => getTasksOnly(),
-  })
-}
+  });
+};
 
 export const useEventsQuery = () => {
   return useQuery({
     queryKey: ["events"],
     queryFn: () => getEventsOnly(),
-  })
-}
+  });
+};
 
 export const useTasksForGoalQuery = (goal_id: string) => {
   return useQuery({
@@ -50,4 +62,3 @@ export const useTasksForGoalQuery = (goal_id: string) => {
     queryFn: () => getTasksForGoal(goal_id),
   });
 };
-

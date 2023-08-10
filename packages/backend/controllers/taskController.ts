@@ -9,6 +9,7 @@ class TaskController {
     const tasks = await Task.find({
       user: req.user_id,
       type: "task",
+      isCompleted: false,
     }).sort({
       createdAt: -1,
     });
@@ -84,7 +85,7 @@ class TaskController {
     }).sort({
       createdAt: -1,
     });
-    res.status(200).json(tasks); 
+    res.status(200).json(tasks);
   }
 }
 

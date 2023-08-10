@@ -12,10 +12,7 @@ import journalEntryRoutes from "./routes/journalEntryRoutes";
 import sessionRoutes from "./routes/sessionRoutes";
 import highlightRoutes from "./routes/highlightRoutes";
 import imageRoutes from "./routes/imageRoutes";
-import dotenv from "dotenv";
 import sotdRoutes from './routes/sotdRoutes';
-
-dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
