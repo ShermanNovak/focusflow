@@ -86,8 +86,8 @@ export default function UpdateEventPanel() {
 
   return (
     <RightPanel>
-      {!eventIsLoading && <div className="grid place-content-center"><Spin /></div>}
-      {eventIsLoading && (
+      {eventIsLoading && <div className="grid place-content-center"><Spin /></div>}
+      {!eventIsLoading && (
         <Form
           labelAlign="left"
           labelCol={{ span: 5 }}
