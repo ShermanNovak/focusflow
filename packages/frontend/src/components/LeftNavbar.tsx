@@ -27,7 +27,7 @@ export default function LeftNavbar(props: Props) {
       <div
         className={`${
           props.showLeftNavbar ? "hidden" : "inline-flex"
-        } lg:hidden md:hidden px-5 py-2 relative ${themeColour}`}
+        } lg:hidden md:hidden px-5 py-2 relative ${themeColour || "bg-navbar-green"}`}
       >
         <div className="flex items-center gap-x-3">
           <img src={Logo} alt="logo" className="w-8 h-8" />
@@ -53,7 +53,7 @@ export default function LeftNavbar(props: Props) {
       <div
         className={`${
           props.showLeftNavbar ? "" : "hidden"
-        } lg:block lg:w-[20rem] md:block md:min-w-fit min-h-max h-screen ${themeColour} relative`}
+        } lg:block lg:w-[20rem] md:block md:min-w-fit min-h-max h-screen ${themeColour || "bg-navbar-green"} relative`}
       >
         <div className="px-10 py-8">
           <div className="flex items-center gap-x-3">
