@@ -6,9 +6,13 @@ import { Storage } from "@google-cloud/storage";
 const Image = require("../models/Image");
 
 class ImageController {
-  public async uploadPhotoOfTheDay(req: AuthenticatedRequest, res: Response) {
-    const storage = new Storage();
+  public storage;
 
+  constructor() {
+    this.storage = new Storage();
+  }
+
+  public async uploadPhotoOfTheDay(req: AuthenticatedRequest, res: Response) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
@@ -18,13 +22,13 @@ class ImageController {
     : req.files.actualFile;
 
     try {
-      await storage
+      await this.storage
         .bucket(process.env.BUCKETNAME1 || "")
         .file(`${req.user_id}/${uploadedFile.name}`)
         .save(uploadedFile.data);
 
       const entry = await Image.create({
-        url: `https://storage.cloud.google.com/photo_of_the_day/${req.user_id}/${uploadedFile.name}`,
+        url: `https://storage.cloud.google.com/${process.env.BUCKETNAME1}/${req.user_id}/${uploadedFile.name}`,
         user: req.user_id,
       });
       res.json(entry);
@@ -34,8 +38,6 @@ class ImageController {
   }
 
   public async uploadJournalPhoto(req: AuthenticatedRequest, res: Response) {
-    const storage = new Storage();
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
@@ -45,7 +47,7 @@ class ImageController {
     : req.files.actualFile;
 
     try {
-      await storage
+      await this.storage
         .bucket(process.env.BUCKETNAME2 || "")
         .file(`${req.user_id}/${uploadedFile.name}`)
         .save(uploadedFile.data);
@@ -55,8 +57,6 @@ class ImageController {
   }
 
   public async uploadTaskPhoto(req: AuthenticatedRequest, res: Response) {
-    const storage = new Storage();
-
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
@@ -66,7 +66,7 @@ class ImageController {
     : req.files.actualFile;
 
     try {
-      await storage
+      await this.storage
         .bucket(process.env.BUCKETNAME3 || "")
         .file(`${req.user_id}/${uploadedFile.name}`)
         .save(uploadedFile.data);

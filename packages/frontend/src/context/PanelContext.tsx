@@ -1,34 +1,6 @@
 import { useState, createContext } from "react";
 
-export const PanelContext = createContext({
-  currentTask: "",
-  changeCurrentTask: (task_id: string) => {},
-  currentJE: "",
-  changeCurrentJE: (journalentry_id: string) => {},
-  currentEvent: "",
-  changeCurrentEvent: (event_id: string) => {},
-  showCreateTaskPanel: false,
-  showUpdateTaskPanel: false,
-  showSessionPanel: false,
-  showCreateEventPanel: false,
-  showUpdateEventPanel: false,
-  showCreateJEntryPanel: false,
-  showUpdateJEntryPanel: false,
-  openCreateTaskPanel: () => {},
-  closeCreateTaskPanel: () => {},
-  openUpdateTaskPanel: () => {},
-  closeUpdateTaskPanel: () => {},
-  openCreateEventPanel: () => {},
-  closeCreateEventPanel: () => {},
-  openUpdateEventPanel: () => {},
-  closeUpdateEventPanel: () => {},
-  openSessionPanel: () => {},
-  closeSessionPanel: () => {},
-  openCreateJEntryPanel: () => {},
-  closeCreateJEntryPanel: () => {},
-  openUpdateJEntryPanel: () => {},
-  closeUpdateJEntryPanel: () => {},
-});
+export const PanelContext = createContext<any>(null);
 
 export function PanelContextProvider(props: any) {
   const [currentTask, setCurrentTask] = useState("");

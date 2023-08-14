@@ -18,6 +18,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    themeColour: {
+        type: String,
+    }
 }, { timestamps: true })
 
 userSchema.statics.signup = async function(username, email, password) {
@@ -38,7 +41,7 @@ userSchema.statics.signup = async function(username, email, password) {
 
     const salt = await bcrypt.genSalt();
     const hash = await bcrypt.hash(password, salt);
-    const user = await this.create({ username, email, password: hash})
+    const user = await this.create({ username, email, password: hash, themeColour: "bg-navbar-green"})
 
     return user;
 }

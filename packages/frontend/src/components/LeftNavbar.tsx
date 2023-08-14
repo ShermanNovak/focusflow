@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { PanelContext } from "../context/PanelContext";
+import { useThemeColourQuery } from "../api/user.query";
 
 import TitleText from "./TitleText";
 import SmallCaps from "./SmallCaps";
@@ -19,13 +20,14 @@ type Props = {
 
 export default function LeftNavbar(props: Props) {
   const panelContext = useContext(PanelContext);
+  const { data: themeColour } = useThemeColourQuery();
 
   return (
     <>
       <div
         className={`${
           props.showLeftNavbar ? "hidden" : "inline-flex"
-        } lg:hidden md:hidden px-5 py-2 bg-navbar-green relative`}
+        } lg:hidden md:hidden px-5 py-2 relative ${themeColour}`}
       >
         <div className="flex items-center gap-x-3">
           <img src={Logo} alt="logo" className="w-8 h-8" />
@@ -47,10 +49,11 @@ export default function LeftNavbar(props: Props) {
           />
         </svg>
       </div>
+
       <div
         className={`${
           props.showLeftNavbar ? "" : "hidden"
-        } lg:block lg:w-[20rem] md:block md:min-w-fit min-h-max h-screen bg-navbar-green relative`}
+        } lg:block lg:w-[20rem] md:block md:min-w-fit min-h-max h-screen ${themeColour} relative`}
       >
         <div className="px-10 py-8">
           <div className="flex items-center gap-x-3">

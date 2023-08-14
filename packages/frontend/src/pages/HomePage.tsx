@@ -172,14 +172,14 @@ export default function HomePage(props: Props) {
             <SmallCaps text="WHAT IS YOUR HIGHLIGHT OF THE DAY?" />
           </div>
 
-          <Form form={highlightForm} initialValues={highlightData}>
+          {highlightData && <Form form={highlightForm} initialValues={highlightData}>
             <Form.Item name="content">
               <Input
                 className="bg-pale-yellow"
                 onKeyDown={createHighlightHandler}
               />
             </Form.Item>
-          </Form>
+          </Form>}
 
           <SmallCaps text="HERE IS YOUR SCHEDULE FOR TODAY 💪" />
           {eventsAreLoading && (
