@@ -1,14 +1,17 @@
 import dayjs from "dayjs";
+
 import { useState } from "react";
 import { Image, DatePicker, Typography } from "antd";
 import { useImagesQuery } from "../api/image.query";
+
+import PageTitle from "../components/PageTitle";
 
 const { Text } = Typography;
 
 export default function PhotosOfTheMonth() {
   const { data: imagesData } = useImagesQuery();
 
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()+1);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const handleImageFilter = (date: any, dateString: string) => {
     setSelectedMonth(new Date(dateString).getMonth() + 1);
@@ -22,9 +25,7 @@ export default function PhotosOfTheMonth() {
 
   return (
     <div className="p-8">
-      <span className="text-xl text-black font-bold pr-5">
-        Photos Of The Month
-      </span>
+      <PageTitle text="Photos Of The Month" />
       <DatePicker
         defaultValue={dayjs(`${selectedYear}-${selectedMonth}-01`)}
         picker="month"

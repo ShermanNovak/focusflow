@@ -21,6 +21,7 @@ import SpotifyCard from "../components/SpotifyCard";
 import SpotifyModal from "../features/spotify/SpotifyModal";
 
 import SmallCaps from "../components/SmallCaps";
+import PageTitle from "../components/PageTitle";
 
 type Props = {
   showLeftNavbar: Boolean;
@@ -151,9 +152,7 @@ export default function HomePage(props: Props) {
         props.showLeftNavbar ? "hidden" : ""
       } md:block lg:block p-8`}
     >
-      <span className="text-xl text-black font-bold">
-        Good morning, Antonio
-      </span>
+      <PageTitle text="Good morning, Antonio" />
       <div className="pt-3 lg:grid lg:grid-cols-2 lg:gap-4">
         <div>
           <div className="flex gap-x-1 items-center">

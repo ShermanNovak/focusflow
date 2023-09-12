@@ -26,3 +26,7 @@ export async function deleteTask(task_id: string) {
 export async function getTasksOnly() {
   return axiosInstance.get(`${PATH}/tasks`).then((res) => res.data);
 }
+
+export async function getTasksForGoal(goal_id: string) {
+  return axiosInstance.get(`${PATH}/goal/${goal_id}`).then((res) => res.data);
+}
